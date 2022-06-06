@@ -1,4 +1,4 @@
-package com.example.asylumrgbea;
+package com.bloomtech.asylumrgbea;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
