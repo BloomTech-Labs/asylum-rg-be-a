@@ -1,0 +1,30 @@
+plugins {
+    id 'java'
+    id "org.springframework.boot" version "2.7.0"
+}
+
+apply plugin: 'java'
+apply plugin: 'io.spring.dependency-management'
+
+group 'com.example'
+version '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'com.amazonaws:aws-java-sdk-dynamodb:1.12.221'
+    implementation 'me.paulschwarz:spring-dotenv:2.5.4'
+    implementation 'com.github.derjust:spring-data-dynamodb:5.1.0'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+}
+
+test {
+    useJUnitPlatform()
+}
