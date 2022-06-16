@@ -4,21 +4,18 @@
 class AsylumCaseController {
     - service : AsylumCaseService
     + loadCases() : ResponseEntity<Iterable<AsylumCaseResponseDto>>
-    + loadCaseById(asylumCaseRequestDto : AsylumCaseRequestDto) : ResponseEntity<AsylumCaseResponseDto>
 }
 
 
 'Add cache config Annotations in service
 interface AsylumCaseService {
     getAllAsylumCases() : ResponseEntity<Iterable<AsylumCaseResponseDto>>
-    getAsylumCaseById(asylumCaseRequestDto : AsylumCaseRequestDto) : ResponseEntity<AsylumCaseResponseDto>
 }
 
 class AsylumCaseServiceImpl {
     - asylumCaseRepository : AsylumCaseRepository
     - asylumCaseMapper : AsylumCaseMapper
     + getAllAsylumCases() : ResponseEntity<Iterable<AsylumCaseResponseDto>>
-    + getAsylumCaseById(asylumCaseRequestDto : AsylumCaseRequestDto) : ResponseEntity<AsylumCaseResponseDto>
 }
 
 'Config for DynamoDB
