@@ -29,6 +29,11 @@ gradle-app.setting
 !gradle-wrapper.jar
 !gradle-wrapper.properties
 .gradletasknamecache
+gradle/caches/
+gradle/daemon/
+gradle/native/
+gradle/wrapper/dists/
+
 
 ### NetBeans ###
 /nbproject/private/

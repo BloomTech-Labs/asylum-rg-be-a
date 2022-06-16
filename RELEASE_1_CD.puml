@@ -1,0 +1,126 @@
+@startuml
+
+'End point mappings
+class AsylumCaseController {
+    - service : AsylumCaseService
+    + AsylumCaseController(service : AsylumCaseService) : this
+    + getAsylumCaseService() : AsylumCaseService
+    + setAsylumCaseService(asylumCaseService : AsylumCaseService) : void
+}
+
+'Config for DynamoDB
+class DynamoDBConfig {
+    - awsAccessKey : String
+    - awsSecretKey : String
+    - awsDynamoDBEndPoint : String
+    + amazonAWSCredentials() : AWSCredentials
+    + amazonAWSCredentialsProvider() : AWSCredentialsProvider
+    + amazonDynamoDB() : AmazonDynamoDB
+    + mapper() : DynamoDBMapper
+}
+
+'Config to enable caching
+class CachingConfig {
+    + cacheManager() : CacheManager
+}
+
+'repo for DynamoDB calls
+interface AsylumCaseRepository {
+}
+
+'POJO for data model
+class AsylumCase {
+    + AsylumCase() : this
+    + getAsylumCase() : AsylumCase
+    + setAsylumCase(asylumCase : AsylumCase) : AsylumCase
+}
+
+class AsylumCaseRequestDto {
+
+}
+
+class AsylumCaseResponseDto {
+
+}
+
+interface AsylumCaseMapper {
+    requestToEntity(request : AsylumCaseRequestDto) : AsylumCase
+    entityToResponse(asylumCase : AsylumCase) : AsylumCaseResponseDto
+    entitiesToResponses(asylumCases : Iterable<AsylumCase>) : Iterable<AsylumCaseResponseDto>
+}
+
+'Add cache config Annotations in service
+interface AsylumCaseService {
+
+}
+
+class AsylumCaseServiceImpl {
+    - asylumCaseRepository : AsylumCaseRepository
+    - asylumCaseMapper : AsylumCaseMapper
+    + AsylumCaseServiceImpl(asylumCaseRepository : AsylumCaseRepository) : this
+    + getRepository() : AsylumCaseRepository
+    + setRepository(repository : AsylumCaseRepository) : void
+}
+
+class CaseNotFoundException
+
+
+'Generated classes
+class CacheManager
+
+'Not owned classes & interfaces
+interface PagingAndSortingRepository<AsylumCase, Long> {
+    findAll(sort : Sort) : Iterable<AsylumCase>
+    findAll(pageable : Pageable) : Page<AsylumCase>
+}
+
+interface CrudRepository <AsylumCase, Long> {
+    save(asylumCase : AsylumCase) : AsylumCase
+    saveAll(iterable : Iterable<AsylumCase>) : Iterable<AsylumCase>
+    findById(id : ID) : Optional<AsylumCase>
+    existsById(id : ID) : boolean
+    findAll() : Iterable<AsylumCase>
+    findAllById(ids : Iterable<ID>) : Iterable<AsylumCase>
+    count() : long
+    deleteById(id : ID) : void
+    delete(asylumCase : AsylumCase) : void
+    deleteAllById(ids : Iterable<ID>) : void
+    deleteAll(asylumCases : Iterable<AsylumCase>) : void
+    deleteAll() : void
+}
+
+class RunTimeException
+
+AsylumCaseController *-- AsylumCaseServiceImpl
+
+AsylumCaseServiceImpl <|-- AsylumCaseService
+AsylumCaseServiceImpl *-- AsylumCaseRepository
+AsylumCaseServiceImpl *-- AsylumCaseMapper
+AsylumCaseServiceImpl -- CacheManager
+AsylumCaseServiceImpl .. CaseNotFoundException
+
+
+AsylumCaseMapper .. AsylumCaseRequestDto
+AsylumCaseMapper .. AsylumCaseResponseDto
+
+AsylumCaseRequestDto -- AsylumCase
+
+AsylumCaseResponseDto -- AsylumCase
+
+AsylumCaseRepository  o-- PagingAndSortingRepository
+AsylumCaseRepository -- DynamoDBConfig
+
+PagingAndSortingRepository  o-- CrudRepository
+
+CacheManager -- CachingConfig
+
+CaseNotFoundException o-- RunTimeException
+
+
+
+'Extension/
+'Association <|-- (owner <|-- pet) Implements
+'Composition *-- (pet *-- leg) Instantiation (part of)
+'Aggregation (car o-- wheel) Extends (has a)
+
+@enduml
