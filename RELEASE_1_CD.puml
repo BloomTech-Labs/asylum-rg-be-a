@@ -3,8 +3,8 @@
 'End point mappings
 class AsylumCaseController {
     - service : AsylumCaseService
-    + loadCases() : Iterable<AsylumCaseResponseDto>
-    + loadCaseById(asylumCaseRequestDto : AsylumCaseRequestDto) : AsylumCaseResponseDto
+    + loadCases() : ResponseEntity<Iterable<AsylumCaseResponseDto>>
+    + loadCaseById(asylumCaseRequestDto : AsylumCaseRequestDto) : ResponseEntity<AsylumCaseResponseDto>
 }
 
 
