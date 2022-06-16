@@ -3,9 +3,7 @@
 'End point mappings
 class AsylumCaseController {
     - service : AsylumCaseService
-    + AsylumCaseController(service : AsylumCaseService) : this
-    + getAsylumCaseService() : AsylumCaseService
-    + setAsylumCaseService(asylumCaseService : AsylumCaseService) : void
+
 }
 
 'Config for DynamoDB
@@ -28,21 +26,31 @@ class CachingConfig {
 interface AsylumCaseRepository {
 }
 
-'POJO for data model
+'Entity for data model
 class AsylumCase {
-    + AsylumCase() : this
-    + getAsylumCase() : AsylumCase
-    + setAsylumCase(asylumCase : AsylumCase) : AsylumCase
+    - id : int
+    - asylumOffice : String
+    - citizenship : String
+    - raceOrEthnicity : String
+    - caseOutcome : String
+    - completion : String
+    - currentDate : String
 }
 
 class AsylumCaseRequestDto {
-
+    - id : int
 }
 
 class AsylumCaseResponseDto {
-
+    - asylumOffice : String
+    - citizenship : String
+    - raceOrEthnicity : String
+    - caseOutcome : String
+    - completion : String
+    - currentDate : String
 }
 
+' Part of the  MapStruct dependency
 interface AsylumCaseMapper {
     requestToEntity(request : AsylumCaseRequestDto) : AsylumCase
     entityToResponse(asylumCase : AsylumCase) : AsylumCaseResponseDto
@@ -51,15 +59,15 @@ interface AsylumCaseMapper {
 
 'Add cache config Annotations in service
 interface AsylumCaseService {
-
+    getAllCases() : ResponseEntity<Iterable<AsylumCaseResponseDto>>
+    getACase(request : AsylumCaseRequestDto) : ResponseEntity<AsylumCaseResponseDto>
 }
 
 class AsylumCaseServiceImpl {
     - asylumCaseRepository : AsylumCaseRepository
     - asylumCaseMapper : AsylumCaseMapper
-    + AsylumCaseServiceImpl(asylumCaseRepository : AsylumCaseRepository) : this
-    + getRepository() : AsylumCaseRepository
-    + setRepository(repository : AsylumCaseRepository) : void
+    + getAllCases() : ResponseEntity<Iterable<AsylumCase>>
+    + getACase(caseId : int) : ResponseEntity<AsylumCase>
 }
 
 class CaseNotFoundException
