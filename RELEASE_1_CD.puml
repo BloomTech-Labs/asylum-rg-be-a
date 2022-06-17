@@ -3,19 +3,35 @@
 'End point mappings
 class AsylumCaseController {
     - service : AsylumCaseService
-    + loadCases() : ResponseEntity<Iterable<AsylumCaseResponseDto>>
+    + loadCases() : Iterable<AsylumCaseResponseDto>
+}
+
+class AsylumCaseControllerAdvice {
+    + handleAsylumCaseNotFoundException(httpServletRequest : HttpServletRequest, asylumCaseNotFoundException : AsylumCaseNotFoundException) : ErrorDto
+    + handleBadRequestException(httpServletRequest : HttpServletRequest, badRequestException : BadRequestException) : ErrorDto
+}
+
+class AsylumCaseNotFoundException<RuntimeException> {
+    - {static} final serialVersionUID : long
+    - message : String
+}
+
+class BadRequestException<RuntimeException> {
+    - {static} final serialVersionUID : long
+    - message : String
 }
 
 
 'Add cache config Annotations in service
 interface AsylumCaseService {
-    getAllAsylumCases() : ResponseEntity<Iterable<AsylumCaseResponseDto>>
+    getAllAsylumCases() : Iterable<AsylumCaseResponseDto>
 }
 
 class AsylumCaseServiceImpl {
     - asylumCaseRepository : AsylumCaseRepository
     - asylumCaseMapper : AsylumCaseMapper
-    + getAllAsylumCases() : ResponseEntity<Iterable<AsylumCaseResponseDto>>
+    + getAllAsylumCases() : Iterable<AsylumCaseResponseDto>
+
 }
 
 'Config for DynamoDB
@@ -27,11 +43,6 @@ class DynamoDBConfig {
     + amazonAWSCredentialsProvider() : AWSCredentialsProvider
     + amazonDynamoDB() : AmazonDynamoDB
     + mapper() : DynamoDBMapper
-}
-
-'Config to enable caching
-class CachingConfig {
-    + cacheManager() : CacheManager
 }
 
 'repo for DynamoDB calls
@@ -48,8 +59,12 @@ class AsylumCase {
     - currentDate : String
 }
 
+class ErrorDto {
+    - message : String
+}
+
 class AsylumCaseRequestDto {
-    - id : Integer
+
 }
 
 class AsylumCaseResponseDto {
@@ -90,11 +105,18 @@ interface CrudRepository <Repository> {
 }
 
 AsylumCaseController *-- AsylumCaseServiceImpl
+AsylumCaseController .. AsylumCaseNotFoundException
+AsylumCaseController .. BadRequestException
+AsylumCaseController .. ErrorDto
+
+AsylumCaseNotFoundException .. AsylumCaseControllerAdvice
+BadRequestException .. AsylumCaseControllerAdvice
+
+AsylumCaseControllerAdvice .. ErrorDto
 
 AsylumCaseServiceImpl <|-- AsylumCaseService
 AsylumCaseServiceImpl *-- AsylumCaseRepository
 AsylumCaseServiceImpl *-- AsylumCaseMapper
-AsylumCaseServiceImpl -- CachingConfig
 
 
 AsylumCaseMapper .. AsylumCaseRequestDto
