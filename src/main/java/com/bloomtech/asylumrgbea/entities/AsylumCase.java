@@ -1,9 +1,7 @@
 package com.bloomtech.asylumrgbea.entities;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,12 +10,19 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class AsylumCase {
-//    @Getter(onMethod_ = {@DynamoDBHashKey})
+
+    @DynamoDBHashKey(attributeName = "id")
     private Integer id;
+    @DynamoDBAttribute
     private String asylumOffice;
+    @DynamoDBAttribute
     private String citizenship;
+    @DynamoDBAttribute
     private String raceOrEthnicity;
+    @DynamoDBAttribute
     private String caseOutcome;
+    @DynamoDBAttribute
     private String completion;
+    @DynamoDBAttribute
     private String currentDate;
 }
