@@ -3,7 +3,8 @@
 'End point mappings
 class AsylumCaseController {
     - service : AsylumCaseService
-    + loadCases() : Iterable<AsylumCaseResponseDto>
+    + getAllCases() : Iterable<AsylumCaseResponseDto>
+    + getAllCases(page : Integer, asylumCaseRequestDto : AsylumCaseRequestDto) : Iterable<AsylumCaseResponseDto>
 }
 
 class AsylumCaseControllerAdvice {
@@ -21,17 +22,17 @@ class BadRequestException<RuntimeException> {
     - message : String
 }
 
-
 'Add cache config Annotations in service
 interface AsylumCaseService {
     getAllAsylumCases() : Iterable<AsylumCaseResponseDto>
+    getAllAsylumCases(asylumCaseRequestDto : AsylumCaseRequestDto) : Iterable<AsylumCaseResponseDto>
 }
 
 class AsylumCaseServiceImpl {
     - asylumCaseRepository : AsylumCaseRepository
     - asylumCaseMapper : AsylumCaseMapper
     + getAllAsylumCases() : Iterable<AsylumCaseResponseDto>
-
+    + getAllAsylumCases(asylumCaseRequestDto : AsylumCaseRequestDto) : Iterable<AsylumCaseResponseDto>
 }
 
 'Config for DynamoDB
@@ -46,7 +47,7 @@ class DynamoDBConfig {
 }
 
 'repo for DynamoDB calls
-interface AsylumCaseRepository <PagingAndSortingRepository<AsylumCase, Integer>>
+interface AsylumCaseRepository <PagingAndSortingRepository<AsylumCase, Integer>> { }
 
 'Entity for data model
 class AsylumCase {
@@ -64,7 +65,7 @@ class ErrorDto {
 }
 
 class AsylumCaseRequestDto {
-
+    - page : Integer
 }
 
 class AsylumCaseResponseDto {
@@ -80,7 +81,8 @@ class AsylumCaseResponseDto {
 interface AsylumCaseMapper {
     requestToEntity(asylumCaseRequestDto : AsylumCaseRequestDto) : AsylumCase
     entityToResponseDto(asylumCase : AsylumCase) : AsylumCaseResponseDto
-    entitiesToResponsesDto(asylumCases : Iterable<AsylumCase>) : Iterable<AsylumCaseResponseDto>
+    entitiesToResponsesDtos(asylumCases : Iterable<AsylumCase>) : Iterable<AsylumCaseResponseDto>
+    pageToResponseDtos(Page<AsylumCase> asylumCases) : Iterable<AsylumCaseResponseDto>
 }
 
 'Not owned classes & interfaces
