@@ -4,6 +4,7 @@ import com.bloomtech.asylumrgbea.entities.AsylumCase;
 import com.bloomtech.asylumrgbea.models.AsylumCaseRequestDto;
 import com.bloomtech.asylumrgbea.models.AsylumCaseResponseDto;
 import org.mapstruct.Mapper;
+import org.springframework.data.domain.Page;
 
 @Mapper(uses = {AsylumCaseMapper.class}, componentModel = "spring")
 public interface AsylumCaseMapper {
@@ -13,4 +14,6 @@ public interface AsylumCaseMapper {
     AsylumCaseResponseDto entityToResponseDto(AsylumCase asylumCase);
 
     Iterable<AsylumCaseResponseDto> entitiesToResponseDto(Iterable<AsylumCase> asylumCases);
+
+    Iterable<AsylumCaseResponseDto> pageToResponseDtos(Page<AsylumCase> asylumCases);
 }
