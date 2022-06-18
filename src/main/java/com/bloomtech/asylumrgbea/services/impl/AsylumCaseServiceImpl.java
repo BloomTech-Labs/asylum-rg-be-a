@@ -1,6 +1,7 @@
 package com.bloomtech.asylumrgbea.services.impl;
 
 import com.bloomtech.asylumrgbea.mappers.AsylumCaseMapper;
+import com.bloomtech.asylumrgbea.models.AsylumCaseRequestDto;
 import com.bloomtech.asylumrgbea.models.AsylumCaseResponseDto;
 import com.bloomtech.asylumrgbea.repositories.AsylumCaseRepository;
 import com.bloomtech.asylumrgbea.services.AsylumCaseService;
@@ -22,4 +23,10 @@ public class AsylumCaseServiceImpl implements AsylumCaseService {
 	public ResponseEntity<Iterable<AsylumCaseResponseDto>> getAllAsylumCases() {
 		return new ResponseEntity<>(asylumCaseMapper.entitiesToResponseDto(asylumCaseRepository.findAll()), HttpStatus.OK);
 	}
+
+	@Override
+	public Iterable<AsylumCaseResponseDto> getAllAsylumCases(AsylumCaseRequestDto asylumCaseRequestDto) {
+		return null;
+	}
+
 }
