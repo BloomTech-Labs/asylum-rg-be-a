@@ -22,7 +22,7 @@ Please use the @GetMapping annotation for both and review the class diagram in t
 public class AsylumCaseController {
     private AsylumCaseService asylumCaseService;
     @GetMapping
-    public ResponseEntity<Iterable<AsylumCaseResponseDto>> getAllCases() {
+    public Iterable<AsylumCaseResponseDto> getAllCases() {
         return asylumCaseService.getAllAsylumCases();
     }
 }

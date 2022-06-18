@@ -4,5 +4,5 @@ import com.bloomtech.asylumrgbea.models.AsylumCaseResponseDto;
 import org.springframework.http.ResponseEntity;
 
 public interface AsylumCaseService {
-	ResponseEntity<Iterable<AsylumCaseResponseDto>> getAllAsylumCases();
+	Iterable<AsylumCaseResponseDto> getAllAsylumCases();
 }

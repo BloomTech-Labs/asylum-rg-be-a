@@ -19,7 +19,7 @@ public class AsylumCaseServiceImpl implements AsylumCaseService {
 
 	@Override
 	@Cacheable("asylumCaseCache")
-	public ResponseEntity<Iterable<AsylumCaseResponseDto>> getAllAsylumCases() {
-		return new ResponseEntity<>(asylumCaseMapper.entitiesToResponseDto(asylumCaseRepository.findAll()), HttpStatus.OK);
+	public Iterable<AsylumCaseResponseDto> getAllAsylumCases() {
+		return asylumCaseMapper.entitiesToResponseDto(asylumCaseRepository.findAll());
 	}
 }
