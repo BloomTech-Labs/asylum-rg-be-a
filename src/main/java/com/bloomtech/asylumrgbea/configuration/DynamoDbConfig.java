@@ -11,6 +11,7 @@ import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import org.springframework.context.annotation.Primary;
 
 @Configuration
 public class DynamoDbConfig {
@@ -42,6 +43,7 @@ public class DynamoDbConfig {
     }
 
     @Bean
+    @Primary
     public DynamoDBMapper mapper() {
         return new DynamoDBMapper(amazonDynamoDB());
     }

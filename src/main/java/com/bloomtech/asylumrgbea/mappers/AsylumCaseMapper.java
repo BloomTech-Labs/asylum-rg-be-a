@@ -13,7 +13,7 @@ public interface AsylumCaseMapper {
 
     AsylumCaseResponseDto entityToResponseDto(AsylumCase asylumCase);
 
-    Iterable<AsylumCaseResponseDto> entitiesToResponseDto(Iterable<AsylumCase> asylumCases);
+    Iterable<AsylumCaseResponseDto> entitiesToResponseDtos(Iterable<AsylumCase> asylumCases);
 
     Iterable<AsylumCaseResponseDto> pageToResponseDtos(Page<AsylumCase> asylumCases);
 }

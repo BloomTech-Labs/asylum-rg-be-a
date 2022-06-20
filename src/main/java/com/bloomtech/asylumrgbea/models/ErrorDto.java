@@ -1,12 +1,10 @@
 package com.bloomtech.asylumrgbea.models;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 
+@Data
 public class ErrorDto {
-    private String message;
+
+    private final String message;
+
 }

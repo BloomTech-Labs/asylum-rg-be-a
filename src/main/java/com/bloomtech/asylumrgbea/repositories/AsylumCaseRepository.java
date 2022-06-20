@@ -1,7 +1,13 @@
 package com.bloomtech.asylumrgbea.repositories;
 
 import com.bloomtech.asylumrgbea.entities.AsylumCase;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.socialsignin.spring.data.dynamodb.repository.DynamoDBPagingAndSortingRepository;
+import org.socialsignin.spring.data.dynamodb.repository.EnableScan;
+import org.socialsignin.spring.data.dynamodb.repository.EnableScanCount;
+import org.springframework.stereotype.Repository;
 
-public interface AsylumCaseRepository extends PagingAndSortingRepository<AsylumCase, Integer> {
+@Repository
+@EnableScan
+@EnableScanCount
+public interface AsylumCaseRepository extends DynamoDBPagingAndSortingRepository<AsylumCase, Integer> {
 }
