@@ -15,9 +15,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class AsylumCaseServiceImpl implements AsylumCaseService {
-
 	private final AsylumCaseRepository asylumCaseRepository;
-
 	private final AsylumCaseMapper asylumCaseMapper;
 
 	/**
@@ -27,9 +25,7 @@ public class AsylumCaseServiceImpl implements AsylumCaseService {
 	@Override
 	@Cacheable("asylum_case_cache")
 	public Iterable<AsylumCaseResponseDto> getAllAsylumCases() {
-
 		Iterable<AsylumCase> caseIterable = asylumCaseRepository.findAll();
-
 		validateIterableIsNotEmpty(caseIterable);
 
 		return asylumCaseMapper.entitiesToResponseDtos(caseIterable);
@@ -42,19 +38,16 @@ public class AsylumCaseServiceImpl implements AsylumCaseService {
 	 */
 	@Override
 	public Iterable<AsylumCaseResponseDto> getAllAsylumCases(AsylumCaseRequestDto asylumCaseRequestDto) {
-
 		validateRequestDto(asylumCaseRequestDto);
 
 		return null;
 	}
 
 	private void validateIterableIsNotEmpty(Iterable<AsylumCase> caseIterable) {
-
 		if (!caseIterable.iterator().hasNext()) throw new AsylumCaseNotFoundException("ERROR: No cases were found...");
 	}
 
 	private void validateRequestDto(AsylumCaseRequestDto asylumCaseRequestDto) {
-
 		if (asylumCaseRequestDto == null) throw new BadRequestException("ERROR: Enter message here...");
 	}
 

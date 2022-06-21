@@ -17,17 +17,13 @@ public class AsylumCaseControllerAdvice {
 
     @ExceptionHandler(AsylumCaseNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorDto handleAsylumCaseNotFoundException(AsylumCaseNotFoundException asylumCaseNotFoundException,
-                                                      HttpServletRequest httpServletRequest) {
-
+    public ErrorDto handleAsylumCaseNotFoundException(AsylumCaseNotFoundException asylumCaseNotFoundException, HttpServletRequest httpServletRequest) {
         return new ErrorDto(asylumCaseNotFoundException.getMessage());
     }
 
     @ExceptionHandler(BadRequestException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorDto handleBadRequestException(BadRequestException badRequestException,
-                                              HttpServletRequest httpServletRequest) {
-
+    public ErrorDto handleBadRequestException(BadRequestException badRequestException, HttpServletRequest httpServletRequest) {
         return new ErrorDto(badRequestException.getMessage());
     }
 }

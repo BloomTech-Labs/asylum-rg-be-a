@@ -17,7 +17,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 class AsylumCaseServiceImplTest {
-
     private AsylumCaseMapper asylumCaseMapper;
     private AsylumCaseRepository asylumCaseRepository;
     private AsylumCaseServiceImpl asylumCaseService;
