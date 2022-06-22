@@ -43,11 +43,22 @@ public class AsylumCaseServiceImpl implements AsylumCaseService {
 		return null;
 	}
 
-	private void validateIterableIsNotEmpty(Iterable<AsylumCase> caseIterable) {
+	/**
+	 * Checks if an Iterable has at least 1 element and throws an exception if not so.
+	 * @param caseIterable An empty or non-empty Iterable of AsylumCase objects.
+	 * @throws AsylumCaseNotFoundException if the Iterable is empty this exception is thrown.
+	 */
+	private void validateIterableIsNotEmpty(Iterable<AsylumCase> caseIterable) throws AsylumCaseNotFoundException {
 		if (!caseIterable.iterator().hasNext()) throw new AsylumCaseNotFoundException("ERROR: No cases were found...");
 	}
 
-	private void validateRequestDto(AsylumCaseRequestDto asylumCaseRequestDto) {
+	/**
+	 * Checks if a AsylumCaseRequestDto object contains a null field and throws an exception if so.
+	 * @param asylumCaseRequestDto
+	 * @throws BadRequestException
+	 */
+	private void validateRequestDto(AsylumCaseRequestDto asylumCaseRequestDto) throws BadRequestException {
+		// TODO: 6/21/22  Replace the if statement conditional with getters null checks.
 		if (asylumCaseRequestDto == null) throw new BadRequestException("ERROR: Enter message here...");
 	}
 
