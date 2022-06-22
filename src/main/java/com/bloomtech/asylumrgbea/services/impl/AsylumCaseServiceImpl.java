@@ -11,6 +11,7 @@ import com.bloomtech.asylumrgbea.services.AsylumCaseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.PageRequest;
 
 @Service
 @RequiredArgsConstructor
@@ -40,7 +41,7 @@ public class AsylumCaseServiceImpl implements AsylumCaseService {
 	public Iterable<AsylumCaseResponseDto> getAllAsylumCases(AsylumCaseRequestDto asylumCaseRequestDto) {
 		validateRequestDto(asylumCaseRequestDto);
 
-		return null;
+		return asylumCaseMapper.pageToResponseDtos(asylumCaseRepository.findAll(PageRequest.of(asylumCaseRequestDto.getPageNumber(), 10)));
 	}
 
 	/**

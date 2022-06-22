@@ -5,4 +5,5 @@ import lombok.NoArgsConstructor;
 
 @Data
 public class AsylumCaseRequestDto {
+    private final Integer pageNumber;
 }
