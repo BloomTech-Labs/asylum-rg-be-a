@@ -6,10 +6,12 @@ import com.bloomtech.asylumrgbea.entities.AsylumCase;
 import com.bloomtech.asylumrgbea.mappers.AsylumCaseMapper;
 import com.bloomtech.asylumrgbea.models.AsylumCaseRequestDto;
 import com.bloomtech.asylumrgbea.models.AsylumCaseResponseDto;
+import com.bloomtech.asylumrgbea.models.PageResponseDto;
 import com.bloomtech.asylumrgbea.repositories.AsylumCaseRepository;
 import com.bloomtech.asylumrgbea.services.AsylumCaseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.PageRequest;
 
@@ -38,10 +40,10 @@ public class AsylumCaseServiceImpl implements AsylumCaseService {
 	 * @return This is a limited Iterable of AsylumCase objects.
 	 */
 	@Override
-	public Iterable<AsylumCaseResponseDto> getAllAsylumCases(AsylumCaseRequestDto asylumCaseRequestDto) {
+	public PageResponseDto getAllAsylumCases(AsylumCaseRequestDto asylumCaseRequestDto) {
 		validateRequestDto(asylumCaseRequestDto);
-
-		return asylumCaseMapper.pageToResponseDtos(asylumCaseRepository.findAll(PageRequest.of(asylumCaseRequestDto.getPageNumber(), 10)));
+		Page<AsylumCase> pageOfEntities = asylumCaseRepository.findAll(PageRequest.of(asylumCaseRequestDto.getPageNumber(), asylumCaseRequestDto.getNumberOfItemsInPage()));
+		return asylumCaseMapper.pageDataAndPageToResponseDto(pageOfEntities.getTotalPages(), asylumCaseMapper.pageToResponseDtos(pageOfEntities));
 	}
 
 	/**
@@ -60,7 +62,6 @@ public class AsylumCaseServiceImpl implements AsylumCaseService {
 	 */
 	private void validateRequestDto(AsylumCaseRequestDto asylumCaseRequestDto) throws BadRequestException {
 		// TODO: 6/21/22  Replace the if statement conditional with getters null checks.
-		if (asylumCaseRequestDto == null) throw new BadRequestException("ERROR: Enter message here...");
+		if (asylumCaseRequestDto.getNumberOfItemsInPage() == null) throw new BadRequestException("ERROR: Enter message here...");
 	}
-
 }
