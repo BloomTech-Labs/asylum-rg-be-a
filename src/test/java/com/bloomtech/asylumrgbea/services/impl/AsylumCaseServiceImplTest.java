@@ -3,11 +3,14 @@ package com.bloomtech.asylumrgbea.services.impl;
 import com.bloomtech.asylumrgbea.controllers.exceptions.AsylumCaseNotFoundException;
 import com.bloomtech.asylumrgbea.entities.AsylumCase;
 import com.bloomtech.asylumrgbea.mappers.AsylumCaseMapper;
+import com.bloomtech.asylumrgbea.models.AsylumCaseRequestDto;
 import com.bloomtech.asylumrgbea.models.AsylumCaseResponseDto;
 import com.bloomtech.asylumrgbea.repositories.AsylumCaseRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.springframework.data.domain.PageRequest;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -58,5 +61,23 @@ class AsylumCaseServiceImplTest {
                 () -> asylumCaseService.getAllAsylumCases(),
                 "ERROR: Expected an AsylumCaseNotFoundException but was false..");
         verify(asylumCaseRepository).findAll();
+    }
+
+    @Test
+    void getPageOfAsylumCases_givenValidRequest_returnsPageResponseDto() {
+        // TODO: Update test
+        // GIVEN
+//        AsylumCaseRequestDto asylumCaseRequestDto = new AsylumCaseRequestDto(10, 0);
+//
+//        AsylumCase asylumCase = new AsylumCase
+//                ("XDS", "SAN", "HIO", "Other", "Pending",
+//                        "N/A", "6/24/2022");
+//
+//        AsylumCaseResponseDto asylumCaseResponseDto = new AsylumCaseResponseDto
+//                ("SAN", "HIO", "Other", "Pending", "N/A",
+//                        "6/24/2022");
+//
+//        // WHEN
+//        when(asylumCaseRepository.findAll(any(PageRequest.class))).thenReturn();
     }
 }

@@ -12,5 +12,4 @@ import java.util.Optional;
 @EnableScan
 @EnableScanCount
 public interface AsylumCaseRepository extends DynamoDBPagingAndSortingRepository<AsylumCase, Integer> {
-
 }

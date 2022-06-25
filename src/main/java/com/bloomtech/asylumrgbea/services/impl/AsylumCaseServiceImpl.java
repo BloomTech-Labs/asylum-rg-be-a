@@ -18,7 +18,9 @@ import org.springframework.data.domain.PageRequest;
 @Service
 @RequiredArgsConstructor
 public class AsylumCaseServiceImpl implements AsylumCaseService {
+
 	private final AsylumCaseRepository asylumCaseRepository;
+
 	private final AsylumCaseMapper asylumCaseMapper;
 
 	/**
@@ -28,6 +30,7 @@ public class AsylumCaseServiceImpl implements AsylumCaseService {
 	@Override
 	@Cacheable("asylum_case_cache")
 	public Iterable<AsylumCaseResponseDto> getAllAsylumCases() {
+
 		Iterable<AsylumCase> caseIterable = asylumCaseRepository.findAll();
 		validateIterableIsNotEmpty(caseIterable);
 
@@ -40,10 +43,14 @@ public class AsylumCaseServiceImpl implements AsylumCaseService {
 	 * @return This is a limited Iterable of AsylumCase objects.
 	 */
 	@Override
-	public PageResponseDto getAllAsylumCases(AsylumCaseRequestDto asylumCaseRequestDto) {
+	public PageResponseDto getPageOfAsylumCases(AsylumCaseRequestDto asylumCaseRequestDto) {
+
 		validateRequestDto(asylumCaseRequestDto);
-		Page<AsylumCase> pageOfEntities = asylumCaseRepository.findAll(PageRequest.of(asylumCaseRequestDto.getPageNumber(), asylumCaseRequestDto.getNumberOfItemsInPage()));
-		return asylumCaseMapper.pageDataAndPageToResponseDto(pageOfEntities.getTotalPages(), asylumCaseMapper.pageToResponseDtos(pageOfEntities));
+		Page<AsylumCase> pageOfEntities = asylumCaseRepository.findAll
+				(PageRequest.of(asylumCaseRequestDto.getPageNumber(), asylumCaseRequestDto.getNumberOfItemsInPage()));
+
+		return asylumCaseMapper.pageDataAndPageToResponseDto
+				(pageOfEntities.getTotalPages(), asylumCaseMapper.pageToResponseDtos(pageOfEntities));
 	}
 
 	/**
@@ -52,16 +59,19 @@ public class AsylumCaseServiceImpl implements AsylumCaseService {
 	 * @throws AsylumCaseNotFoundException if the Iterable is empty this exception is thrown.
 	 */
 	private void validateIterableIsNotEmpty(Iterable<AsylumCase> caseIterable) throws AsylumCaseNotFoundException {
-		if (!caseIterable.iterator().hasNext()) throw new AsylumCaseNotFoundException("ERROR: No cases were found...");
+
+		if (!caseIterable.iterator().hasNext())
+			throw new AsylumCaseNotFoundException("ERROR: No cases were found...");
 	}
 
 	/**
 	 * Checks if a AsylumCaseRequestDto object contains a null field and throws an exception if so.
-	 * @param asylumCaseRequestDto
-	 * @throws BadRequestException
+	 * @param asylumCaseRequestDto AsylumCase package and a request Dto.
+	 * @throws BadRequestException The exception thrown if triggered.
 	 */
 	private void validateRequestDto(AsylumCaseRequestDto asylumCaseRequestDto) throws BadRequestException {
-		// TODO: 6/21/22  Replace the if statement conditional with getters null checks.
-		if (asylumCaseRequestDto.getNumberOfItemsInPage() == null) throw new BadRequestException("ERROR: Enter message here...");
+
+		if (asylumCaseRequestDto.getNumberOfItemsInPage() == null)
+			throw new BadRequestException("ERROR: Enter message here...");
 	}
 }

@@ -1,11 +1,17 @@
 package com.bloomtech.asylumrgbea.models;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
 @NoArgsConstructor
-@Data
+@AllArgsConstructor
 public class AsylumCaseRequestDto {
+
     private Integer numberOfItemsInPage;
+
     private int pageNumber;
 }

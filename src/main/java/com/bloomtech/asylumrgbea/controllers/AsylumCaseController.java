@@ -18,16 +18,23 @@ public class AsylumCaseController {
     private final AsylumCaseService asylumCaseService;
 
     /**
-     * As the point of entry this method is mapped to the cases end point and provides all ResponseDtos.
+     * As the point of entry this method is mapped to the default end point and provides all ResponseDtos.
+     * @return An Iterable of AsylumCaseResponseDto with totalPage or an ErrorDto with a message.
+     */
+    @GetMapping
+    public PageResponseDto getPageOfCases(@RequestBody AsylumCaseRequestDto asylumCaseRequestDto) {
+
+        return asylumCaseService.getPageOfAsylumCases(asylumCaseRequestDto);
+    }
+
+    /**
+     * As the point of entry this method is mapped to the show-all end point and provides all ResponseDtos.
      * @return An Iterable of AsylumCaseResponseDto or an ErrorDto with a message.
      */
     @GetMapping("show-all")
-    public Iterable<AsylumCaseResponseDto> getAllCases() {
+    public Iterable<AsylumCaseResponseDto> getAllOfCases() {
+
         return asylumCaseService.getAllAsylumCases();
     }
 
-    @GetMapping
-    public PageResponseDto getAllCases(@RequestBody AsylumCaseRequestDto asylumCaseRequestDto) {
-        return asylumCaseService.getAllAsylumCases(asylumCaseRequestDto);
-    }
 }
