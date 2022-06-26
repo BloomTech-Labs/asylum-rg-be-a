@@ -50,7 +50,7 @@ public class AsylumCaseServiceImpl implements AsylumCaseService {
 				(PageRequest.of(asylumCaseRequestDto.getPageNumber(), asylumCaseRequestDto.getNumberOfItemsInPage()));
 
 		return asylumCaseMapper.pageDataAndPageToResponseDto
-				(pageOfEntities.getTotalPages(), asylumCaseMapper.pageToResponseDtos(pageOfEntities));
+				(pageOfEntities.getTotalPages(), asylumCaseMapper.pagesToResponseDtos(pageOfEntities));
 	}
 
 	/**

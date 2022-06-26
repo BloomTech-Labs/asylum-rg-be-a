@@ -5,18 +5,20 @@ import com.bloomtech.asylumrgbea.entities.AsylumCase;
 import com.bloomtech.asylumrgbea.mappers.AsylumCaseMapper;
 import com.bloomtech.asylumrgbea.models.AsylumCaseRequestDto;
 import com.bloomtech.asylumrgbea.models.AsylumCaseResponseDto;
+import com.bloomtech.asylumrgbea.models.PageResponseDto;
 import com.bloomtech.asylumrgbea.repositories.AsylumCaseRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class AsylumCaseServiceImplTest {
@@ -65,19 +67,34 @@ class AsylumCaseServiceImplTest {
 
     @Test
     void getPageOfAsylumCases_givenValidRequest_returnsPageResponseDto() {
-        // TODO: Update test
         // GIVEN
-//        AsylumCaseRequestDto asylumCaseRequestDto = new AsylumCaseRequestDto(10, 0);
-//
-//        AsylumCase asylumCase = new AsylumCase
-//                ("XDS", "SAN", "HIO", "Other", "Pending",
-//                        "N/A", "6/24/2022");
-//
-//        AsylumCaseResponseDto asylumCaseResponseDto = new AsylumCaseResponseDto
-//                ("SAN", "HIO", "Other", "Pending", "N/A",
-//                        "6/24/2022");
-//
-//        // WHEN
-//        when(asylumCaseRepository.findAll(any(PageRequest.class))).thenReturn();
+        AsylumCaseRequestDto asylumCaseRequestDto = new AsylumCaseRequestDto(10, 0);
+
+        AsylumCase asylumCase = new AsylumCase
+                ("XDS", "SAN", "HIO", "Other", "Pending",
+                        "N/A", "6/24/2022");
+
+        AsylumCaseResponseDto asylumCaseResponseDto = new AsylumCaseResponseDto
+                ("SAN", "HIO", "Other", "Pending", "N/A",
+                        "6/24/2022");
+
+        Page<AsylumCase> pageEntities = new PageImpl<>(List.of(asylumCase));
+
+        PageResponseDto pageResponseDto = new PageResponseDto(1, List.of(asylumCaseResponseDto));
+
+        // WHEN
+        when(asylumCaseRepository.findAll(PageRequest.of(asylumCaseRequestDto.getPageNumber(), asylumCaseRequestDto.getNumberOfItemsInPage()))).thenReturn(pageEntities);
+        when(asylumCaseMapper.pagesToResponseDtos(pageEntities)).thenReturn(List.of(asylumCaseResponseDto));
+        when(asylumCaseMapper.pageDataAndPageToResponseDto(pageEntities.getTotalPages(), List.of(asylumCaseResponseDto))).thenReturn(pageResponseDto);
+
+        PageResponseDto result = asylumCaseService.getPageOfAsylumCases(asylumCaseRequestDto);
+
+        // THEN
+        assertNotNull(result);
+        assertEquals(1, result.getTotalPages());
+        assertTrue(result.getPage().iterator().hasNext());
+        verify(asylumCaseRepository).findAll(any(Pageable.class));
+        verify(asylumCaseMapper).pageDataAndPageToResponseDto(anyInt(), anyIterable());
+
     }
 }

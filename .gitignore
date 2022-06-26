@@ -23,6 +23,7 @@ target/
 .gradle
 **/build/
 !src/**/build/
+gradle/.tmp
 
 # Ignore Gradle GUI config
 gradle-app.setting
@@ -34,6 +35,8 @@ gradle/daemon/
 gradle/native/
 gradle/wrapper/dists/
 
+### Docker ###
+docker/dynamodb/
 
 ### NetBeans ###
 /nbproject/private/

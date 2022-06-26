@@ -6,7 +6,8 @@ import com.bloomtech.asylumrgbea.models.PageResponseDto;
 
 public interface AsylumCaseService {
 
+	PageResponseDto getPageOfAsylumCases(AsylumCaseRequestDto asylumCaseRequestDto);
+
 	Iterable<AsylumCaseResponseDto> getAllAsylumCases();
 
-	PageResponseDto getPageOfAsylumCases(AsylumCaseRequestDto asylumCaseRequestDto);
 }
