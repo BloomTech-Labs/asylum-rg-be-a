@@ -72,6 +72,6 @@ public class AsylumCaseServiceImpl implements AsylumCaseService {
 	private void validateRequestDto(AsylumCaseRequestDto asylumCaseRequestDto) throws BadRequestException {
 
 		if (asylumCaseRequestDto.getNumberOfItemsInPage() == null)
-			throw new BadRequestException("ERROR: Enter message here...");
+			throw new BadRequestException("ERROR: The field number of items in a page cannot be null...");
 	}
 }
