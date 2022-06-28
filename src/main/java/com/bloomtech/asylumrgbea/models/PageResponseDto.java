@@ -1,5 +1,6 @@
 package com.bloomtech.asylumrgbea.models;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,9 +10,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AsylumCaseRequestDto {
+public class PageResponseDto {
 
-    private Integer numberOfItemsInPage;
+    private int totalPages;
 
-    private int pageNumber;
+    private Iterable<AsylumCaseResponseDto> page;
 }
