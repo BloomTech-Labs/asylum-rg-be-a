@@ -35,9 +35,6 @@ gradle/daemon/
 gradle/native/
 gradle/wrapper/dists/
 
-### Docker ###
-docker/dynamodb/
-
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
