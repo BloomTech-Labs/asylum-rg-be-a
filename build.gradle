@@ -22,8 +22,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-cache:2.7.0'
     implementation 'com.amazonaws:aws-java-sdk-dynamodb:1.12.239'
 
-
-
     implementation 'me.paulschwarz:spring-dotenv:2.5.4'
     implementation 'com.github.derjust:spring-data-dynamodb:5.1.0'
     testImplementation 'org.springframework.boot:spring-boot-starter-test:2.7.0'
