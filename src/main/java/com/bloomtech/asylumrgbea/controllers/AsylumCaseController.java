@@ -20,8 +20,10 @@ public class AsylumCaseController {
     /**
      * As the point of entry this method is mapped to the default end point and provides all ResponseDtos.
      * @return An Iterable of AsylumCaseResponseDto with totalPage or an ErrorDto with a message.
+     *
+     * This end-point has been deprecated at this point in development. Removed @GetMapping annotation
+     * to isolate this endpoint from the application.
      */
-    @GetMapping
     public PageResponseDto getPageOfCases(@RequestBody AsylumCaseRequestDto asylumCaseRequestDto) {
 
         return asylumCaseService.getPageOfAsylumCases(asylumCaseRequestDto);
