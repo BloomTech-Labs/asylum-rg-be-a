@@ -14,20 +14,22 @@ repositories {
 }
 
 dependencies {
+
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
 
     implementation 'org.springframework.boot:spring-boot-starter-web:2.7.0'
     implementation 'org.springframework.boot:spring-boot-starter-cache:2.7.0'
-    implementation 'com.amazonaws:aws-java-sdk-dynamodb:1.12.238'
+    implementation 'com.amazonaws:aws-java-sdk-dynamodb:1.12.239'
+
     implementation 'me.paulschwarz:spring-dotenv:2.5.4'
     implementation 'com.github.derjust:spring-data-dynamodb:5.1.0'
     testImplementation 'org.springframework.boot:spring-boot-starter-test:2.7.0'
 
     implementation 'org.mapstruct:mapstruct:1.5.1.Final'
-
     compileOnly 'org.projectlombok:lombok:1.18.24'
 
+    //bind mapstruct and lombok annotations
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.1.Final',
             'org.projectlombok:lombok:1.18.24',
             "org.projectlombok:lombok-mapstruct-binding:0.2.0"

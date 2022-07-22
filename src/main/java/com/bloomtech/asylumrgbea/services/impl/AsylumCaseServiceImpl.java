@@ -45,12 +45,13 @@ public class AsylumCaseServiceImpl implements AsylumCaseService {
 	@Override
 	public PageResponseDto getPageOfAsylumCases(AsylumCaseRequestDto asylumCaseRequestDto) {
 
-		validateRequestDto(asylumCaseRequestDto);
-		Page<AsylumCase> pageOfEntities = asylumCaseRepository.findAll
-				(PageRequest.of(asylumCaseRequestDto.getPageNumber(), asylumCaseRequestDto.getNumberOfItemsInPage()));
-
-		return asylumCaseMapper.pageDataAndPageToResponseDto
-				(pageOfEntities.getTotalPages(), asylumCaseMapper.pagesToResponseDtos(pageOfEntities));
+//		validateRequestDto(asylumCaseRequestDto);
+//		Page<AsylumCase> pageOfEntities = asylumCaseRepository.findAll
+//				(PageRequest.of(asylumCaseRequestDto.getPageNumber(), asylumCaseRequestDto.getNumberOfItemsInPage()));
+//
+//		return asylumCaseMapper.pageDataAndPageToResponseDto
+//				(pageOfEntities.getTotalPages(), asylumCaseMapper.pagesToResponseDtos(pageOfEntities));
+		return null;
 	}
 
 	/**
