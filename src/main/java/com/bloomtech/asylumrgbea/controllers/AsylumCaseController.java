@@ -24,6 +24,7 @@ public class AsylumCaseController {
      * This end-point has been deprecated at this point in development. Removed @GetMapping annotation
      * to isolate this endpoint from the application.
      */
+    @Deprecated
     public PageResponseDto getPageOfCases(@RequestBody AsylumCaseRequestDto asylumCaseRequestDto) {
 
         return asylumCaseService.getPageOfAsylumCases(asylumCaseRequestDto);
@@ -33,7 +34,7 @@ public class AsylumCaseController {
      * As the point of entry this method is mapped to the show-all end point and provides all ResponseDtos.
      * @return An Iterable of AsylumCaseResponseDto or an ErrorDto with a message.
      */
-    @GetMapping("show-all")
+    @GetMapping
     public Iterable<AsylumCaseResponseDto> getAllOfCases() {
 
         return asylumCaseService.getAllAsylumCases();
