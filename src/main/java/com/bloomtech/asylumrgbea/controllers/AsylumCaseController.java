@@ -3,7 +3,7 @@ package com.bloomtech.asylumrgbea.controllers;
 import com.bloomtech.asylumrgbea.models.AsylumCaseRequestDto;
 import com.bloomtech.asylumrgbea.models.AsylumCaseResponseDto;
 import com.bloomtech.asylumrgbea.models.PageResponseDto;
-import com.bloomtech.asylumrgbea.models.QueryParametersDto;
+import com.bloomtech.asylumrgbea.models.CasesRequestDto;
 import com.bloomtech.asylumrgbea.services.AsylumCaseService;
 
 import lombok.RequiredArgsConstructor;
@@ -53,19 +53,19 @@ public class AsylumCaseController {
 
     /**
      * The point of entry for a GET request for the endpoint cases. Accepts query parameters defined
-     * by the QueryParametersDto which characterizes the query criteria. All other query parameters
-     * not explicitly defined in the QueryParametersDto from the client are ignored.
+     * by the CasesRequestDto which characterizes the query criteria. All other query parameter not
+     * explicitly defined in the CasesRequestDto from the client are ignored.
      *
-     * @param queryParametersDto to characterize the query response.
+     * @param casesRequestDto characterizes the endpoint response.
      * @return An Iterable of AsylumCaseResponse or an ErrorDto.
      */
     @GetMapping
-    public Object getCases(@Valid QueryParametersDto queryParametersDto) {
+    public Object getCases(@Valid CasesRequestDto casesRequestDto) {
 
-        // TODO: Currently just returns the String of the QueryParametersDto for testing.
+        // TODO: Currently just returns the String of the CasesRequestDto for testing.
         //  Needs to reach the AsylumCaseServiceImpl to generate a proper response.
         //  Return type also needs to be more restrictive.
-        return queryParametersDto.toString();
+        return casesRequestDto.toString();
     }
 
 }
