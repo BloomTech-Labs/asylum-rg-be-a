@@ -1,0 +1,37 @@
+@startuml
+title Miscellaneous Classes
+skinparam backgroundcolor lightgrey
+
+'Config for DynamoDB
+class DynamoDBConfig {
+    - awsAccessKey : String
+    - awsSecretKey : String
+    - awsDynamoDBEndPoint : String
+    + amazonAWSCredentials() : AWSCredentials
+    + amazonAWSCredentialsProvider() : AWSCredentialsProvider
+    + amazonDynamoDB() : AmazonDynamoDB
+    + mapper() : DynamoDBMapper
+}
+
+class ErrorDto {
+    - message : String
+}
+
+class CasesRequestDto {
+    - citizenship : String
+    - caseOutcome : String
+    - completionTo : String
+    - completionFrom : String
+    - currentDate : String
+    - isFiscalYear : Boolean
+    - asylumOffice : String
+}
+
+class CasesResponseDto {
+    - asylumOffice : String
+    - citizenship : String
+    - caseOutcome : String
+    - completion : String
+    - currentDate : String
+}
+@enduml
