@@ -25,43 +25,6 @@ class AsylumCaseControllerTest {
         asylumCaseController = new AsylumCaseController(asylumCaseService);
     }
 
-    @Deprecated
-    void getAllCases_serviceIsValid_returnsIterableOfAsylumCaseResponseDto() {
-
-        // GIVEN
-        AsylumCaseResponseDto asylumCaseResponseDto = new AsylumCaseResponseDto(
-                "SAN", "HIO", "Other",
-                "Pending", "N/A", "6/24/2022");
-
-        // WHEN
-        when(asylumCaseService.getAllAsylumCases()).thenReturn(List.of(asylumCaseResponseDto));
-        Iterable<AsylumCaseResponseDto> result = asylumCaseController.getAllOfCases();
-
-        // THEN
-        assertTrue(result.iterator().hasNext());
-        verify(asylumCaseService).getAllAsylumCases();
-    }
-
-    @Deprecated
-    void getPageOfAsylumResponse_serviceIsValid_returnsIterableOfPageResponseDto() {
-        // GIVEN
-        AsylumCaseRequestDto asylumCaseRequestDto = new AsylumCaseRequestDto(10, 0);
-        AsylumCaseResponseDto asylumCaseResponseDto = new AsylumCaseResponseDto(
-                "SAN", "HIO", "Other",
-                "Pending", "N/A", "6/24/2022");
-
-        PageResponseDto pageResponseDto = new PageResponseDto(2, List.of(asylumCaseResponseDto));
-
-        // WHEN
-        when(asylumCaseService.getPageOfAsylumCases(new AsylumCaseRequestDto())).thenReturn(pageResponseDto);
-        PageResponseDto result = asylumCaseController.getPageOfCases(asylumCaseRequestDto);
-
-        // THEN
-        assertNotNull(pageResponseDto.getPage());
-        assertNotNull(pageResponseDto.getPage());
-        verify(asylumCaseService).getPageOfAsylumCases(any());
-    }
-
     void getCases_withNoQueryParameters_returnsAllCases() {
         // TODO: AsylumCaseServiceImpl has not been scoped-redesigned.
     }

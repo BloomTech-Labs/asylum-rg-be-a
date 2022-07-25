@@ -26,32 +26,6 @@ public class AsylumCaseController {
     private final AsylumCaseService asylumCaseService;
 
     /**
-     * As the point of entry this method is mapped to the default end point and provides all ResponseDtos.
-     * @return An Iterable of AsylumCaseResponseDto with totalPage or an ErrorDto with a message.
-     *
-     * This end-point has been deprecated at this point in development. Removed @GetMapping annotation
-     * to obscure this endpoint from public access.
-     */
-    @Deprecated
-    public PageResponseDto getPageOfCases(@RequestBody AsylumCaseRequestDto asylumCaseRequestDto) {
-
-        return asylumCaseService.getPageOfAsylumCases(asylumCaseRequestDto);
-    }
-
-    /**
-     * As the point of entry this method is mapped to the show-all end point and provides all ResponseDtos.
-     * @return An Iterable of AsylumCaseResponseDto or an ErrorDto with a message.
-     *
-     * This end-point has been deprecated at this point in development. Removed @GetMapping annotation
-     * to obscure this endpoint from public access.
-     */
-    @Deprecated
-    public Iterable<AsylumCaseResponseDto> getAllOfCases() {
-
-        return asylumCaseService.getAllAsylumCases();
-    }
-
-    /**
      * The point of entry for a GET request for the endpoint cases. Accepts query parameters defined
      * by the CasesRequestDto which characterizes the query criteria. All other query parameter not
      * explicitly defined in the CasesRequestDto from the client are ignored.
