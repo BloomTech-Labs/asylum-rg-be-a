@@ -1,0 +1,62 @@
+@startuml
+title AsylumCase Report Generator Class Diagram
+skinparam backgroundcolor lightgrey
+
+'End point mappings
+class AsylumCaseController {
+    - service : AsylumCaseService
+    + getCases(casesRequestDto : CasesRequestDto) : Iterable<CasesResponseDto>
+}
+
+class AsylumCaseControllerAdvice {
+    + handleException(asylumCaseNotFoundException : AsylumCaseNotFoundException) : ErrorDto
+    + handleException(badRequestException : BadRequestException) : ErrorDto
+}
+
+'Add cache config Annotations in service
+class AsylumCaseService {
+    - asylumCaseRepository : AsylumCaseRepository
+    - asylumCaseMapper : AsylumCaseMapper
+    + getAllAsylumCases() : Iterable<AsylumCaseResponseDto>
+    + getAllAsylumCases(asylumCaseRequestDto : AsylumCaseRequestDto) : Iterable<AsylumCaseResponseDto>
+}
+
+'repo for DynamoDB calls
+class AsylumCaseRepository {
+    - dynamoDbMapper : DynamoDBMapper
+}
+
+'Entity for data model
+class AsylumCase {
+    - id : Integer
+    - asylumOffice : String
+    - citizenship : String
+    - caseOutcome : String
+    - completion : String
+    - currentDate : String
+}
+
+' Part of the  MapStruct dependency
+interface AsylumCaseMapper {
+    requestToEntity(asylumCaseRequestDto : AsylumCaseRequestDto) : AsylumCase
+    entityToResponseDto(asylumCase : AsylumCase) : AsylumCaseResponseDto
+    entitiesToResponsesDtos(asylumCases : Iterable<AsylumCase>) : Iterable<CasesResponseDto>
+    pageToResponseDtos(Page<AsylumCase> asylumCases) : Iterable<CasesResponseDto>
+}
+
+BadRequestException --> AsylumCaseController
+AsylumCaseNotFoundException --> AsylumCaseRepository
+
+AsylumCaseController *- AsylumCaseService
+AsylumCaseController -- AsylumCaseControllerAdvice
+
+AsylumCaseService *- AsylumCaseRepository
+AsylumCaseService *-- AsylumCaseMapper
+
+AsylumCaseRepository --> AsylumCase
+
+'Extension
+'Association <|-- (owner <|-- pet) Implements
+'Composition *-- (pet *-- leg) Instantiation (part of)
+'Aggregation (car o-- wheel) Extends (has a)
+@enduml

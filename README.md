@@ -20,3 +20,6 @@ BE Setup instructions can be found [**HERE**](https://www.notion.so/bloomtech/BE
 
 
 ![FlowArchitecture](documentation/images/hrfBeFlowArchitecture.png)
+
+## UML Diagrams
+![MainClassDiagram](documentation/images/RELEASE_1.5_CD.png)
