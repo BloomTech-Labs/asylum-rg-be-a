@@ -9,8 +9,6 @@ public class AsylumCaseResponseDto {
 
     private final String citizenship;
 
-    private final String raceOrEthnicity;
-
     private final String caseOutcome;
 
     private final String completion;
