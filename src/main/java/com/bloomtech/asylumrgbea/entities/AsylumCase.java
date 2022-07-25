@@ -27,9 +27,6 @@ public class AsylumCase {
     private String citizenship;
 
     @DynamoDBAttribute
-    private String raceOrEthnicity;
-
-    @DynamoDBAttribute
     private String caseOutcome;
 
     @DynamoDBAttribute
