@@ -3,8 +3,6 @@ package com.bloomtech.asylumrgbea.models;
 import lombok.Data;
 import org.springframework.lang.Nullable;
 
-import javax.enterprise.inject.Default;
-import javax.validation.constraints.NotEmpty;
 import java.util.Objects;
 
 /**
@@ -13,10 +11,8 @@ import java.util.Objects;
  */
 @Data
 public class CasesRequestDto {
-    // TODO: Client needs to provide. Enforce validation using annotations.
     @Nullable
     private Integer numberOfItemsInPage;
-    // TODO: Client needs to provide. Enforce validation using annotations.
     private int pageNumber;
     @Nullable
     private String citizenship;

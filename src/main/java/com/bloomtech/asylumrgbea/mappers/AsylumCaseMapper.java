@@ -3,7 +3,6 @@ package com.bloomtech.asylumrgbea.mappers;
 import com.bloomtech.asylumrgbea.entities.AsylumCase;
 import com.bloomtech.asylumrgbea.models.CaseResponseDto;
 import com.bloomtech.asylumrgbea.models.CasesRequestDto;
-import com.bloomtech.asylumrgbea.models.Page;
 import com.bloomtech.asylumrgbea.models.PageResponseDto;
 import org.mapstruct.Mapper;
 
