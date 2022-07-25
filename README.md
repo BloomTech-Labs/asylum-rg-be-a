@@ -13,10 +13,3 @@
 - FE: React (JS)
 
 BE Setup instructions can be found [**HERE**](https://www.notion.so/bloomtech/BE-Local-Setup-794f197185c046ccb9e2e9f073268cbe).
-
-## Architectural Overview
-
-![ArchitectureOverview](documentation/images/hrfBeArchitectureOverview.png)
-
-
-![FlowArchitecture](documentation/images/hrfBeFlowArchitecture.png)
