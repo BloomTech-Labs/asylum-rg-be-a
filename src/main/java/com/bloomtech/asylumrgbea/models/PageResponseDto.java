@@ -14,5 +14,5 @@ public class PageResponseDto {
 
     private int totalPages;
 
-    private Iterable<AsylumCaseResponseDto> page;
+    private Iterable<CaseResponseDto> page;
 }

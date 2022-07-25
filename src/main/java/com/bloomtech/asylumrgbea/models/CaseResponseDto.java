@@ -1,9 +1,10 @@
 package com.bloomtech.asylumrgbea.models;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
-public class AsylumCaseResponseDto {
+public class CaseResponseDto {
 
     private final String asylumOffice;
 
@@ -14,4 +15,5 @@ public class AsylumCaseResponseDto {
     private final String completion;
 
     private final String currentDate;
+
 }
