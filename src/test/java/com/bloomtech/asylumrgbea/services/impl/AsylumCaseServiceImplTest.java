@@ -1,22 +1,13 @@
 package com.bloomtech.asylumrgbea.services.impl;
 
 import com.bloomtech.asylumrgbea.controllers.exceptions.AsylumCaseNotFoundException;
-import com.bloomtech.asylumrgbea.entities.AsylumCase;
 import com.bloomtech.asylumrgbea.mappers.AsylumCaseMapper;
-import com.bloomtech.asylumrgbea.models.AsylumCaseRequestDto;
-import com.bloomtech.asylumrgbea.models.AsylumCaseResponseDto;
-import com.bloomtech.asylumrgbea.models.PageResponseDto;
 import com.bloomtech.asylumrgbea.repositories.AsylumCaseRepository;
+import com.bloomtech.asylumrgbea.services.AsylumCaseService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 
 import java.util.Collections;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -24,13 +15,13 @@ import static org.mockito.Mockito.*;
 class AsylumCaseServiceImplTest {
     private AsylumCaseMapper asylumCaseMapper;
     private AsylumCaseRepository asylumCaseRepository;
-    private AsylumCaseServiceImpl asylumCaseService;
+    private AsylumCaseService asylumCaseService;
 
     @BeforeEach
     void setup() {
         asylumCaseMapper = mock(AsylumCaseMapper.class);
         asylumCaseRepository = mock(AsylumCaseRepository.class);
-        asylumCaseService = new AsylumCaseServiceImpl(asylumCaseRepository, asylumCaseMapper);
+        asylumCaseService = new AsylumCaseService(asylumCaseRepository, asylumCaseMapper);
     }
 
     @Test

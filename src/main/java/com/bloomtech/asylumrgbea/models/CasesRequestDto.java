@@ -11,6 +11,11 @@ import java.util.Objects;
  */
 @Data
 public class CasesRequestDto {
+
+    private Integer numberOfItemsInPage;
+
+    private int pageNumber;
+
     @Nullable
     private String citizenship;
     @Nullable

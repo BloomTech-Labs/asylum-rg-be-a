@@ -1,14 +1,8 @@
 package com.bloomtech.asylumrgbea.controllers;
 
-import com.bloomtech.asylumrgbea.models.AsylumCaseRequestDto;
-import com.bloomtech.asylumrgbea.models.AsylumCaseResponseDto;
-import com.bloomtech.asylumrgbea.models.PageResponseDto;
 import com.bloomtech.asylumrgbea.services.AsylumCaseService;
-import com.bloomtech.asylumrgbea.services.impl.AsylumCaseServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import java.util.List;
-import static org.junit.jupiter.api.Assertions.*;
+
 import static org.mockito.Mockito.*;
 
 class AsylumCaseControllerTest {
@@ -20,7 +14,7 @@ class AsylumCaseControllerTest {
     @BeforeEach
     void setup() {
 
-        asylumCaseService = mock(AsylumCaseServiceImpl.class);
+        asylumCaseService = mock(AsylumCaseService.class);
 
         asylumCaseController = new AsylumCaseController(asylumCaseService);
     }

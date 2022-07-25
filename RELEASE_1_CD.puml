@@ -4,7 +4,7 @@
 class AsylumCaseController {
     - service : AsylumCaseService
     + getAllCases() : Iterable<AsylumCaseResponseDto>
-    + getAllCases(page : Integer, asylumCaseRequestDto : AsylumCaseRequestDto) : Iterable<AsylumCaseResponseDto>
+    + getAllCases(page : Integer, casesRequestDto : CasesRequestDto) : Iterable<AsylumCaseResponseDto>
 }
 
 class AsylumCaseControllerAdvice {
@@ -25,14 +25,14 @@ class BadRequestException<RuntimeException> {
 'Add cache config Annotations in service
 interface AsylumCaseService {
     getAllAsylumCases() : Iterable<AsylumCaseResponseDto>
-    getAllAsylumCases(asylumCaseRequestDto : AsylumCaseRequestDto) : Iterable<AsylumCaseResponseDto>
+    getAllAsylumCases(casesRequestDto : CasesRequestDto) : Iterable<AsylumCaseResponseDto>
 }
 
 class AsylumCaseServiceImpl {
     - asylumCaseRepository : AsylumCaseRepository
     - asylumCaseMapper : AsylumCaseMapper
     + getAllAsylumCases() : Iterable<AsylumCaseResponseDto>
-    + getAllAsylumCases(asylumCaseRequestDto : AsylumCaseRequestDto) : Iterable<AsylumCaseResponseDto>
+    + getAllAsylumCases(casesRequestDto : CasesRequestDto) : Iterable<AsylumCaseResponseDto>
 }
 
 'Config for DynamoDB
@@ -64,7 +64,7 @@ class ErrorDto {
     - message : String
 }
 
-class AsylumCaseRequestDto {
+class CasesRequestDto {
     - page : Integer
 }
 
@@ -79,7 +79,7 @@ class AsylumCaseResponseDto {
 
 ' Part of the  MapStruct dependency
 interface AsylumCaseMapper {
-    requestToEntity(asylumCaseRequestDto : AsylumCaseRequestDto) : AsylumCase
+    requestToEntity(casesRequestDto : CasesRequestDto) : AsylumCase
     entityToResponseDto(asylumCase : AsylumCase) : AsylumCaseResponseDto
     entitiesToResponsesDtos(asylumCases : Iterable<AsylumCase>) : Iterable<AsylumCaseResponseDto>
     pageToResponseDtos(Page<AsylumCase> asylumCases) : Iterable<AsylumCaseResponseDto>
@@ -121,10 +121,10 @@ AsylumCaseServiceImpl *-- AsylumCaseRepository
 AsylumCaseServiceImpl *-- AsylumCaseMapper
 
 
-AsylumCaseMapper .. AsylumCaseRequestDto
+AsylumCaseMapper .. CasesRequestDto
 AsylumCaseMapper .. AsylumCaseResponseDto
 
-AsylumCaseRequestDto -- AsylumCase
+CasesRequestDto -- AsylumCase
 
 AsylumCaseResponseDto -- AsylumCase
 

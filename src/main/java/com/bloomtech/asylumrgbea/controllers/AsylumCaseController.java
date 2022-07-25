@@ -1,15 +1,12 @@
 package com.bloomtech.asylumrgbea.controllers;
 
-import com.bloomtech.asylumrgbea.models.AsylumCaseRequestDto;
-import com.bloomtech.asylumrgbea.models.AsylumCaseResponseDto;
-import com.bloomtech.asylumrgbea.models.PageResponseDto;
 import com.bloomtech.asylumrgbea.models.CasesRequestDto;
+import com.bloomtech.asylumrgbea.models.PageResponseDto;
 import com.bloomtech.asylumrgbea.services.AsylumCaseService;
 
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,12 +31,12 @@ public class AsylumCaseController {
      * @return An Iterable of AsylumCaseResponse or an ErrorDto.
      */
     @GetMapping
-    public Object getCases(@Valid CasesRequestDto casesRequestDto) {
+    public PageResponseDto getCases(@Valid CasesRequestDto casesRequestDto) {
 
         // TODO: Currently just returns the String of the CasesRequestDto for testing.
         //  Needs to reach the AsylumCaseServiceImpl to generate a proper response.
         //  Return type also needs to be more restrictive.
-        return casesRequestDto.toString();
+        return null;
     }
 
 }
