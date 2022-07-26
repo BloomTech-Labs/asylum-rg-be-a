@@ -30,13 +30,14 @@ public class AsylumCaseController {
      * @param casesRequestDto characterizes the endpoint response.
      * @return An Iterable of AsylumCaseResponse or an ErrorDto.
      */
+    // TODO: Need to revert wildcard to specific type: PageResponseDto
     @GetMapping
-    public PageResponseDto getCases(@Valid CasesRequestDto casesRequestDto) {
+    public Iterable<?> getCases(@Valid CasesRequestDto casesRequestDto) {
 
         // TODO: Currently just returns the String of the CasesRequestDto for testing.
         //  Needs to reach the AsylumCaseServiceImpl to generate a proper response.
         //  Return type also needs to be more restrictive.
-        return null;
+        return asylumCaseService.getCasesBy(casesRequestDto);
     }
 
 }
