@@ -36,7 +36,7 @@ BE Setup instructions can be found [**HERE**](https://www.notion.so/bloomtech/BE
 ![ArchitectureOverview](documentation/images/hrf_be_architecture_overview.png)
 (_Figure 1: Spring Boot layers_)
 
-1. **Presentation Layer**: The top layer of spring boot architecture. It is used 
+1. **Presentation Layer**: The top layer of Spring Boot architecture. It is used 
 to convert incoming requests to Java Objects (Data Transfer Objects - DTOs) and vice-versa. It handles authentication and HTTP requests.
 Once it performs the authentication of the request it passes it to the business layer for additional processing.
 
@@ -45,12 +45,10 @@ validation and authorization. The Business layer communicates with both the Pres
 Layer. We convert our DTO to our model within this layer.
 
 3. **Persistence Layer**: It comprises all the storage logic, such as database questions. 
-Additionally, It is responsible for converting business objects to the database row and vice-versa.
+Additionally, it is responsible for converting business objects to the database row and vice-versa.
 In other projects at BloomTech we called this the DAO.
 
 4. **Database Layer**: It is simply the actual database. It can include many databases.
-
-
 
 ![FlowArchitecture](documentation/images/hrf_be_flow_architecture.png)
 (_Figure 2: Spring Boot Flow Architecture_)
