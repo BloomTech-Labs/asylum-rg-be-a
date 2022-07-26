@@ -20,7 +20,6 @@ public class AsylumCaseRepository {
     @Autowired
     private final DynamoDBMapper dynamoDBMapper;
 
-    //TODO Change tests to use new find method
     public Iterable<AsylumCase> findAll() {
         return dynamoDBMapper.scan(AsylumCase.class, new DynamoDBScanExpression());
     }

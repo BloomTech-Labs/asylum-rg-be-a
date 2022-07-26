@@ -9,7 +9,6 @@ import com.bloomtech.asylumrgbea.models.CasesRequestDto;
 import com.bloomtech.asylumrgbea.models.Page;
 import com.bloomtech.asylumrgbea.models.PageResponseDto;
 import com.bloomtech.asylumrgbea.repositories.AsylumCaseRepository;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -125,6 +124,5 @@ public class AsylumCaseService {
 
 		if (casesRequestDto.getNumberOfItemsInPage() == null)
 			throw new BadRequestException("ERROR: The field number of items in a page cannot be null...");
-
 	}
 }
