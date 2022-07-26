@@ -5,14 +5,12 @@ import com.bloomtech.asylumrgbea.controllers.exceptions.BadRequestException;
 import com.bloomtech.asylumrgbea.entities.AsylumCase;
 import com.bloomtech.asylumrgbea.mappers.AsylumCaseMapper;
 import com.bloomtech.asylumrgbea.models.CasesRequestDto;
-import com.bloomtech.asylumrgbea.models.PageResponseDto;
 import com.bloomtech.asylumrgbea.repositories.AsylumCaseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -42,20 +40,49 @@ public class AsylumCaseService {
 	 */
 	// TODO: Need to revert wildcard to specific type: PageResponseDto
 	public Iterable<?> getCasesBy(CasesRequestDto casesRequestDto) {
-		Object[] filters = {
-				casesRequestDto.getCitizenship(),
-				casesRequestDto.getCaseOutcome(),
-				casesRequestDto.getCompletionTo(),
-				casesRequestDto.getCompletionFrom(),
-				casesRequestDto.getCurrentDate(),
-				casesRequestDto.getIsFiscalYear(),
-				casesRequestDto.getAsylumOffice()
-		};
+//		Object[] filters = {
+//				casesRequestDto.getCitizenship(),
+//				casesRequestDto.getCaseOutcome(),
+//				casesRequestDto.getCompletionTo(),
+//				casesRequestDto.getCompletionFrom(),
+//				casesRequestDto.getCurrentDate(),
+//				casesRequestDto.getIsFiscalYear(),
+//				casesRequestDto.getAsylumOffice()
+//		};
+//
+//		Iterable<AsylumCase> casesIterable = asylumCaseRepository.find(filters).getResults();
+//		validateIterableIsNotEmpty(casesIterable);
 
-		Iterable<AsylumCase> casesIterable = asylumCaseRepository.find(filters).getResults();
+		// TODO: Alternative Solution
+		Map<String, List<String>> filterMap = Map.of(
+				"citizenship", 		getListOfStrings(casesRequestDto.getCitizenship(), "0"),
+				"caseOutcome", 		getListOfStrings(casesRequestDto.getCaseOutcome(), null),
+				"completionTo", 	getListOfStrings(casesRequestDto.getCompletionTo(), null),
+				"completionFrom", 	getListOfStrings(casesRequestDto.getCompletionFrom(), null),
+				"currentDate", 		getListOfStrings(casesRequestDto.getCurrentDate(), null),
+				//"isFiscalYear", 	getListOfStrings(casesRequestDto.getIsFiscalYear(), null),
+				"asylumOffice", 	getListOfStrings(casesRequestDto.getAsylumOffice(), ",")
+		);
+
+		Iterable<AsylumCase> casesIterable = asylumCaseRepository.find(filterMap).getResults();
 		validateIterableIsNotEmpty(casesIterable);
 
 		return casesIterable;
+	}
+
+	// TODO: Alternative Solution
+	private List<String> getListOfStrings(Object object, String delimiter) {
+		if (delimiter == null) {
+			return object == null ?
+					Collections.emptyList() :
+					List.of(object.toString());
+		}
+		if (delimiter.equals("0") || delimiter.equals(",")) {
+			return object == null ?
+					Collections.emptyList() :
+					Arrays.asList(object.toString().split(delimiter));
+		}
+		throw new UnsupportedOperationException();
 	}
 
 	/**
