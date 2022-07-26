@@ -5,10 +5,14 @@ import com.bloomtech.asylumrgbea.controllers.exceptions.BadRequestException;
 import com.bloomtech.asylumrgbea.entities.AsylumCase;
 import com.bloomtech.asylumrgbea.mappers.AsylumCaseMapper;
 import com.bloomtech.asylumrgbea.models.CasesRequestDto;
+import com.bloomtech.asylumrgbea.models.PageResponseDto;
 import com.bloomtech.asylumrgbea.repositories.AsylumCaseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +40,23 @@ public class AsylumCaseService {
 	 * @param casesRequestDto Contains the page number as a field.
 	 * @return This is a limited Iterable of AsylumCase objects.
 	 */
+	// TODO: Need to revert wildcard to specific type: PageResponseDto
+	public Iterable<?> getCasesBy(CasesRequestDto casesRequestDto) {
+		Object[] filters = {
+				casesRequestDto.getCitizenship(),
+				casesRequestDto.getCaseOutcome(),
+				casesRequestDto.getCompletionTo(),
+				casesRequestDto.getCompletionFrom(),
+				casesRequestDto.getCurrentDate(),
+				casesRequestDto.getIsFiscalYear(),
+				casesRequestDto.getAsylumOffice()
+		};
 
+		Iterable<AsylumCase> casesIterable = asylumCaseRepository.find(filters).getResults();
+		validateIterableIsNotEmpty(casesIterable);
+
+		return casesIterable;
+	}
 
 	/**
 	 * Checks if an Iterable has at least 1 element and throws an exception if not so.
@@ -58,5 +78,6 @@ public class AsylumCaseService {
 
 		if (casesRequestDto.getNumberOfItemsInPage() == null)
 			throw new BadRequestException("ERROR: The field number of items in a page cannot be null...");
+
 	}
 }
