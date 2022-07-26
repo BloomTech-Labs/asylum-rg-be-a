@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -24,8 +26,13 @@ public class AsylumCaseRepository {
         return dynamoDBMapper.scan(AsylumCase.class, new DynamoDBScanExpression());
     }
 
-    public ScanResultPage<AsylumCase> find(Object[] filters) {
-        return dynamoDBMapper.scanPage(AsylumCase.class, buildScanExpression(filters));
+//    public ScanResultPage<AsylumCase> find(Object[] filters) {
+//        return dynamoDBMapper.scanPage(AsylumCase.class, buildScanExpression(filters));
+//    }
+
+    // TODO: Alternative Solution
+    public ScanResultPage<AsylumCase> find(Map<String, List<String>> filterMap ) {
+        return dynamoDBMapper.scanPage(AsylumCase.class, buildScanExpression(filterMap));
     }
 
     public void saveAll(Iterable<AsylumCase> cases) {
@@ -36,34 +43,45 @@ public class AsylumCaseRepository {
         DynamoDBScanExpression dynamoDBScanExpression = new DynamoDBScanExpression();
         Map<String, AttributeValue> valueMap = new HashMap<>();
         String filterExpression = "";
-        boolean filtersPresent = false;
 
         if (filters[0] != null) {
             // TODO: Requires Multiple AttributeValues
-            filtersPresent = true;
             valueMap.put(":citizenship", new AttributeValue((String) filters[0]));
             filterExpression = buildFilterExpression(filterExpression, "citizenship");
         }
         if (filters[1] != null) {
-            filtersPresent = true;
+
             valueMap.put(":caseOutcome", new AttributeValue((String) filters[1]));
             filterExpression = buildFilterExpression(filterExpression, "caseOutcome");
         }
         if (filters[4] != null) {
-            filtersPresent = true;
             valueMap.put(":currentDate", new AttributeValue((String) filters[4]));
             filterExpression = buildFilterExpression(filterExpression, "currentDate");
         }
         if (filters[5] != null) {
             // TODO: Requires Multiple AttributeValues
-            filtersPresent = true;
             valueMap.put(":asylumOffice", new AttributeValue((String) filters[5]));
             filterExpression = buildFilterExpression(filterExpression, "asylumOffice");
         }
 
-        if (filtersPresent) {
+        if (!filterExpression.isEmpty()) {
             dynamoDBScanExpression.withExpressionAttributeValues(valueMap);
             dynamoDBScanExpression.withFilterExpression(filterExpression);
+        }
+
+        return dynamoDBScanExpression.withConsistentRead(false);
+    }
+
+    // TODO: Alternative Solution.
+    private DynamoDBScanExpression buildScanExpression(Map<String, List<String>> filterMap) {
+        DynamoDBScanExpression dynamoDBScanExpression = new DynamoDBScanExpression();
+        Map<String, AttributeValue> valueMap = new HashMap<>();
+        String filterExpression = "";
+
+        for (Map.Entry<String, List<String>> entry : filterMap.entrySet()) {
+            if (!entry.getValue().isEmpty()) {
+                valueMap.put(":" + entry.getKey(), new AttributeValue().withS(entry.getValue().get(0)));
+            }
         }
 
         return dynamoDBScanExpression.withConsistentRead(false);
