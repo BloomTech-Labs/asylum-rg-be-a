@@ -25,16 +25,17 @@ public class AsylumCaseRepository {
         return dynamoDBMapper.scan(AsylumCase.class, new DynamoDBScanExpression());
     }
 
-    public ScanResultPage<AsylumCase> find(Map<String, List<String>> filterMap ) {
-        return dynamoDBMapper.scanPage(AsylumCase.class, buildScanExpression(filterMap));
+    public ScanResultPage<AsylumCase> find(Map<String, List<String>> filterMap,
+                                           Map<String, String> operatorMap) {
+        return dynamoDBMapper.scanPage(AsylumCase.class, buildScanExpression(filterMap, operatorMap));
     }
 
     public void saveAll(Iterable<AsylumCase> cases) {
         dynamoDBMapper.batchSave(cases);
     }
 
-    // TODO: implement scanning between dates and fiscal year
-    private DynamoDBScanExpression buildScanExpression(Map<String, List<String>> filterMap) {
+    private DynamoDBScanExpression buildScanExpression(Map<String, List<String>> filterMap,
+                                                       Map<String, String> operatorMap) {
         DynamoDBScanExpression dynamoDBScanExpression = new DynamoDBScanExpression();
         Map<String, AttributeValue> valueMap = new HashMap<>();
         StringBuilder filterExpression = new StringBuilder();
@@ -52,7 +53,9 @@ public class AsylumCaseRepository {
                     if (i == 0) {
                         filterExpression.append("(")
                                 .append(entry.getKey())
-                                .append(" = :")
+                                .append(" ")
+                                .append(operatorMap.get(entry.getKey()))
+                                .append(" :")
                                 .append(entry.getKey())
                                 .append(i);
                     }
@@ -60,7 +63,9 @@ public class AsylumCaseRepository {
                     if (i != 0) {
                         filterExpression.append(" OR ")
                                 .append(entry.getKey())
-                                .append(" = :")
+                                .append(" ")
+                                .append(operatorMap.get(entry.getKey()))
+                                .append(" :")
                                 .append(entry.getKey())
                                 .append(i);
                     }
