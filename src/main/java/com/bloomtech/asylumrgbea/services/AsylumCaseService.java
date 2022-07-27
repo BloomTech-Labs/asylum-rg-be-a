@@ -44,24 +44,19 @@ public class AsylumCaseService {
 	 */
 	public PageResponseDto getCasesBy(CasesRequestDto casesRequestDto) {
 		Map<String, List<String>> filterMap = Map.of(
-				"citizenship", 		getListOfFilters(casesRequestDto.getCitizenship(), 		"0"),
-				"caseOutcome", 		getListOfFilters(casesRequestDto.getCaseOutcome(), 		","),
-				"completionTo", 	getListOfFilters(casesRequestDto.getCompletionTo(), 	null),
-				"completionFrom", 	getListOfFilters(casesRequestDto.getCompletionFrom(),	null),
-				"currentDate", 		getListOfFilters(casesRequestDto.getCurrentDate(),      null),
-				"isFiscalYear", 	getListOfFilters(casesRequestDto.getIsFiscalYear(), 	null),
-				"asylumOffice", 	getListOfFilters(casesRequestDto.getAsylumOffice(), 	","));
+				"citizenship", 		getListOfFilters(casesRequestDto.getCitizenship(),	"0"),
+				"caseOutcome", 		getListOfFilters(casesRequestDto.getCaseOutcome(),	","),
+				"currentDate", 		getListOfFilters(casesRequestDto.getCurrentDate(),	null),
+				"asylumOffice", 	getListOfFilters(casesRequestDto.getAsylumOffice(), ","));
 
-		Map<String, String> operatorMap = Map.of(
-				"citizenship",		"=",
-				"caseOutcome", 		"=",
-				"completionTo", 	"<=",
-				"completionFrom",	">=",
-				"currentDate",  	"=",
-				"isFiscalYear", 	"",//later
-				"asylumOffice",		"=");
+		Map<String, String[]> rangeMap = Map.of(
+				"completion", new String[] {
+						casesRequestDto.getCompletionFrom(),
+						casesRequestDto.getCompletionTo()
+				}
+		);
 
-		Iterable<AsylumCase> casesIterable = asylumCaseRepository.find(filterMap, operatorMap).getResults();
+		Iterable<AsylumCase> casesIterable = asylumCaseRepository.find(filterMap, rangeMap).getResults();
 		validateIterableIsNotEmpty(casesIterable);
 
 		//FIXME: remember to add to cache when cache is implemented
