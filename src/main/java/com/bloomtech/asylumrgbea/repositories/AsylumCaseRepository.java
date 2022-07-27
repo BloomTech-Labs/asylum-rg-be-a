@@ -33,8 +33,6 @@ public class AsylumCaseRepository {
         dynamoDBMapper.batchSave(cases);
     }
 
-
-
     // TODO: implement scanning between dates and fiscal year
     private DynamoDBScanExpression buildScanExpression(Map<String, List<String>> filterMap) {
         DynamoDBScanExpression dynamoDBScanExpression = new DynamoDBScanExpression();
@@ -50,13 +48,21 @@ public class AsylumCaseRepository {
                 }
 
                 for (int i = 0; i < filterValues.size(); i++) {
-                    valueMap.put(":" + entry.getKey() + i, new AttributeValue(filterValues.get(i)));
+                    valueMap.put(String.format(":%s%s", entry.getKey(), i), new AttributeValue(filterValues.get(i)));
                     if (i == 0) {
-                        filterExpression.append("(" + entry.getKey() + " = :" + entry.getKey() + i);
+                        filterExpression.append("(")
+                                .append(entry.getKey())
+                                .append(" = :")
+                                .append(entry.getKey())
+                                .append(i);
                     }
 
                     if (i != 0) {
-                        filterExpression.append(" OR " + entry.getKey() + " = :" + entry.getKey() + i);
+                        filterExpression.append(" OR ")
+                                .append(entry.getKey())
+                                .append(" = :")
+                                .append(entry.getKey())
+                                .append(i);
                     }
 
                     if (i == filterValues.size() - 1) {
