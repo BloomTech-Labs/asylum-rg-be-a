@@ -50,8 +50,7 @@ public class AsylumCaseService {
 				"completionFrom", 	getListOfFilters(casesRequestDto.getCompletionFrom(), null),
 				"currentDate", 		getListOfFilters(casesRequestDto.getCurrentDate(), null),
 				"isFiscalYear", 	getListOfFilters(casesRequestDto.getIsFiscalYear(), null),
-				"asylumOffice", 	getListOfFilters(casesRequestDto.getAsylumOffice(), ",")
-		);
+				"asylumOffice", 	getListOfFilters(casesRequestDto.getAsylumOffice(), ","));
 
 		Iterable<AsylumCase> casesIterable = asylumCaseRepository.find(filterMap).getResults();
 		validateIterableIsNotEmpty(casesIterable);
