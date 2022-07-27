@@ -26,8 +26,8 @@ public class AsylumCaseRepository {
     }
 
     public ScanResultPage<AsylumCase> find(Map<String, List<String>> filterMap,
-                                           Map<String, String> operatorMap) {
-        return dynamoDBMapper.scanPage(AsylumCase.class, buildScanExpression(filterMap, operatorMap));
+                                           Map<String, String[]> rangeMap) {
+        return dynamoDBMapper.scanPage(AsylumCase.class, buildScanExpression(filterMap, rangeMap));
     }
 
     public void saveAll(Iterable<AsylumCase> cases) {
@@ -35,7 +35,7 @@ public class AsylumCaseRepository {
     }
 
     private DynamoDBScanExpression buildScanExpression(Map<String, List<String>> filterMap,
-                                                       Map<String, String> operatorMap) {
+                                                       Map<String, String[]> rangeMap) {
         DynamoDBScanExpression dynamoDBScanExpression = new DynamoDBScanExpression();
         Map<String, AttributeValue> valueMap = new HashMap<>();
         StringBuilder filterExpression = new StringBuilder();
@@ -53,9 +53,7 @@ public class AsylumCaseRepository {
                     if (i == 0) {
                         filterExpression.append("(")
                                 .append(entry.getKey())
-                                .append(" ")
-                                .append(operatorMap.get(entry.getKey()))
-                                .append(" :")
+                                .append(" = :")
                                 .append(entry.getKey())
                                 .append(i);
                     }
@@ -63,9 +61,7 @@ public class AsylumCaseRepository {
                     if (i != 0) {
                         filterExpression.append(" OR ")
                                 .append(entry.getKey())
-                                .append(" ")
-                                .append(operatorMap.get(entry.getKey()))
-                                .append(" :")
+                                .append(" = :")
                                 .append(entry.getKey())
                                 .append(i);
                     }
@@ -73,6 +69,26 @@ public class AsylumCaseRepository {
                     if (i == filterValues.size() - 1) {
                         filterExpression.append(")");
                     }
+                }
+            }
+        }
+
+        for(Map.Entry<String, String[]> entry : rangeMap.entrySet()) {
+            String[] rangeFilters = entry.getValue();
+
+            for (int i = 0; i < rangeFilters.length; i++) {
+                if (rangeFilters[i] != null) {
+                    valueMap.put(String.format(":%s%s", entry.getKey(), i), new AttributeValue(rangeFilters[i]));
+                    if (filterExpression.length() != 0) {
+                        filterExpression.append(" AND ");
+                    }
+
+                    filterExpression.append("(")
+                            .append(entry.getKey())
+                            .append(i == 0 ? " >= :" : " <= :")
+                            .append(entry.getKey())
+                            .append(i)
+                            .append(")");
                 }
             }
         }
