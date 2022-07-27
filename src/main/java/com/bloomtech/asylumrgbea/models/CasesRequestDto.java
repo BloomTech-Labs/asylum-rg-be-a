@@ -13,8 +13,10 @@ import java.util.Objects;
  */
 @Data
 public class CasesRequestDto {
+    // TODO: Client needs to provide. Enforce validation using annotations.
     @Nullable
     private Integer numberOfItemsInPage;
+    // TODO: Client needs to provide. Enforce validation using annotations.
     private int pageNumber;
     @Nullable
     private String citizenship;
