@@ -36,4 +36,35 @@ class AsylumCaseServiceImplTest {
                 "ERROR: Expected an AsylumCaseNotFoundException but was false..");
         verify(asylumCaseRepository).findAll();
     }
+
+   @Test
+    void getCasesBy_givenNoFilter_returnsAllCases() {
+        // TODO: AsylumCaseServiceImpl has not been scoped-redesigned.
+        //GIVEN
+
+        //WHEN
+
+        //THEN
+    }
+
+    @Test
+    void getCasesBy_givenOneCitizenship_returnsCasesByCitizenship() {
+        // TODO: AsylumCaseServiceImpl has not been scoped-redesigned.
+        //GIVEN
+
+        //WHEN
+
+        //THEN
+    }
+
+    @Test
+    void getCasesBy_givenMultipleCitizenship_returnsAllCases() {
+        // TODO: AsylumCaseServiceImpl has not been scoped-redesigned.
+        //GIVEN
+
+        //WHEN
+
+        //THEN
+    }
+
 }
