@@ -124,5 +124,6 @@ public class AsylumCaseService {
 
 		if (casesRequestDto.getNumberOfItemsInPage() == null)
 			throw new BadRequestException("ERROR: The field number of items in a page cannot be null...");
+
 	}
 }
