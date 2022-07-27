@@ -17,18 +17,25 @@ generate visualizations and download search results.
 intended to give an overall picture.*
 
 * A user can generate a table of results, filtered by multiple parameters
-* A user can generate a heatmap of asylum case outcomes
 * A user can generate a real-time graph to represent what trend looks
-like over time
+like over time (Release 4)
+* A user can generate a heatmap of asylum case outcomes (Release 5)
+* A user can download the results of their search (Release 6)
 
   
 ## Project Scope
 
-### In scope
+### Current scope
 * Users can view all case data in a table
 * Users can filter the dataset by one or more parameters 
-* Users can download their search results
 
+
+### Future Scope
+* Users can create a heatmap of asylum case outcomes
+* Users can create a heatmap of asylum case outcomes filtered 
+by one or more parameters
+* Use can generate a real-time graph to display a trend over time
+* Users can download their search results
 
 ### Out of scope
 * There is no user account, authentication, or log-in
@@ -42,3 +49,6 @@ up to speed:
 * [Spring Book Workshop for BD led by Tom](https://www.youtube.com/watch?v=bQDvoqSSVpQ)
 * [Spring Boot Cook Book](https://aveuiller.github.io/spring_boot_apprentice_cookbook.html)
 
+This project makes use of Docker. Previous BD learners found this online tutorial, which is broken into chapters
+helpful:
+* [Docker tutorial](https://www.youtube.com/watch?v=3c-iBn73dDE)
