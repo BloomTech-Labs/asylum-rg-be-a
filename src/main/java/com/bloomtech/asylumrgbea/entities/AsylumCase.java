@@ -37,4 +37,16 @@ public class AsylumCase {
 
     @DynamoDBAttribute
     private String asylumOffice;
+
+    @Override
+    public String toString() {
+        return "AsylumCase{" +
+                "id='" + id + '\'' +
+                ", citizenship='" + citizenship + '\'' +
+                ", caseOutcome='" + caseOutcome + '\'' +
+                ", completion='" + completion + '\'' +
+                ", currentDate='" + currentDate + '\'' +
+                ", asylumOffice='" + asylumOffice + '\'' +
+                '}';
+    }
 }
