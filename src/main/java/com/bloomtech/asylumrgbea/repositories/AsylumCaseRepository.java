@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -21,16 +20,11 @@ public class AsylumCaseRepository {
     @Autowired
     private final DynamoDBMapper dynamoDBMapper;
 
-    //add methods as if this were the DAO
+    //TODO Change tests to use new find method
     public Iterable<AsylumCase> findAll() {
         return dynamoDBMapper.scan(AsylumCase.class, new DynamoDBScanExpression());
     }
 
-//    public ScanResultPage<AsylumCase> find(Object[] filters) {
-//        return dynamoDBMapper.scanPage(AsylumCase.class, buildScanExpression(filters));
-//    }
-
-    // TODO: Alternative Solution
     public ScanResultPage<AsylumCase> find(Map<String, List<String>> filterMap ) {
         return dynamoDBMapper.scanPage(AsylumCase.class, buildScanExpression(filterMap));
     }
@@ -39,59 +33,45 @@ public class AsylumCaseRepository {
         dynamoDBMapper.batchSave(cases);
     }
 
-    private DynamoDBScanExpression buildScanExpression(Object[] filters) {
-        DynamoDBScanExpression dynamoDBScanExpression = new DynamoDBScanExpression();
-        Map<String, AttributeValue> valueMap = new HashMap<>();
-        String filterExpression = "";
 
-        if (filters[0] != null) {
-            // TODO: Requires Multiple AttributeValues
-            valueMap.put(":citizenship", new AttributeValue((String) filters[0]));
-            filterExpression = buildFilterExpression(filterExpression, "citizenship");
-        }
-        if (filters[1] != null) {
 
-            valueMap.put(":caseOutcome", new AttributeValue((String) filters[1]));
-            filterExpression = buildFilterExpression(filterExpression, "caseOutcome");
-        }
-        if (filters[4] != null) {
-            valueMap.put(":currentDate", new AttributeValue((String) filters[4]));
-            filterExpression = buildFilterExpression(filterExpression, "currentDate");
-        }
-        if (filters[5] != null) {
-            // TODO: Requires Multiple AttributeValues
-            valueMap.put(":asylumOffice", new AttributeValue((String) filters[5]));
-            filterExpression = buildFilterExpression(filterExpression, "asylumOffice");
-        }
-
-        if (!filterExpression.isEmpty()) {
-            dynamoDBScanExpression.withExpressionAttributeValues(valueMap);
-            dynamoDBScanExpression.withFilterExpression(filterExpression);
-        }
-
-        return dynamoDBScanExpression.withConsistentRead(false);
-    }
-
-    // TODO: Alternative Solution.
+    // TODO: implement scanning between dates and fiscal year
     private DynamoDBScanExpression buildScanExpression(Map<String, List<String>> filterMap) {
         DynamoDBScanExpression dynamoDBScanExpression = new DynamoDBScanExpression();
         Map<String, AttributeValue> valueMap = new HashMap<>();
-        String filterExpression = "";
+        StringBuilder filterExpression = new StringBuilder();
 
         for (Map.Entry<String, List<String>> entry : filterMap.entrySet()) {
-            if (!entry.getValue().isEmpty()) {
-                valueMap.put(":" + entry.getKey(), new AttributeValue().withS(entry.getValue().get(0)));
+            List<String> filterValues = entry.getValue();
+
+            if (filterValues.size() != 0) {
+                if (filterExpression.length() != 0) {
+                    filterExpression.append(" AND ");
+                }
+
+                for (int i = 0; i < filterValues.size(); i++) {
+                    valueMap.put(":" + entry.getKey() + i, new AttributeValue(filterValues.get(i)));
+                    if (i == 0) {
+                        filterExpression.append("(" + entry.getKey() + " = :" + entry.getKey() + i);
+                    }
+
+                    if (i != 0) {
+                        filterExpression.append(" OR " + entry.getKey() + " = :" + entry.getKey() + i);
+                    }
+
+                    if (i == filterValues.size() - 1) {
+                        filterExpression.append(")");
+                    }
+                }
             }
         }
 
-        return dynamoDBScanExpression.withConsistentRead(false);
-    }
-
-    private String buildFilterExpression(String filterExpression, String addedFilter) {
-        if (filterExpression.equals("")) {
-            return filterExpression + addedFilter + " = :" + addedFilter;
+        if (filterExpression.length() != 0) {
+            dynamoDBScanExpression.withExpressionAttributeValues(valueMap);
+            dynamoDBScanExpression.withFilterExpression(filterExpression.toString());
         }
-        return filterExpression + " AND " + addedFilter + " = :" + addedFilter;
+
+        return dynamoDBScanExpression.withConsistentRead(false);
     }
 
     private String buildDateFilterExpression(String filterExpression, String dateFrom, String dateTo) {

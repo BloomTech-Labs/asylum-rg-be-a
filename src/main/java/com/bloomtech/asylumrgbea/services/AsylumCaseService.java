@@ -4,8 +4,12 @@ import com.bloomtech.asylumrgbea.controllers.exceptions.AsylumCaseNotFoundExcept
 import com.bloomtech.asylumrgbea.controllers.exceptions.BadRequestException;
 import com.bloomtech.asylumrgbea.entities.AsylumCase;
 import com.bloomtech.asylumrgbea.mappers.AsylumCaseMapper;
+import com.bloomtech.asylumrgbea.models.CaseResponseDto;
 import com.bloomtech.asylumrgbea.models.CasesRequestDto;
+import com.bloomtech.asylumrgbea.models.Page;
+import com.bloomtech.asylumrgbea.models.PageResponseDto;
 import com.bloomtech.asylumrgbea.repositories.AsylumCaseRepository;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -38,40 +42,53 @@ public class AsylumCaseService {
 	 * @param casesRequestDto Contains the page number as a field.
 	 * @return This is a limited Iterable of AsylumCase objects.
 	 */
-	// TODO: Need to revert wildcard to specific type: PageResponseDto
-	public Iterable<?> getCasesBy(CasesRequestDto casesRequestDto) {
-//		Object[] filters = {
-//				casesRequestDto.getCitizenship(),
-//				casesRequestDto.getCaseOutcome(),
-//				casesRequestDto.getCompletionTo(),
-//				casesRequestDto.getCompletionFrom(),
-//				casesRequestDto.getCurrentDate(),
-//				casesRequestDto.getIsFiscalYear(),
-//				casesRequestDto.getAsylumOffice()
-//		};
-//
-//		Iterable<AsylumCase> casesIterable = asylumCaseRepository.find(filters).getResults();
-//		validateIterableIsNotEmpty(casesIterable);
-
-		// TODO: Alternative Solution
+	public PageResponseDto getCasesBy(CasesRequestDto casesRequestDto) {
 		Map<String, List<String>> filterMap = Map.of(
-				"citizenship", 		getListOfStrings(casesRequestDto.getCitizenship(), "0"),
-				"caseOutcome", 		getListOfStrings(casesRequestDto.getCaseOutcome(), null),
-				"completionTo", 	getListOfStrings(casesRequestDto.getCompletionTo(), null),
-				"completionFrom", 	getListOfStrings(casesRequestDto.getCompletionFrom(), null),
-				"currentDate", 		getListOfStrings(casesRequestDto.getCurrentDate(), null),
-				//"isFiscalYear", 	getListOfStrings(casesRequestDto.getIsFiscalYear(), null),
-				"asylumOffice", 	getListOfStrings(casesRequestDto.getAsylumOffice(), ",")
+				"citizenship", 		getListOfFilters(casesRequestDto.getCitizenship(), "0"),
+				"caseOutcome", 		getListOfFilters(casesRequestDto.getCaseOutcome(), ","),
+				"completionTo", 	getListOfFilters(casesRequestDto.getCompletionTo(), null),
+				"completionFrom", 	getListOfFilters(casesRequestDto.getCompletionFrom(), null),
+				"currentDate", 		getListOfFilters(casesRequestDto.getCurrentDate(), null),
+				"isFiscalYear", 	getListOfFilters(casesRequestDto.getIsFiscalYear(), null),
+				"asylumOffice", 	getListOfFilters(casesRequestDto.getAsylumOffice(), ",")
 		);
 
 		Iterable<AsylumCase> casesIterable = asylumCaseRepository.find(filterMap).getResults();
 		validateIterableIsNotEmpty(casesIterable);
 
-		return casesIterable;
+		//FIXME: remember to add to cache when cache is implemented
+		List<AsylumCase> asylumCaseArrayList = new ArrayList<>();
+		for (AsylumCase asylumCase : casesIterable) {
+			asylumCaseArrayList.add(asylumCase);
+		}
+
+		return asylumCaseMapper.pageToResponseDto(
+				new Page(casesRequestDto.getPageNumber(),
+						getTotalPages(casesRequestDto, asylumCaseArrayList.size()),
+						getCurrentPage(casesRequestDto, asylumCaseArrayList)));
 	}
 
-	// TODO: Alternative Solution
-	private List<String> getListOfStrings(Object object, String delimiter) {
+	private int getTotalPages(CasesRequestDto casesRequestDto, int arraySize) {
+		return (int) Math.ceil((double)arraySize / casesRequestDto.getNumberOfItemsInPage());
+	}
+
+	//TODO add cache
+	//TODO add error if current page is out of bounds
+	private List<AsylumCase> getCurrentPage(CasesRequestDto casesRequestDto, List<AsylumCase> asylumCaseList) {
+		List<AsylumCase> listOfAsylumCases = new ArrayList<>();
+
+		int currentIndex = (casesRequestDto.getPageNumber() - 1) * casesRequestDto.getNumberOfItemsInPage();
+
+		for (int i = 0; i < casesRequestDto.getNumberOfItemsInPage(); i++, currentIndex++) {
+			if (currentIndex >= asylumCaseList.size()) { break; }
+
+			listOfAsylumCases.add(asylumCaseList.get(currentIndex));
+		}
+
+		return listOfAsylumCases;
+	}
+
+	private List<String> getListOfFilters(Object object, String delimiter) {
 		if (delimiter == null) {
 			return object == null ?
 					Collections.emptyList() :
