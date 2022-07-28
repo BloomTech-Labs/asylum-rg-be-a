@@ -4,13 +4,14 @@ action organization that challenges America to live up
 to its ideals. HRF is seeking a data search and 
 visualization tool to provide the public with a 
 user-friendly view into their large data set of asylum 
-case decisions. Similar to [the TRAC database](https://trac.syr.edu/phptools/immigration/asylum/)—
-a popular existing tool, but with many limitations.
+case decisions. The concept is similar to [the TRAC database](https://trac.syr.edu/phptools/immigration/asylum/)—
+a popular existing tool, but with a far more robust ability to select
+and filter data.
 
 This design document describes the HRF Asylum Report
 Generator backend, a new service that will allow users
 to view and filter decision data on multiple parameters,
-generate visualizations and download search results.
+generate visualizations, and download search results.
 
 ## General Use Cases
 *For most up-to-date and detailed product requirements, please see Jira. This list is 
