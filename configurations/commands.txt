@@ -1,0 +1,1 @@
+aws cloudformation create-stack --region us-west-2 --stack-name asylum-rg-be-a --template-body file://configurations/tables.template.yml --capabilities CAPABILITY_IAM
