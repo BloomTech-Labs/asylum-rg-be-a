@@ -160,8 +160,4 @@ public class AsylumCaseRepository {
         return valueMap;
     }
 
-    private String buildDateFilterExpression(String filterExpression, String dateFrom, String dateTo) {
-        // TODO: Need to implement
-        return null;
-    }
 }
