@@ -74,8 +74,8 @@ components:
           type: string
         caseOutcome:
           type: string
-        completion:
+        completionDate:
           type: string
-        currentDate:
+        dateReceived:
           type: string
   
