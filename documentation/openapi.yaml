@@ -1,0 +1,81 @@
+openapi: 3.0.3
+info:
+  title: HRF Asylum Case API
+  description:  HRF Asylum Case docs
+  version: 1.0.0
+
+paths:
+  /cases:
+    get:
+      summary: Gets case data   # Filtering is optional based on query string parameters
+      parameters:
+        - name: office
+          in: query
+          description: Asylum Office # The list of asylum offices by which to filter
+          required: false
+          schema:
+            type: string   # Presents as a comma-delimited list ( e.g. /cases?asylumOffice=zny,zmi,zsf ) to be extracted to an array
+        - name: citizenship
+          in: query
+          description: Citizenship   # The list of citizenships by which to filter
+          required: false
+          schema:
+            type: string   # Presents as a "0"-delimited list ( e.g. /cases?citizenship=ANGOLA0BELGIUM0FRANCE ) to be extracted to an array
+        - name: outcome
+          in: query
+          description: Case Outcome   # A selection of case outcomes by which to filter
+          required: false
+          schema:
+            type: string
+        - name: from
+          in: query
+          description: Start date for the Completion search criteria   # A starting date from which to filter cases -- refers to completionDate in the database
+          required: false
+          schema:
+            type: string
+        - name: to
+          in: query
+          description: End date for the Completion search criteria   # An ending date to which to filter cases -- refers to completionDate in the database
+          required: false
+          schema:
+            type: string
+        - name: received
+          in: query
+          description: Date Received  # The date at which information regarding this particular case was entered into the database
+          required: false
+          schema:
+            type: string
+        - name: fiscal
+          in: query
+          description: Fiscal Year   # A boolean specifying whether years should be specified as fiscal/calendar
+          required: false
+          schema:
+            type: boolean
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  "$ref": "#/components/schemas/Case"
+        "400":
+          description: No cases found for given parameters
+
+components:
+  schemas:
+    Case:
+      type: object
+      properties:
+        asylumOffice:
+          type: string
+        citizenship:
+          type: string
+        caseOutcome:
+          type: string
+        completion:
+          type: string
+        currentDate:
+          type: string
+  
