@@ -23,13 +23,13 @@
 1. The Client makes an HTTP request.
 2. The Controller class receives the HTTP request.
 3. The Controller maps the request to a DTO.
-4. If it is needed, it calls the service class.
+4. The Controller calls the service class if it is needed.
 5. The Service Class is going to handle the business logic. It does this on the data from the database (Entity class).
 6. The Service Class passes a DTO to the Controller, and then we return a response.
 
 Note: We are not using Spring Data or the Java Persistence Library(JPA)
 
-##Implementation Notes
+## Implementation Notes
 1. _Mapstruct conversion expanation placeholder_
 
 ## UML Diagrams
