@@ -1,5 +1,5 @@
 @startuml
-title Cases End Point Sequence Diagram
+title Cases GET Endpoint Sequence Diagram
 
 actor Client
 participant "AsylumCaseAdviceController" as Advice
@@ -12,7 +12,8 @@ database DynamoDB
 Client -> Controller : HTTP GET
 activate Controller
 Controller -> Controller : generate CasesRequestDto
-Controller -> Service : getCases(CasesRequestDto)
+Controller -> Service : getCasesBy(CasesRequestDto)
+activate Service
 Service -> Service : validateRequestDto(CasesRequestDto)
 
 alt if request dto validation fails
