@@ -23,7 +23,7 @@ paths:
             type: string   # Presents as a "0"-delimited list ( e.g. /cases?citizenship=ANGOLA0BELGIUM0FRANCE ) to be extracted to an array
         - name: outcome
           in: query
-          description: Case Outcome   # A selection of case outcomes by which to filter
+          description: Case Outcome   # A selection of case outcomes by which to filter -- 'Deny/Referral', 'Grant', or 'Admin Close/Dismissal'
           required: false
           schema:
             type: string
