@@ -8,8 +8,25 @@
 
 ### Tech Stack
 
-- BE: Java + Spring
+- BE: Java + Spring Boot
+<p align="left">
+<a href="https://www.java.com" target="_blank" rel="noreferrer"> 
+<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" alt="java" width="60" height="60"/> </a>
+<a href="https://spring.io/projects/spring-boot" target="_blank" rel="noreferrer"> 
+<img src="/documentation/images/spring_boot_logo.png" alt="spring" width="60" height="60"/> </a>
+</p>
+
 - DB: DynamoDB
+<p align="left">
+<a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Introduction.html" target="_blank" rel="noreferrer"> 
+<img src= "documentation/images/aws-dynamodb.svg" alt="DynamoDB" width="60" height="60"/> </a>
+</p>
+
+
 - FE: React (JS)
+<p align="left">
+<a href="https://reactjs.org/" target="_blank" rel="noreferrer"> 
+<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original-wordmark.svg" alt="react" width="60" height="60"/> </a>
+</p>
 
 BE Setup instructions can be found [**HERE**](https://www.notion.so/bloomtech/BE-Local-Setup-794f197185c046ccb9e2e9f073268cbe).

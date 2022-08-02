@@ -1,0 +1,19 @@
+@startuml
+title Exception Hierarchy
+skinparam backgroundcolor lightgrey
+
+class AsylumCaseNotFoundException {
+    - {static} final serialVersionUID : long
+    - message : String
+}
+
+class BadRequestException {
+    - {static} final serialVersionUID : long
+    - message : String
+}
+
+class RuntimeException {}
+
+RuntimeException <|-- BadRequestException
+RuntimeException <|-- AsylumCaseNotFoundException
+@enduml
