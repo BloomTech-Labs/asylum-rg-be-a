@@ -59,13 +59,38 @@ paths:
               schema:
                 type: object
                 items:
-                  "$ref": "#/components/schemas/Case"
+                  "$ref": "#/components/schemas/pageResponse"
         "400":
-          description: No cases found for given parameters
+          description: ErrorDTO
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  "$ref": "#/components/schemas/ErrorDTO"
+        "404":
+          description: ErrorDTO
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  "$ref": "#/components/schemas/ErrorDTO"
+
 
 components:
   schemas:
-    Case:
+    pageResponse:
+      type: object
+      properties:
+        totalPages:
+          type: integer
+        page:
+          type: array
+        items:
+          "$ref": "#/components/schemas/case"
+
+    case:
       type: object
       properties:
         asylumOffice:
@@ -78,4 +103,10 @@ components:
           type: string
         dateReceived:
           type: string
+
+    ErrorDTO:
+      type: object
+        properties:
+          message:
+            type: string
   
