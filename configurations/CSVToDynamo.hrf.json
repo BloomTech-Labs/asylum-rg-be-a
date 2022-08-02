@@ -5,19 +5,22 @@
     },
     "Parameters" : {
         "BucketName": {
-            "Description": "cases-data",
+            "Description": "Name of the S3 bucket you will deploy the CSV file to",
             "Type": "String",
-            "ConstraintDescription": "must be a valid bucket name."
+            "ConstraintDescription": "must be a valid bucket name.",
+            "Default": "asylum-cases"
         },
         "FileName": {
-            "Description": "cases",
+            "Description": "Name of the S3 file (including suffix)",
             "Type": "String",
-            "ConstraintDescription": "Valid S3 file name."
+            "ConstraintDescription": "Valid S3 file name.",
+            "Default": "asylum-cases-data"
         },
         "DynamoDBTableName": {
-            "Description": "asylum_cases",
+            "Description": "Name of the dynamoDB table you will use",
             "Type": "String",
-            "ConstraintDescription": "must be a valid dynamoDB name."
+            "ConstraintDescription": "must be a valid dynamoDB name.",
+            "Default": "asylum_cases"
         }
     },
     "Resources": {
@@ -150,7 +153,7 @@
                                 "      table = dynamodb.Table(tableName)",
                                 "   except Exception as error:",
                                 "       print(error)",
-                                "      print(\"Error loading DynamoDB table. Check if table was created correctly and environment variable.\")",
+                                "       print(\"Error loading DynamoDB table. Check if table was created correctly and environment variable.\")",
                                 "",
                                 "   try:",
                                 "      with table.batch_writer() as batch:",
@@ -160,7 +163,7 @@
                                 "            )",
                                 "   except Exception as error:",
                                 "       print(error)",
-                                "      print(\"Error executing batch_writer\")"
+                                "       print(\"Error executing batch_writer\")"
                             ]
                         ]
                     }
