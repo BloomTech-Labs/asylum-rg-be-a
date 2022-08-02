@@ -36,7 +36,7 @@ describing the error.
 
 ```
 ErrorDto {
-    "message": String
+    "message": "String"
 }
 ```
 
