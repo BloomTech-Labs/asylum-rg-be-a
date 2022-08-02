@@ -279,6 +279,8 @@ http://localhost:8080/cases?citizenship=RUSSIA0AREMENIA&to=2018-01-01
 
 ```
 {
+    "totalPages": 1,
+    "page": [
         {
             "citizenship": "RUSSIA",
             "caseOutcome": "Deny/Referral",
@@ -291,6 +293,7 @@ http://localhost:8080/cases?citizenship=RUSSIA0AREMENIA&to=2018-01-01
             "completionDate": "2017-3-7",
             "asylumOffice": "ZSF"
         }
+    ]
 }
 ```
 
