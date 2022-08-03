@@ -59,6 +59,17 @@ deactivate Repository
 Service -> Service : validateIterableIsNotEmpty(Iterable<AsylumCase>)
 Service -> Service : getTotalPages(CasesRequestDto, int)
 Service -> Service : getCurrentPage(CasesRequestDto, List<AsylumCase>)
+Service -> Service : validatePageRequest(CasesRequestDto, List<AsylumCase>)
+
+alt if page request validation fails
+Service --> Controller : throw PageNotFoundException
+Controller --> Advice : throw PageNotFoundException
+activate Advice
+Advice --> Client : 404 Response, ErrorDto
+deactivate Advice
+else otherwise, continue
+end
+
 Service -> Service : generate Page<T>(int, int, Collection<T>)
 Service -> Mapper : pageToResponseDto(Page<T>)
 

@@ -7,9 +7,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class BadRequestException extends RuntimeException {
+public class PageNotFoundException extends RuntimeException {
 
-    private final static long serialVersionUID = 4529555431977284783L;
+    private final static long serialVersionUID = 9103134389086900045L;
 
     private String message;
 }

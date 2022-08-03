@@ -12,8 +12,14 @@ class BadRequestException {
     - message : String
 }
 
+class PageNotFoundException {
+    - {static} final serialVersionUID : long
+    - message : String
+}
+
 class RuntimeException {}
 
 RuntimeException <|-- BadRequestException
 RuntimeException <|-- AsylumCaseNotFoundException
+RuntimeException <|-- PageNotFoundException
 @enduml

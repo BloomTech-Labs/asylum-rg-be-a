@@ -18,20 +18,19 @@ class ErrorDto {
 }
 
 class CasesRequestDto {
+    - limit : int
+    - page : int
     - citizenship : String
-    - caseOutcome : String
-    - completionTo : String
-    - completionFrom : String
-    - currentDate : String
-    - isFiscalYear : Boolean
+    - outcome : String
+    - from : String
+    - to : String
     - asylumOffice : String
 }
 
-class CasesResponseDto {
+class CaseResponseDto {
     - asylumOffice : String
     - citizenship : String
     - caseOutcome : String
     - completion : String
-    - currentDate : String
 }
 @enduml

@@ -3,76 +3,63 @@ package com.bloomtech.asylumrgbea.models;
 import lombok.Data;
 import org.springframework.lang.Nullable;
 
-import javax.enterprise.inject.Default;
-import javax.validation.constraints.NotEmpty;
 import java.util.Objects;
 
 /**
  * Defines the DTO for the query parameters provided by the client for the cases' endpoint.
- * Each attribute represents a query category to filter AsylumCases by.
+ * Each attribute represents a query parameter or category to filter AsylumCases by.
  */
 @Data
 public class CasesRequestDto {
-    // TODO: Client needs to provide. Enforce validation using annotations.
-    @Nullable
-    private Integer numberOfItemsInPage;
-    // TODO: Client needs to provide. Enforce validation using annotations.
-    private int pageNumber;
+    private int limit = 10;
+    private int page = 1;
     @Nullable
     private String citizenship;
     @Nullable
-    private String caseOutcome;
+    private String outcome;
     @Nullable
-    private String completionTo;
+    private String from;
     @Nullable
-    private String completionFrom;
+    private String to;
     @Nullable
-    private String currentDate;
-    @Nullable
-    private Boolean isFiscalYear;
-    @Nullable
-    private String asylumOffice;
+    private String office;
 
     @Override
     public String toString() {
         return "CasesRequestDto{" +
-                "citizenship='" + citizenship + '\'' +
-                ", caseOutcome='" + caseOutcome + '\'' +
-                ", completionTo='" + completionTo + '\'' +
-                ", completionFrom='" + completionFrom + '\'' +
-                ", currentDate='" + currentDate + '\'' +
-                ", isFiscalYear='" + isFiscalYear + '\'' +
-                ", asylumOffice='" + asylumOffice + '\'' +
+                "limit=" + limit +
+                ", page=" + page +
+                ", citizenship='" + citizenship + '\'' +
+                ", outcome='" + outcome + '\'' +
+                ", from='" + from + '\'' +
+                ", to='" + to + '\'' +
+                ", office='" + office + '\'' +
                 '}';
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof CasesRequestDto)) {
-            return false;
-        }
+        if (this == o) return true;
+        if (!(o instanceof CasesRequestDto)) return false;
         CasesRequestDto that = (CasesRequestDto) o;
-        return Objects.equals(citizenship, that.citizenship) &&
-                Objects.equals(caseOutcome, that.caseOutcome) &&
-                Objects.equals(completionTo, that.completionTo) &&
-                Objects.equals(completionFrom, that.completionFrom) &&
-                Objects.equals(currentDate, that.currentDate) &&
-                Objects.equals(isFiscalYear, that.isFiscalYear) &&
-                Objects.equals(asylumOffice, that.asylumOffice);
+        return page == that.page &&
+                limit == that.limit &&
+                Objects.equals(citizenship, that.citizenship) &&
+                Objects.equals(outcome, that.outcome) &&
+                Objects.equals(from, that.from) &&
+                Objects.equals(to, that.to) &&
+                Objects.equals(office, that.office);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(
+                limit,
+                page,
                 citizenship,
-                caseOutcome,
-                completionTo,
-                completionFrom,
-                currentDate,
-                isFiscalYear,
-                asylumOffice);
+                outcome,
+                from,
+                to,
+                office);
     }
 }

@@ -9,8 +9,9 @@ class AsylumCaseController {
 }
 
 class AsylumCaseControllerAdvice {
-    + handleException(asylumCaseNotFoundException : AsylumCaseNotFoundException) : ErrorDto
-    + handleException(badRequestException : BadRequestException) : ErrorDto
+    + handleException(exception : AsylumCaseNotFoundException) : ErrorDto
+    + handleException(exception : BadRequestException) : ErrorDto
+    + handleException(exception : PageNotFoundException) : ErrorDto
 }
 
 'Add cache config Annotations in service
@@ -18,12 +19,15 @@ class AsylumCaseService {
     - asylumCaseRepository : AsylumCaseRepository
     - asylumCaseMapper : AsylumCaseMapper
     + getAllAsylumCases() : Iterable<AsylumCaseResponseDto>
-    + getAllAsylumCases(asylumCaseRequestDto : AsylumCaseRequestDto) : Iterable<AsylumCaseResponseDto>
+    + getCasesBy(casesRequestDto : CaseRequestDto) : Iterable<AsylumCaseResponseDto>
 }
 
 'repo for DynamoDB calls
 class AsylumCaseRepository {
     - dynamoDbMapper : DynamoDBMapper
+    + find(filterMap : Map<String, List<String>>, rangeMap : Map<String, String[]>) : ScanResultPage<AsylumCase>
+    + findAll() : Iterable<AsylumCase>
+    + saveAll()
 }
 
 'Entity for data model
@@ -32,8 +36,8 @@ class AsylumCase {
     - asylumOffice : String
     - citizenship : String
     - caseOutcome : String
-    - completion : String
-    - currentDate : String
+    - completionDate : String
+    - dateReceived : String
 }
 
 ' Part of the  MapStruct dependency
@@ -44,14 +48,15 @@ interface AsylumCaseMapper {
     pageToResponseDtos(Page<AsylumCase> asylumCases) : Iterable<CasesResponseDto>
 }
 
-BadRequestException --> AsylumCaseController
-AsylumCaseNotFoundException --> AsylumCaseRepository
+AsylumCaseService ---> BadRequestException
+AsylumCaseService ---> AsylumCaseNotFoundException
+AsylumCaseService ---> PageNotFoundException
 
 AsylumCaseController *- AsylumCaseService
 AsylumCaseController -- AsylumCaseControllerAdvice
 
 AsylumCaseService *- AsylumCaseRepository
-AsylumCaseService *-- AsylumCaseMapper
+AsylumCaseMapper *-- AsylumCaseService
 
 AsylumCaseRepository --> AsylumCase
 
