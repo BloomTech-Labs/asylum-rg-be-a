@@ -1,0 +1,14 @@
+cli command to create just a table
+aws cloudformation create-stack --region us-west-2 --stack-name asylum-rg-be-a --template-body file://configurations/tables.template.yml --capabilities CAPABILITY_IAM
+
+cli command to create s3 bucket, lambda for .csv import
+aws cloudformation create-stack --region us-west-2 --stack-name asylum-rg-be-a --template-body file://configurations/CSVToDynamo.template.json --capabilities CAPABILITY_IAM
+
+cli command to write to s3 bucket
+aws s3 cp configurations/asylum-cases-data.csv s3://asylum-cases/asylum-cases-data.csv
+
+cli command to delete from a s3 bucket
+aws s3 rm s3://asylum-cases/asylum-cases-data.csv
+
+cli command to update the code of a lambda function
+aws lambda update-function-code --function-name  my-function --zip-file fileb://my-function.zip
