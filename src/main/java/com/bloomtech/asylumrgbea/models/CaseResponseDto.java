@@ -11,6 +11,7 @@ public class CaseResponseDto {
 
     private final String caseOutcome;
 
-    private final String completion;
+    private final String completionDate;
 
 }
+
