@@ -21,6 +21,6 @@ class AsylumCaseModel {
     - asylumOffice : String
     - citizenship : String
     - caseOutcome : String
-    - completion : String
+    - completionDate : String
 }
 @enduml
