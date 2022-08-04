@@ -5,6 +5,7 @@ import com.bloomtech.asylumrgbea.controllers.exceptions.BadRequestException;
 import com.bloomtech.asylumrgbea.controllers.exceptions.PageNotFoundException;
 import com.bloomtech.asylumrgbea.entities.AsylumCase;
 import com.bloomtech.asylumrgbea.mappers.AsylumCaseMapper;
+import com.bloomtech.asylumrgbea.models.CaseResponseDto;
 import com.bloomtech.asylumrgbea.models.CasesRequestDto;
 import com.bloomtech.asylumrgbea.models.Page;
 import com.bloomtech.asylumrgbea.models.PageResponseDto;
@@ -66,9 +67,9 @@ public class AsylumCaseService {
 		this.validateIterableIsNotEmpty(casesIterable);
 
 		//FIXME: remember to add to cache when cache is implemented
-		List<AsylumCase> asylumCaseArrayList = new ArrayList<>();
+		List<CaseResponseDto> asylumCaseArrayList = new ArrayList<>();
 		for (AsylumCase asylumCase : casesIterable) {
-			asylumCaseArrayList.add(asylumCase);
+			asylumCaseArrayList.add(asylumCaseMapper.entityToResponseDto(asylumCase));
 		}
 
 		this.validatePageRequest(casesRequestDto, asylumCaseArrayList);
@@ -96,8 +97,8 @@ public class AsylumCaseService {
 	 * @param asylumCaseList the List of AsylumCase from the scan result.
 	 * @return A sub List of AsylumCase to include in a specific page.
 	 */
-	private List<AsylumCase> getCurrentPage(CasesRequestDto casesRequestDto, List<AsylumCase> asylumCaseList) {
-		List<AsylumCase> listOfAsylumCases = new ArrayList<>();
+	private List<?> getCurrentPage(CasesRequestDto casesRequestDto, List<?> asylumCaseList) {
+		List<Object> listOfAsylumCases = new ArrayList<>();
 
 		int currentIndex = (casesRequestDto.getPage() - 1) * casesRequestDto.getLimit();
 
@@ -149,7 +150,7 @@ public class AsylumCaseService {
 	 * @param asylumCaseList a List of AsylumCases.
 	 * @throws PageNotFoundException if an empty page is generated.
 	 */
-	private void validatePageRequest(CasesRequestDto requestDto, List<AsylumCase> asylumCaseList)
+	private void validatePageRequest(CasesRequestDto requestDto, List<?> asylumCaseList)
 			throws PageNotFoundException {
 
 		if (!getCurrentPage(requestDto, asylumCaseList).iterator().hasNext()) {
