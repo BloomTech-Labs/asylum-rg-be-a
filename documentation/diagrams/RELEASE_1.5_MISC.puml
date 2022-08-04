@@ -17,17 +17,7 @@ class ErrorDto {
     - message : String
 }
 
-class CasesRequestDto {
-    - limit : int
-    - page : int
-    - citizenship : String
-    - outcome : String
-    - from : String
-    - to : String
-    - asylumOffice : String
-}
-
-class CaseResponseDto {
+class AsylumCaseModel {
     - asylumOffice : String
     - citizenship : String
     - caseOutcome : String

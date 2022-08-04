@@ -6,6 +6,9 @@ import lombok.Setter;
 import java.util.*;
 import java.util.stream.Stream;
 
+/**
+ * Defines a POJO for a page object that represents the server side page.
+ */
 @Getter
 @Setter
 public class Page<T> implements Iterable<T> {

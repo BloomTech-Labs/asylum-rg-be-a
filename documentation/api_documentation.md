@@ -3,7 +3,7 @@
 
 The **Human Rights First: Asylum Report Generator** is a public REST API for retrieving records of government asylum 
 case data that has been provided for public use by Freedom of Information Act requests. The API currently only supports
-`GET` method requests to a single endpoint `/cases` which retrieves asylum case records provided as `CaseResponseDto`
+`GET` method requests to a single endpoint `/cases` which retrieves asylum case records provided as `AsylumCaseModel`
 objects encapsulated within a `PageResponseDto` object. There is no Authentication nor Authorization required to access
 the API at this time.
 
@@ -13,14 +13,14 @@ As described above, the response to the `/cases` endpoint returns a `PageRespons
 general JSON format. A `PageResponseDto` consists of two attributes. First, `totalPages` is an `Integer` representing
 the total number of pages of asylum cases that match the query parameters. Second, `page` is the `Iterable` collection
 containing a given number of asylum cases that match the criteria provided in the query parameters, encapsulated in
-`CaseResponseDto` objects. The amount of cases and which cases are returned is based on the `limit` and `page` query
+`AsylumCaseModel` objects. The amount of cases and which cases are returned is based on the `limit` and `page` query
 parameters.
 
 ```
 PageResponseDto {
     "totalPages": Number,
     "page": [
-        CaseResponseDto {
+        AsylumCaseModel {
             "citizenship": "String",
             "caseOutcome": "String",
             "completionDate": "yyyy-MM-dd",

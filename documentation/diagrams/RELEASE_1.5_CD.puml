@@ -5,21 +5,22 @@ skinparam backgroundcolor lightgrey
 'End point mappings
 class AsylumCaseController {
     - service : AsylumCaseService
-    + getCases(casesRequestDto : CasesRequestDto) : Iterable<CasesResponseDto>
+    + getCasesBy(queryParameters : CasesQueryParameterDto)) : PageResponseDto
 }
 
 class AsylumCaseControllerAdvice {
     + handleException(exception : AsylumCaseNotFoundException) : ErrorDto
     + handleException(exception : BadRequestException) : ErrorDto
     + handleException(exception : PageNotFoundException) : ErrorDto
+    + handleException(exception : AmazonDynamoDBException) : ErrorDto
 }
 
 'Add cache config Annotations in service
 class AsylumCaseService {
     - asylumCaseRepository : AsylumCaseRepository
     - asylumCaseMapper : AsylumCaseMapper
-    + getAllAsylumCases() : Iterable<AsylumCaseResponseDto>
-    + getCasesBy(casesRequestDto : CaseRequestDto) : Iterable<AsylumCaseResponseDto>
+    + getAllAsylumCases() : Iterable<AsylumCaseModel>
+    + getCasesBy(queryParameters : CasesQueryParameterDto) : Iterable<AsylumCaseModel>
 }
 
 'repo for DynamoDB calls
@@ -27,25 +28,33 @@ class AsylumCaseRepository {
     - dynamoDbMapper : DynamoDBMapper
     + find(filterMap : Map<String, List<String>>, rangeMap : Map<String, String[]>) : ScanResultPage<AsylumCase>
     + findAll() : Iterable<AsylumCase>
-    + saveAll()
+    + saveAll(cases : Iterable<AsylumCase>)
 }
 
 'Entity for data model
 class AsylumCase {
     - id : Integer
-    - asylumOffice : String
     - citizenship : String
     - caseOutcome : String
     - completionDate : String
     - dateReceived : String
+    - asylumOffice : String
+}
+
+class CasesQueryParameterDto {
+    - limit : int
+    - page : int
+    - citizenship : String
+    - outcome : String
+    - from : String
+    - to : String
+    - office : String
 }
 
 ' Part of the  MapStruct dependency
 interface AsylumCaseMapper {
-    requestToEntity(asylumCaseRequestDto : AsylumCaseRequestDto) : AsylumCase
-    entityToResponseDto(asylumCase : AsylumCase) : AsylumCaseResponseDto
-    entitiesToResponsesDtos(asylumCases : Iterable<AsylumCase>) : Iterable<CasesResponseDto>
-    pageToResponseDtos(Page<AsylumCase> asylumCases) : Iterable<CasesResponseDto>
+    entityToModel(asylumCase : AsylumCase) : AsylumCaseModel
+    pageToResponseDto(page : Page) : PageResponseDto
 }
 
 AsylumCaseService ---> BadRequestException
@@ -53,12 +62,13 @@ AsylumCaseService ---> AsylumCaseNotFoundException
 AsylumCaseService ---> PageNotFoundException
 
 AsylumCaseController *- AsylumCaseService
-AsylumCaseController -- AsylumCaseControllerAdvice
+AsylumCaseControllerAdvice -- AsylumCaseController
 
 AsylumCaseService *- AsylumCaseRepository
 AsylumCaseMapper *-- AsylumCaseService
 
 AsylumCaseRepository --> AsylumCase
+AsylumCaseController --> CasesQueryParameterDto
 
 'Extension
 'Association <|-- (owner <|-- pet) Implements

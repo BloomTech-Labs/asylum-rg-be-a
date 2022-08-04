@@ -27,8 +27,7 @@ public class AsylumCaseControllerAdvice {
      */
     @ExceptionHandler(AsylumCaseNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorDto handleAsylumCaseNotFoundException(AsylumCaseNotFoundException exception,
-                                                      HttpServletRequest request) {
+    public ErrorDto handleException(AsylumCaseNotFoundException exception, HttpServletRequest request) {
         return new ErrorDto(exception.getMessage());
     }
 
@@ -41,8 +40,7 @@ public class AsylumCaseControllerAdvice {
      */
     @ExceptionHandler(BadRequestException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorDto handleBadRequestException(BadRequestException exception,
-                                              HttpServletRequest request) {
+    public ErrorDto handleException(BadRequestException exception, HttpServletRequest request) {
         return new ErrorDto(exception.getMessage());
     }
 
@@ -55,8 +53,7 @@ public class AsylumCaseControllerAdvice {
      */
     @ExceptionHandler(PageNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorDto handlePageNotFoundException(PageNotFoundException exception,
-                                                HttpServletRequest request) {
+    public ErrorDto handleException(PageNotFoundException exception, HttpServletRequest request) {
         return new ErrorDto(exception.getMessage());
     }
 
@@ -69,8 +66,7 @@ public class AsylumCaseControllerAdvice {
      */
     @ExceptionHandler(AmazonDynamoDBException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorDto handleAmazonDynamoDBException(AmazonDynamoDBException exception,
-                                                  HttpServletRequest request) {
+    public ErrorDto handleException(AmazonDynamoDBException exception, HttpServletRequest request) {
         return new ErrorDto("Error: Cannot retrieve cases from database...");
     }
 }

@@ -11,10 +11,10 @@ database DynamoDB
 
 Client -> Controller : HTTP GET
 activate Controller
-Controller -> Controller : generate CasesRequestDto
-Controller -> Service : getCasesBy(CasesRequestDto)
+Controller -> Controller : generate CasesQueryParameterDto
+Controller -> Service : getCasesBy(CasesQueryParameterDto)
 activate Service
-Service -> Service : validateRequestDto(CasesRequestDto)
+Service -> Service : validateRequestDto(CasesQueryParameterDto)
 
 alt if request dto validation fails
 Service --> Controller : throw BadRequestException
@@ -57,9 +57,13 @@ Repository -> Service : return populated ScanResultPage
 deactivate Repository
 
 Service -> Service : validateIterableIsNotEmpty(Iterable<AsylumCase>)
-Service -> Service : getTotalPages(CasesRequestDto, int)
-Service -> Service : getCurrentPage(CasesRequestDto, List<AsylumCase>)
-Service -> Service : validatePageRequest(CasesRequestDto, List<AsylumCase>)
+Service -> Mapper : entityToModel(AsylumCase)
+activate Mapper
+Mapper -> Service : return AsylumCaseModel
+deactivate Mapper
+Service -> Service : getTotalPages(CasesQueryParameterDto, int)
+Service -> Service : getCurrentPage(CasesQueryParameterDto, List<AsylumCaseModel>)
+Service -> Service : validatePageRequest(CasesQueryParameterDto, List<AsylumCaseModel>)
 
 alt if page request validation fails
 Service --> Controller : throw PageNotFoundException

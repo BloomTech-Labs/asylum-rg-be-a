@@ -2,8 +2,11 @@ package com.bloomtech.asylumrgbea.models;
 
 import lombok.Data;
 
+/**
+ * Defines a POJO for a case object that represents the client side case.
+ */
 @Data
-public class CaseResponseDto {
+public class AsylumCaseModel {
 
     private final String asylumOffice;
 

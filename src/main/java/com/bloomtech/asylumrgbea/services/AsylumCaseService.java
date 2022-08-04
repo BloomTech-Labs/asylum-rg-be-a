@@ -5,8 +5,8 @@ import com.bloomtech.asylumrgbea.controllers.exceptions.BadRequestException;
 import com.bloomtech.asylumrgbea.controllers.exceptions.PageNotFoundException;
 import com.bloomtech.asylumrgbea.entities.AsylumCase;
 import com.bloomtech.asylumrgbea.mappers.AsylumCaseMapper;
-import com.bloomtech.asylumrgbea.models.CaseResponseDto;
-import com.bloomtech.asylumrgbea.models.CasesRequestDto;
+import com.bloomtech.asylumrgbea.models.AsylumCaseModel;
+import com.bloomtech.asylumrgbea.models.CasesQueryParameterDto;
 import com.bloomtech.asylumrgbea.models.Page;
 import com.bloomtech.asylumrgbea.models.PageResponseDto;
 import com.bloomtech.asylumrgbea.repositories.AsylumCaseRepository;
@@ -32,34 +32,34 @@ public class AsylumCaseService {
 
 	/**
 	 * Retrieves all entries of asylum cases from the repository.
-	 * @return Iterable of CaseRequestDtos.
+	 * @return Iterable of CasesQueryParameterDtos.
 	 */
 	@Cacheable("asylum_case_cache")
-	public Iterable<CasesRequestDto> getAllAsylumCases() {
+	public Iterable<CasesQueryParameterDto> getAllAsylumCases() {
 
 		Iterable<AsylumCase> caseIterable = asylumCaseRepository.findAll();
 		validateIterableIsNotEmpty(caseIterable);
 
-		return asylumCaseMapper.entitiesToResponseDtos(caseIterable);
+		return asylumCaseMapper.entitiesToQueryParameters(caseIterable);
 	}
 
 	/**
-	 * Returns entries of asylum cases based on the query parameters.
-	 * @param casesRequestDto a dto for query parameters.
+	 * Returns a PageResponseDto based on the query parameters.
+	 * @param queryParameters a dto containing query parameters.
 	 * @return PageResponseDto.
 	 */
-	public PageResponseDto getCasesBy(CasesRequestDto casesRequestDto) {
-		this.validateRequestDto(casesRequestDto);
+	public PageResponseDto getCasesBy(CasesQueryParameterDto queryParameters) {
+		this.validateRequestDto(queryParameters);
 
 		Map<String, List<String>> filterMap = Map.of(
-				"citizenship",	getListOfFilters(casesRequestDto.getCitizenship(),	"0"),
-				"caseOutcome", 	getListOfFilters(casesRequestDto.getOutcome(),	","),
-				"asylumOffice",	getListOfFilters(casesRequestDto.getOffice(), ","));
+				"citizenship",	getListOfFilters(queryParameters.getCitizenship(),	"0"),
+				"caseOutcome", 	getListOfFilters(queryParameters.getOutcome(),	","),
+				"asylumOffice",	getListOfFilters(queryParameters.getOffice(), ","));
 
 		Map<String, String[]> rangeMap = Map.of(
 				"completionDate", new String[] {
-						casesRequestDto.getFrom(),
-						casesRequestDto.getTo()
+						queryParameters.getFrom(),
+						queryParameters.getTo()
 				}
 		);
 
@@ -67,42 +67,42 @@ public class AsylumCaseService {
 		this.validateIterableIsNotEmpty(casesIterable);
 
 		//FIXME: remember to add to cache when cache is implemented
-		List<CaseResponseDto> asylumCaseArrayList = new ArrayList<>();
+		List<AsylumCaseModel> asylumCaseModelList = new ArrayList<>();
 		for (AsylumCase asylumCase : casesIterable) {
-			asylumCaseArrayList.add(asylumCaseMapper.entityToResponseDto(asylumCase));
+			asylumCaseModelList.add(asylumCaseMapper.entityToModel(asylumCase));
 		}
 
-		this.validatePageRequest(casesRequestDto, asylumCaseArrayList);
+		this.validatePageRequest(queryParameters, asylumCaseModelList);
 
 		return asylumCaseMapper.pageToResponseDto(
-				new Page(casesRequestDto.getPage(),
-						getTotalPages(casesRequestDto, asylumCaseArrayList.size()),
-						getCurrentPage(casesRequestDto, asylumCaseArrayList)));
+				new Page(queryParameters.getPage(),
+						getTotalPages(queryParameters, asylumCaseModelList.size()),
+						getCurrentPage(queryParameters, asylumCaseModelList)));
 	}
 
 	/**
 	 * Private helper method that calculates the total number of pages for a specific request.
-	 * @param casesRequestDto a dto for query parameters.
+	 * @param queryParameters a dto for query parameters.
 	 * @param arraySize int the total number of items of the scan.
 	 * @return the int number of pages total.
 	 */
-	private int getTotalPages(CasesRequestDto casesRequestDto, int arraySize) {
-		return (int) Math.ceil((double)arraySize / casesRequestDto.getLimit());
+	private int getTotalPages(CasesQueryParameterDto queryParameters, int arraySize) {
+		return (int) Math.ceil((double)arraySize / queryParameters.getLimit());
 	}
 
 	//TODO add cache
 	/**
 	 * Private helper method that generates the list of items to return for a specific page.
-	 * @param casesRequestDto a dto for query parameters.
+	 * @param queryParameters a dto for query parameters.
 	 * @param asylumCaseList the List of AsylumCase from the scan result.
 	 * @return A sub List of AsylumCase to include in a specific page.
 	 */
-	private List<?> getCurrentPage(CasesRequestDto casesRequestDto, List<?> asylumCaseList) {
+	private List<?> getCurrentPage(CasesQueryParameterDto queryParameters, List<?> asylumCaseList) {
 		List<Object> listOfAsylumCases = new ArrayList<>();
 
-		int currentIndex = (casesRequestDto.getPage() - 1) * casesRequestDto.getLimit();
+		int currentIndex = (queryParameters.getPage() - 1) * queryParameters.getLimit();
 
-		for (int i = 0; i < casesRequestDto.getLimit(); i++, currentIndex++) {
+		for (int i = 0; i < queryParameters.getLimit(); i++, currentIndex++) {
 			if (currentIndex >= asylumCaseList.size()) { break; }
 
 			listOfAsylumCases.add(asylumCaseList.get(currentIndex));
@@ -146,27 +146,27 @@ public class AsylumCaseService {
 
 	/**
 	 * Checks if a page can be generated given a List of asylum cases.
-	 * @param requestDto a dto for the query parameters.
+	 * @param queryParameters a dto for the query parameters.
 	 * @param asylumCaseList a List of AsylumCases.
 	 * @throws PageNotFoundException if an empty page is generated.
 	 */
-	private void validatePageRequest(CasesRequestDto requestDto, List<?> asylumCaseList)
+	private void validatePageRequest(CasesQueryParameterDto queryParameters, List<?> asylumCaseList)
 			throws PageNotFoundException {
 
-		if (!getCurrentPage(requestDto, asylumCaseList).iterator().hasNext()) {
+		if (!getCurrentPage(queryParameters, asylumCaseList).iterator().hasNext()) {
 			throw new PageNotFoundException("Error: No pages left to access...");
 		}
 	}
 
 	/**
 	 * Checks if the limit and page query parameter values are valid.
-	 * @param casesRequestDto the query parameter dto.
+	 * @param queryParameters the query parameter dto.
 	 * @throws BadRequestException The exception thrown if triggered.
 	 */
-	private void validateRequestDto(CasesRequestDto casesRequestDto)
+	private void validateRequestDto(CasesQueryParameterDto queryParameters)
 			throws BadRequestException {
 
-		if (casesRequestDto.getLimit() < 1 || casesRequestDto.getPage() < 1) {
+		if (queryParameters.getLimit() < 1 || queryParameters.getPage() < 1) {
 			throw new BadRequestException("ERROR: The page or limit value cannot be less than 1...");
 		}
 	}
