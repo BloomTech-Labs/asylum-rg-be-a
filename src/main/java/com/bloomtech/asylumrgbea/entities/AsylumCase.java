@@ -10,7 +10,7 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 
 /**
- * An API to map json to a java object using Http requests.
+ * Defines the POJO entity to represent an asylum case within the DynamoDB database.
  */
 @DynamoDBTable(tableName = "asylum_cases")
 @Getter
@@ -30,7 +30,7 @@ public class AsylumCase {
     private String caseOutcome;
 
     @DynamoDBAttribute
-    private String completion;
+    private String completionDate;
 
     @DynamoDBAttribute
     private String currentDate;
@@ -44,7 +44,7 @@ public class AsylumCase {
                 "id='" + id + '\'' +
                 ", citizenship='" + citizenship + '\'' +
                 ", caseOutcome='" + caseOutcome + '\'' +
-                ", completion='" + completion + '\'' +
+                ", completionDate='" + completionDate + '\'' +
                 ", currentDate='" + currentDate + '\'' +
                 ", asylumOffice='" + asylumOffice + '\'' +
                 '}';

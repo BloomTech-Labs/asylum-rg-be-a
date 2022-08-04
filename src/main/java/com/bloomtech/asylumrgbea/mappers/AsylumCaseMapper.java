@@ -1,27 +1,28 @@
 package com.bloomtech.asylumrgbea.mappers;
 
 import com.bloomtech.asylumrgbea.entities.AsylumCase;
-import com.bloomtech.asylumrgbea.models.CaseResponseDto;
-import com.bloomtech.asylumrgbea.models.CasesRequestDto;
+import com.bloomtech.asylumrgbea.models.AsylumCaseModel;
+import com.bloomtech.asylumrgbea.models.CasesQueryParameterDto;
 import com.bloomtech.asylumrgbea.models.Page;
 import com.bloomtech.asylumrgbea.models.PageResponseDto;
 import org.mapstruct.Mapper;
 
 /**
- * An interface use to convert various object and collects of objects such as RequestDtos, Entities, ResponseDtos, and Iterables.
+ * An interface used to convert various object and collects of objects such as RequestDtos,
+ * Entities, ResponseDtos, and Iterables.
  */
 @Mapper(uses = {AsylumCaseMapper.class}, componentModel = "spring")
 public interface AsylumCaseMapper {
 
-    AsylumCase requestToEntity(CasesRequestDto casesRequestDto);
+    AsylumCase queryParametersToEntity(CasesQueryParameterDto casesQueryParameterDto);
 
-    CaseResponseDto entityToResponseDto(AsylumCase asylumCase);
+    AsylumCaseModel entityToModel(AsylumCase asylumCase);
 
-    Iterable<CasesRequestDto> entitiesToResponseDtos(Iterable<AsylumCase> asylumCases);
+    Iterable<CasesQueryParameterDto> entitiesToQueryParameters(Iterable<AsylumCase> asylumCases);
 
-    Iterable<CaseResponseDto> pagesToResponseDtos(Page<AsylumCase> asylumCases);
+    Iterable<AsylumCaseModel> pagesToModels(Page<AsylumCase> asylumCases);
 
     PageResponseDto pageToResponseDto(Page page);
 
-    PageResponseDto pageDataAndPageToResponseDto(int totalPages, Iterable<CaseResponseDto> page);
+    PageResponseDto pageDataAndPageToResponseDto(int totalPages, Iterable<AsylumCaseModel> page);
 }

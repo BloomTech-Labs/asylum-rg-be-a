@@ -1,6 +1,6 @@
 package com.bloomtech.asylumrgbea.controllers;
 
-import com.bloomtech.asylumrgbea.models.CasesRequestDto;
+import com.bloomtech.asylumrgbea.models.CasesQueryParameterDto;
 import com.bloomtech.asylumrgbea.models.PageResponseDto;
 import com.bloomtech.asylumrgbea.services.AsylumCaseService;
 
@@ -24,14 +24,14 @@ public class AsylumCaseController {
 
     /**
      * The point of entry for a GET request for the endpoint cases. Accepts query parameters defined
-     * by the CasesRequestDto which characterizes the query criteria. All other query parameter not
-     * explicitly defined in the CasesRequestDto from the client are ignored.
+     * by the CasesQueryParameterDto which characterizes the query criteria. All other query parameter not
+     * explicitly defined in the CasesQueryParameterDto from the client are ignored.
      *
-     * @param casesRequestDto characterizes the endpoint response.
+     * @param queryParameters characterizes the endpoint response.
      * @return An Iterable of AsylumCaseResponse or an ErrorDto.
      */
     @GetMapping
-    public PageResponseDto getCases(@Valid CasesRequestDto casesRequestDto) {
-        return asylumCaseService.getCasesBy(casesRequestDto);
+    public PageResponseDto getCases(@Valid CasesQueryParameterDto queryParameters) {
+        return asylumCaseService.getCasesBy(queryParameters);
     }
 }

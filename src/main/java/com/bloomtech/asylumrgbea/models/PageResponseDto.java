@@ -1,11 +1,13 @@
 package com.bloomtech.asylumrgbea.models;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Defines a POJO for a page object that represents the client side page.
+ */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -14,5 +16,5 @@ public class PageResponseDto {
 
     private int totalPages;
 
-    private Iterable<CaseResponseDto> page;
+    private Iterable<AsylumCaseModel> page;
 }

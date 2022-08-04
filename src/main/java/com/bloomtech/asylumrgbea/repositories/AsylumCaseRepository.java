@@ -5,7 +5,9 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.ScanResultPage;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.bloomtech.asylumrgbea.entities.AsylumCase;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -20,6 +22,10 @@ public class AsylumCaseRepository {
     @Autowired
     private final DynamoDBMapper dynamoDBMapper;
 
+    /**
+     * Returns all the available AsylumCases that resides within the database.
+     * @return Iterable of AsylumCases.
+     */
     public Iterable<AsylumCase> findAll() {
         return dynamoDBMapper.scan(AsylumCase.class, new DynamoDBScanExpression());
     }

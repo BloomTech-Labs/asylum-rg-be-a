@@ -17,21 +17,10 @@ class ErrorDto {
     - message : String
 }
 
-class CasesRequestDto {
-    - citizenship : String
-    - caseOutcome : String
-    - completionTo : String
-    - completionFrom : String
-    - currentDate : String
-    - isFiscalYear : Boolean
-    - asylumOffice : String
-}
-
-class CasesResponseDto {
+class AsylumCaseModel {
     - asylumOffice : String
     - citizenship : String
     - caseOutcome : String
-    - completion : String
-    - currentDate : String
+    - completionDate : String
 }
 @enduml
