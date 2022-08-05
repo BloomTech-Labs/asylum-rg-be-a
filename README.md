@@ -1,14 +1,33 @@
-# Asylum RG BE
+# Asylum Report Generator Backend
 
-- A **search tool** to give a user-friendly view into a large dataset of asylum case decisions.
-- Similar to [the TRAC database](https://trac.syr.edu/phptools/immigration/asylum/)—a popular existing tool, but with many limitations.
-    - Generate a table of results, a real-time visualization of outcomes, and a real-time graph to represent what the trend looks like over time.
-    - Show a heatmap where users can map out e.g., “Here are the 10 asylum regions with the highest or lowest grant rates.”
-    - Need to be able to download search results.
+A **search tool** to give a user-friendly view into a large dataset of asylum case decisions. <br/>
+This concept is similar to the [TRAC database](https://trac.syr.edu/phptools/immigration/asylum/) — a popular 
+existing tool, but with a far more robust ability to select and filter data.
+* A user can generate a table of results, filtered by multiple parameters
+* A user can generate a real-time graph to represent what trend looks
+  like over time (Release 4)
+* A user can generate a heatmap of asylum case outcomes (Release 5)
+* A user can download the results of their search (Release 6)
+
+### Design Document
+Document can be found [**HERE**](documentation/design_document.md)
+
+<br/>
+
+### Repos
+Docs repo can be found [**HERE**](https://github.com/BloomTech-Labs/asylum-rg-docs) <br/>
+Frontend repo can be found [**HERE**](https://github.com/BloomTech-Labs/asylum-rg-fe)
+
+<br/>
+
+### Setup
+Backend Setup instructions can be found [**HERE**](https://www.notion.so/bloomtech/BE-Local-Setup-794f197185c046ccb9e2e9f073268cbe)
+
+<br/>
 
 ### Tech Stack
 
-- BE: Java + Spring Boot
+- Backend: Java + Spring Boot
 <p align="left">
 <a href="https://www.java.com" target="_blank" rel="noreferrer"> 
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" alt="java" width="60" height="60"/> </a>
@@ -16,17 +35,26 @@
 <img src="/documentation/images/spring_boot_logo.png" alt="spring" width="60" height="60"/> </a>
 </p>
 
-- DB: DynamoDB
+
+- Cloud Storage: Amazon S3
 <p align="left">
-<a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Introduction.html" target="_blank" rel="noreferrer"> 
-<img src= "documentation/images/aws-dynamodb.svg" alt="DynamoDB" width="60" height="60"/> </a>
+<a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html" target="_blank" rel="noreferrer"> 
+<img src= "documentation/images/s3_dynamodb.svg" alt="S3" width="60" height="60"/> </a>
 </p>
 
 
-- FE: React (JS)
+- Database: Amazon DynamoDB
+<p align="left">
+<a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Introduction.html" target="_blank" rel="noreferrer"> 
+<img src= "documentation/images/aws_dynamodb.svg" alt="DynamoDB" width="60" height="60"/> </a>
+</p>
+
+
+- Frontend: React + Redux 
 <p align="left">
 <a href="https://reactjs.org/" target="_blank" rel="noreferrer"> 
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original-wordmark.svg" alt="react" width="60" height="60"/> </a>
+<a href="https://redux.js.org/" target="_blank" rel="noreferrer"> 
+<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/redux/redux-original.svg" alt="react" width="60" height="60"/> </a>
 </p>
 
-BE Setup instructions can be found [**HERE**](https://www.notion.so/bloomtech/BE-Local-Setup-794f197185c046ccb9e2e9f073268cbe).
