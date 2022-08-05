@@ -14,7 +14,7 @@
             "Description": "Name of the S3 file (including suffix)",
             "Type": "String",
             "ConstraintDescription": "Valid S3 file name.",
-            "Default": "asylum-cases-data"
+            "Default": "asylum-cases-data.csv"
         },
         "DynamoDBTableName": {
             "Description": "Name of the dynamoDB table you will use",
