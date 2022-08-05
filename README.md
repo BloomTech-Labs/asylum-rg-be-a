@@ -9,11 +9,12 @@ existing tool, but with a far more robust ability to select and filter data.
 * A user can generate a heatmap of asylum case outcomes (Release 5)
 * A user can download the results of their search (Release 6)
 
-### Design Document / Repos / Setup
-Document can be found [**HERE**](documentation/design_document.md) <br/>
-Docs repo can be found [**HERE**](https://github.com/BloomTech-Labs/asylum-rg-docs) <br/>
-Frontend repo can be found [**HERE**](https://github.com/BloomTech-Labs/asylum-rg-fe) <br/>
-Backend Setup instructions can be found [**HERE**](https://www.notion.so/bloomtech/BE-Local-Setup-794f197185c046ccb9e2e9f073268cbe)
+### Design Document / Repos / Setup / Data Import
+[Design Document](documentation/design_document.md) <br/>
+[Frontend Repository](https://github.com/BloomTech-Labs/asylum-rg-fe) <br/>
+[Product Document Repository](https://github.com/BloomTech-Labs/asylum-rg-docs) <br/>
+[Backend Setup Instructions](https://www.notion.so/bloomtech/BE-Local-Setup-794f197185c046ccb9e2e9f073268cbe) <br/>
+[Raw Data Import Instructions](documentation/raw_data_import_process.md)
 
 
 ### Tech Stack
