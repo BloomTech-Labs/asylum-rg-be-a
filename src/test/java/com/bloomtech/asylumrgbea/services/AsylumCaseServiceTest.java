@@ -3,6 +3,7 @@ package com.bloomtech.asylumrgbea.services;
 import com.amazonaws.services.dynamodbv2.datamodeling.ScanResultPage;
 import com.bloomtech.asylumrgbea.controllers.exceptions.AsylumCaseNotFoundException;
 import com.bloomtech.asylumrgbea.controllers.exceptions.BadRequestException;
+import com.bloomtech.asylumrgbea.controllers.exceptions.PageNotFoundException;
 import com.bloomtech.asylumrgbea.entities.AsylumCase;
 import com.bloomtech.asylumrgbea.mappers.AsylumCaseMapper;
 import com.bloomtech.asylumrgbea.models.CasesQueryParameterDto;
@@ -199,6 +200,23 @@ class AsylumCaseServiceTest {
 
         // WHEN - THEN
         assertThrows(AsylumCaseNotFoundException.class, () -> asylumCaseService.getCasesBy(requestDto));
+        verify(asylumCaseRepository).find(anyMap(), anyMap());
+    }
+
+    @Test
+    void getCasesBy_queryParametersWithPageValueExceeds_throwsPageNotFoundException() {
+        // GIVEN
+        CasesQueryParameterDto requestDto = new CasesQueryParameterDto();
+        requestDto.setLimit(5);
+        requestDto.setPage(2);
+
+        ScanResultPage<AsylumCase> scanResultPage = new ScanResultPage<>();
+        scanResultPage.setResults(List.of(new AsylumCase(), new AsylumCase(), new AsylumCase()));
+
+        when(asylumCaseRepository.find(anyMap(), anyMap())).thenReturn(scanResultPage);
+
+        // WHEN - THEN
+        assertThrows(PageNotFoundException.class, () -> asylumCaseService.getCasesBy(requestDto));
         verify(asylumCaseRepository).find(anyMap(), anyMap());
     }
 
