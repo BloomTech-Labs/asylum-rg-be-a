@@ -17,8 +17,8 @@ The stakeholder is able to use a command line to initiate the script.
    - Lambda
    - S3 
 2. AWS CLI Installed _(Latest Version)_
-      - aws_access_key_id
-      - aws_secret_access_key
+   - aws_access_key_id
+   - aws_secret_access_key
 3. Python3 Installed with Pandas Library _(Latest Versions)_
 
 ### Requirements
@@ -28,13 +28,13 @@ The stakeholder is able to use a command line to initiate the script.
 
 ### Importing
 #### Deploy Stack 
-1. Open CLI in the root of this project
-2. CLI command for us-west-2 `aws cloudformation create-stack --region us-west-2 --stack-name asylum-rg-be-a --template-body file://configurations/CSVToDynamo.template.json --capabilities CAPABILITY_IAM`
+1. Open a CLI in the root of this project
+2. Execute the CLI command for us-west-2 `aws cloudformation create-stack --region us-west-2 --stack-name asylum-rg-be-a --template-body file://configurations/CSVToDynamo.template.json --capabilities CAPABILITY_IAM`
 3. Stack will build DynamoDB Table `asylum_cases`, S3 Bucket named `asylum-cases` with lambda trigger, and Lambda Function
 
 #### Clean Data
 The current configuration requires the [Excel file](https://bloomtech.notion.site/HRF-Asylum-Report-Generator-412062ca7640457682c33295b21a25c3#:~:text=FE%3A%20React%20(JS)-,Resources,-Asylum%20decision%20data) 
-and [Python script](/configurations/AsylumCaseXlsxToCleanCsv.py) to reside in the same directory
+and [Python script](/configurations/asylumCaseXlsxToCleanCsv.py) to reside in the same directory
 1. Place files in the same directory `(ex. Data_Import/_both files_)`
 2. Change the name of the Excel file to `data.xlsx`
 3. Open CLI in the same path as the files
@@ -47,7 +47,7 @@ and [Python script](/configurations/AsylumCaseXlsxToCleanCsv.py) to reside in th
 
 ## Functionality
 ### Cleaning Data
-The [script](/configurations/AsylumCaseXlsxToCleanCsv.py) reads the .xlsx file into Pandas<sup>5, 6</sup> DataFrame. It then generates a UUID for each row and 
+The [script](/configurations/asylumCaseXlsxToCleanCsv.py) reads the .xlsx file into Pandas<sup>5, 6</sup> DataFrame. It then generates a UUID for each row and 
 sets the UUID as the index<sup>1</sup>. Next it removes unwanted columns. 
 Then it renames column names to desired name in accordance
 with DynamoDB naming standards<sup>3</sup>.
