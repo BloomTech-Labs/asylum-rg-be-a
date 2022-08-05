@@ -19,27 +19,18 @@ Backend Setup instructions can be found [**HERE**](https://www.notion.so/bloomte
 ### Tech Stack
 
 - Backend: Java + Spring Boot
+- Cloud Storage: Amazon S3
+- Database: Amazon DynamoDB
 <p align="left">
 <a href="https://www.java.com" target="_blank" rel="noreferrer"> 
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" alt="java" width="60" height="60"/> </a>
 <a href="https://spring.io/projects/spring-boot" target="_blank" rel="noreferrer"> 
 <img src="/documentation/images/spring_boot_logo.png" alt="spring" width="60" height="60"/> </a>
-</p>
-
-
-- Cloud Storage: Amazon S3
-<p align="left">
+<a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Introduction.html" target="_blank" rel="noreferrer"> 
+<img src= "documentation/images/aws_dynamodb.svg" alt="DynamoDB" width="60" height="60"/> </a>
 <a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html" target="_blank" rel="noreferrer"> 
 <img src= "documentation/images/aws_s3.png" alt="S3" width="60" height="60"/> </a>
 </p>
-
-
-- Database: Amazon DynamoDB
-<p align="left">
-<a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Introduction.html" target="_blank" rel="noreferrer"> 
-<img src= "documentation/images/aws_dynamodb.svg" alt="DynamoDB" width="60" height="60"/> </a>
-</p>
-
 
 - Frontend: React + Redux + Plotly
 <p align="left">
