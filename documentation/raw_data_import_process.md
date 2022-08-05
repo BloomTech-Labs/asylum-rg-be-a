@@ -23,7 +23,7 @@ The stakeholder is able to use a command line to initiate the script.
 
 ### Requirements
 - [COW2021001887-I589Data.xlsx](https://bloomtech.notion.site/HRF-Asylum-Report-Generator-412062ca7640457682c33295b21a25c3#:~:text=FE%3A%20React%20(JS)-,Resources,-Asylum%20decision%20data) _(Resources Section)_
-- [AsylumCaseXlsxToCleanCsv.py](/configurations/AsylumCaseXlsxToCleanCsv.py)
+- [asylumCaseXlsxToCleanCsv.py](/configurations/AsylumCaseXlsxToCleanCsv.py)
 - [CSVToDynamoDB.template.json](/configurations/CSVToDynamo.template.json)
 
 ### Importing
@@ -35,15 +35,15 @@ The stakeholder is able to use a command line to initiate the script.
 #### Clean Data
 The current configuration requires the [Excel file](https://bloomtech.notion.site/HRF-Asylum-Report-Generator-412062ca7640457682c33295b21a25c3#:~:text=FE%3A%20React%20(JS)-,Resources,-Asylum%20decision%20data) 
 and [Python script](/configurations/asylumCaseXlsxToCleanCsv.py) to reside in the same directory
-1. Place files in the same directory `(ex. Data_Import/_both files_)`
+1. Place the files in the same directory `(ex. Data_Import/_both files_)`
 2. Change the name of the Excel file to `data.xlsx`
-3. Open CLI in the same path as the files
-4. Command `python3 AsylumCaseXlsxToCleanCsv.py`
+3. Open a CLI in the same path as the files
+4. Run the command `python3 AsylumCaseXlsxToCleanCsv.py`
 5. This will generate `asylum-cases-data.csv` in the same directory in accordance with S3 bucket naming standards<sup>2</sup>
   
 #### Upload Data to S3 Bucket
-- Open CLI in the same directory as `asylum-cases-data.csv`
-- CLI command `aws s3 cp <your-directory>/asylum-cases-data.csv s3://asylum-cases/asylum-cases-data.csv`
+- Open a CLI in the same directory as `asylum-cases-data.csv`
+- Run the CLI command `aws s3 cp <your-directory>/asylum-cases-data.csv s3://asylum-cases/asylum-cases-data.csv`
 
 ## Functionality
 ### Cleaning Data
