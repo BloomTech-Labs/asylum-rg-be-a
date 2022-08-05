@@ -255,10 +255,9 @@ class AsylumCaseServiceTest {
     @Test
     void getAllAsylumCases_givenNoAsylumCase_throwsAsylumCaseNotFoundException() {
         // GIVEN
-        // WHEN
         when(asylumCaseRepository.findAll()).thenReturn(Collections.EMPTY_LIST);
 
-        // THEN
+        // THEN - THEN
         assertThrows(AsylumCaseNotFoundException.class,
                 () -> asylumCaseService.getAllAsylumCases(),
                 "ERROR: Expected an AsylumCaseNotFoundException but was false..");
