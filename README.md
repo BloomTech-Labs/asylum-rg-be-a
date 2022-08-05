@@ -9,16 +9,10 @@ existing tool, but with a far more robust ability to select and filter data.
 * A user can generate a heatmap of asylum case outcomes (Release 5)
 * A user can download the results of their search (Release 6)
 
-### Design Document
-Document can be found [**HERE**](documentation/design_document.md)
-
-
-### Repos
+### Design Document / Repos / Setup
+Document can be found [**HERE**](documentation/design_document.md) <br/>
 Docs repo can be found [**HERE**](https://github.com/BloomTech-Labs/asylum-rg-docs) <br/>
-Frontend repo can be found [**HERE**](https://github.com/BloomTech-Labs/asylum-rg-fe)
-
-
-### Setup
+Frontend repo can be found [**HERE**](https://github.com/BloomTech-Labs/asylum-rg-fe) <br/>
 Backend Setup instructions can be found [**HERE**](https://www.notion.so/bloomtech/BE-Local-Setup-794f197185c046ccb9e2e9f073268cbe)
 
 
@@ -54,6 +48,6 @@ Backend Setup instructions can be found [**HERE**](https://www.notion.so/bloomte
 <a href="https://redux.js.org/" target="_blank" rel="noreferrer"> 
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/redux/redux-original.svg" alt="react" width="60" height="60"/> </a>
 <a href="https://plotly.com/" target="_blank" rel="noreferrer"> 
-<img src= "documentation/images/plotly.png" alt="Plotly" width="60" height="60"/> </a>
+<img src= "documentation/images/plotly.png" alt="Plotly" width="165" height="53"/> </a>
 </p>
 
