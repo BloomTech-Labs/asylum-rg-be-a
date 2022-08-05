@@ -30,7 +30,7 @@ The stakeholder is able to use a command line to initiate the script.
 #### Deploy Stack 
 1. Open a CLI in the root of this project
 2. Execute the CLI command for us-west-2 `aws cloudformation create-stack --region us-west-2 --stack-name asylum-rg-be-a --template-body file://configurations/CSVToDynamo.template.json --capabilities CAPABILITY_IAM`
-3. Stack will build DynamoDB Table `asylum_cases`, S3 Bucket named `asylum-cases` with lambda trigger, and Lambda Function
+3. The stack will a build DynamoDB Table `asylum_cases`, S3 Bucket named `asylum-cases` with lambda trigger, and a Lambda Function
 
 #### Clean Data
 The current configuration requires the [Excel file](https://bloomtech.notion.site/HRF-Asylum-Report-Generator-412062ca7640457682c33295b21a25c3#:~:text=FE%3A%20React%20(JS)-,Resources,-Asylum%20decision%20data) 
