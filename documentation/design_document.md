@@ -405,6 +405,7 @@ http://localhost:8080/cases?citizenship=RUSSIA0AREMENIA&from=2018-01-01&to=2018-
 }
 ```
 
+## Sequence Diagrams
 ### Cases Endpoint Sequence Diagram
 ![Cases Endpoint](../documentation/images/RELEASE_1.5_CASES_SD.png)
 

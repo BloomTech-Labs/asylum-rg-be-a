@@ -12,18 +12,15 @@ existing tool, but with a far more robust ability to select and filter data.
 ### Design Document
 Document can be found [**HERE**](documentation/design_document.md)
 
-<br/>
 
 ### Repos
 Docs repo can be found [**HERE**](https://github.com/BloomTech-Labs/asylum-rg-docs) <br/>
 Frontend repo can be found [**HERE**](https://github.com/BloomTech-Labs/asylum-rg-fe)
 
-<br/>
 
 ### Setup
 Backend Setup instructions can be found [**HERE**](https://www.notion.so/bloomtech/BE-Local-Setup-794f197185c046ccb9e2e9f073268cbe)
 
-<br/>
 
 ### Tech Stack
 
@@ -39,7 +36,7 @@ Backend Setup instructions can be found [**HERE**](https://www.notion.so/bloomte
 - Cloud Storage: Amazon S3
 <p align="left">
 <a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html" target="_blank" rel="noreferrer"> 
-<img src= "documentation/images/s3_dynamodb.svg" alt="S3" width="60" height="60"/> </a>
+<img src= "documentation/images/aws_s3.png" alt="S3" width="60" height="60"/> </a>
 </p>
 
 
@@ -50,11 +47,13 @@ Backend Setup instructions can be found [**HERE**](https://www.notion.so/bloomte
 </p>
 
 
-- Frontend: React + Redux 
+- Frontend: React + Redux + Plotly
 <p align="left">
 <a href="https://reactjs.org/" target="_blank" rel="noreferrer"> 
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original-wordmark.svg" alt="react" width="60" height="60"/> </a>
 <a href="https://redux.js.org/" target="_blank" rel="noreferrer"> 
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/redux/redux-original.svg" alt="react" width="60" height="60"/> </a>
+<a href="https://plotly.com/" target="_blank" rel="noreferrer"> 
+<img src= "documentation/images/plotly.png" alt="Plotly" width="60" height="60"/> </a>
 </p>
 
