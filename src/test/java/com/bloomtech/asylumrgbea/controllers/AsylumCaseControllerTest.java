@@ -1,5 +1,6 @@
 package com.bloomtech.asylumrgbea.controllers;
 
+import com.amazonaws.services.dynamodbv2.model.AmazonDynamoDBException;
 import com.bloomtech.asylumrgbea.controllers.exceptions.AsylumCaseNotFoundException;
 import com.bloomtech.asylumrgbea.controllers.exceptions.BadRequestException;
 import com.bloomtech.asylumrgbea.controllers.exceptions.PageNotFoundException;
@@ -43,14 +44,14 @@ class AsylumCaseControllerTest {
 
     @BeforeEach
     void setup() {
-        mockMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
-        queryParamCaptor = ArgumentCaptor.forClass(CasesQueryParameterDto.class);
+        mockMvc             = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
+        queryParamCaptor    = ArgumentCaptor.forClass(CasesQueryParameterDto.class);
     }
 
     @AfterEach
     void teardown() {
-        mockMvc = null;
-        queryParamCaptor = null;
+        mockMvc             = null;
+        queryParamCaptor    = null;
     }
 
     @Test
@@ -117,8 +118,7 @@ class AsylumCaseControllerTest {
         mockMvc.perform(get("/cases")
                         .param("page",  Integer.toString(expectedPage))
                         .param("limit", Integer.toString(expectedLimit)))
-                .andExpect(status().isOk())
-                .andReturn();
+                .andExpect(status().isOk());
 
         // THEN
         verify(service).getCasesBy(queryParamCaptor.capture());
@@ -153,8 +153,7 @@ class AsylumCaseControllerTest {
                         .param("from",          expectedFrom)
                         .param("to",            expectedTo)
                         .param("office",        expectedOffice))
-                .andExpect(status().isOk())
-                .andReturn();
+                .andExpect(status().isOk());
 
         // THEN
         verify(service).getCasesBy(queryParamCaptor.capture());
@@ -209,10 +208,10 @@ class AsylumCaseControllerTest {
     @Test
     void getCasesEndpoint_withLimitAndPageParametersThatResultEmpty_generatesErrorDto() throws Exception {
         // GIVEN
-        int expectedPage = 99999;
-        int expectedLimit = 99999;
-        String expectedValue = "Test Message: B";
-        String expectedKey = "message";
+        int expectedPage    = 99999;
+        int expectedLimit   = 99999;
+        String expectedValue    = "Test Message: B";
+        String expectedKey      = "message";
 
         when(service.getCasesBy(any(CasesQueryParameterDto.class)))
                 .thenThrow(new PageNotFoundException(expectedValue));
@@ -243,10 +242,10 @@ class AsylumCaseControllerTest {
     @Test
     void getCasesEndpoint_withInvalidLimitAndPageParameters_generatesErrorDto() throws Exception {
         // GIVEN
-        int expectedPage = -1;
-        int expectedLimit = 0;
-        String expectedValue = "Test Message: C";
-        String expectedKey = "message";
+        int expectedPage    = -1;
+        int expectedLimit   = 0;
+        String expectedValue    = "Test Message: C";
+        String expectedKey      = "message";
 
         when(service.getCasesBy(any(CasesQueryParameterDto.class)))
                 .thenThrow(new BadRequestException(expectedValue));
@@ -268,6 +267,41 @@ class AsylumCaseControllerTest {
         assertNull(queryParamCaptor.getValue().getFrom());
         assertNull(queryParamCaptor.getValue().getTo());
         assertNull(queryParamCaptor.getValue().getOffice());
+
+        assertTrue(actual.getResponse().getContentAsString().contains(expectedValue));
+        assertTrue(actual.getResponse().getContentAsString().contains(expectedKey));
+    }
+
+    @Test
+    void getCasesEndpoint_AmazonDynamoDBExceptionThrown_generatesErrorDto() throws Exception {
+        // GIVEN
+        int defaultPage     = 1;
+        int defaultLimit    = 10;
+        String expectedValue = "Error: Cannot retrieve cases from database...";
+        String expectedKey = "message";
+
+        when(service.getCasesBy(any(CasesQueryParameterDto.class)))
+                .thenThrow(new AmazonDynamoDBException(expectedValue));
+
+        // WHEN
+        MvcResult actual = mockMvc.perform(get("/cases")
+                        .param("page",  Integer.toString(defaultPage))
+                        .param("limit", Integer.toString(defaultLimit)))
+                .andExpect(status().is5xxServerError())
+                .andReturn();
+
+        // THEN
+        verify(service).getCasesBy(queryParamCaptor.capture());
+
+        assertEquals(defaultPage,  queryParamCaptor.getValue().getPage());
+        assertEquals(defaultLimit, queryParamCaptor.getValue().getLimit());
+        assertNull(queryParamCaptor.getValue().getCitizenship());
+        assertNull(queryParamCaptor.getValue().getOutcome());
+        assertNull(queryParamCaptor.getValue().getFrom());
+        assertNull(queryParamCaptor.getValue().getTo());
+        assertNull(queryParamCaptor.getValue().getOffice());
+
+        System.out.println(actual.getResponse().getContentAsString());
 
         assertTrue(actual.getResponse().getContentAsString().contains(expectedValue));
         assertTrue(actual.getResponse().getContentAsString().contains(expectedKey));
