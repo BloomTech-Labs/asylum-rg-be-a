@@ -11,13 +11,17 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
@@ -27,6 +31,8 @@ import static org.mockito.MockitoAnnotations.openMocks;
 public class AsylumCaseRepositoryTest {
     @Mock
     DynamoDBMapper dynamoDBMapper;
+    @Captor
+    ArgumentCaptor<DynamoDBScanExpression> expressionCaptor;
     AsylumCaseRepository asylumCaseRepository;
     Map<String, List<String>> filterMap;
     Map<String, String[]> rangeMap;
@@ -34,14 +40,16 @@ public class AsylumCaseRepositoryTest {
     @BeforeEach
     void setup() {
         openMocks(this);
-        asylumCaseRepository = new AsylumCaseRepository(dynamoDBMapper);
+        asylumCaseRepository    = new AsylumCaseRepository(dynamoDBMapper);
+        expressionCaptor        = ArgumentCaptor.forClass(DynamoDBScanExpression.class);
     }
 
     @AfterEach
     void teardown() {
-        asylumCaseRepository = null;
-        filterMap   = null;
-        rangeMap    = null;
+        expressionCaptor        = null;
+        asylumCaseRepository    = null;
+        filterMap               = null;
+        rangeMap                = null;
     }
 
     @Test
@@ -54,16 +62,11 @@ public class AsylumCaseRepositoryTest {
         );
 
         rangeMap = Map.of(
-                "completion", new String[] {
-                        null, null
-                }
+                "completion", new String[] {null, null}
         );
 
         ScanResultPage<AsylumCase> scanResultPage = new ScanResultPage<>();
         scanResultPage.setResults(List.of(new AsylumCase()));
-
-        ArgumentCaptor<DynamoDBScanExpression> expressionCaptor =
-                ArgumentCaptor.forClass(DynamoDBScanExpression.class);
 
         when(dynamoDBMapper.scanPage(eq(AsylumCase.class), any(DynamoDBScanExpression.class)))
                 .thenReturn(scanResultPage);
@@ -101,16 +104,11 @@ public class AsylumCaseRepositoryTest {
         );
 
         rangeMap = Map.of(
-                "completion", new String[] {
-                        null, null
-                }
+                "completion", new String[] {null, null}
         );
 
         ScanResultPage<AsylumCase> scanResultPage = new ScanResultPage<>();
         scanResultPage.setResults(List.of(new AsylumCase()));
-
-        ArgumentCaptor<DynamoDBScanExpression> expressionCaptor =
-                ArgumentCaptor.forClass(DynamoDBScanExpression.class);
 
         when(dynamoDBMapper.scanPage(eq(AsylumCase.class), any(DynamoDBScanExpression.class)))
                 .thenReturn(scanResultPage);
@@ -151,16 +149,11 @@ public class AsylumCaseRepositoryTest {
         );
 
         rangeMap = Map.of(
-                "completion", new String[] {
-                        null, null
-                }
+                "completion", new String[] {null, null}
         );
 
         ScanResultPage<AsylumCase> scanResultPage = new ScanResultPage<>();
         scanResultPage.setResults(List.of(new AsylumCase()));
-
-        ArgumentCaptor<DynamoDBScanExpression> expressionCaptor =
-                ArgumentCaptor.forClass(DynamoDBScanExpression.class);
 
         when(dynamoDBMapper.scanPage(eq(AsylumCase.class), any(DynamoDBScanExpression.class)))
                 .thenReturn(scanResultPage);
@@ -194,12 +187,12 @@ public class AsylumCaseRepositoryTest {
         int expectedCountOfSubstring = 2;
 
         Map<String, AttributeValue> expectedValueMap = Map.of(
-                ":citizenship0", new AttributeValue("citizenshipA"),
-                ":citizenship1", new AttributeValue("citizenshipB"),
-                ":caseOutcome0", new AttributeValue("outcomeA"),
-                ":asylumOffice0", new AttributeValue("officeA"),
-                ":asylumOffice1", new AttributeValue("officeB"),
-                ":asylumOffice2", new AttributeValue("officeC")
+                ":citizenship0",    new AttributeValue("citizenshipA"),
+                ":citizenship1",    new AttributeValue("citizenshipB"),
+                ":caseOutcome0",    new AttributeValue("outcomeA"),
+                ":asylumOffice0",   new AttributeValue("officeA"),
+                ":asylumOffice1",   new AttributeValue("officeB"),
+                ":asylumOffice2",   new AttributeValue("officeC")
         );
 
         filterMap = Map.of(
@@ -209,16 +202,11 @@ public class AsylumCaseRepositoryTest {
         );
 
         rangeMap = Map.of(
-                "completion", new String[] {
-                        null, null
-                }
+                "completion", new String[] {null, null}
         );
 
         ScanResultPage<AsylumCase> scanResultPage = new ScanResultPage<>();
         scanResultPage.setResults(List.of(new AsylumCase()));
-
-        ArgumentCaptor<DynamoDBScanExpression> expressionCaptor =
-                ArgumentCaptor.forClass(DynamoDBScanExpression.class);
 
         when(dynamoDBMapper.scanPage(eq(AsylumCase.class), any(DynamoDBScanExpression.class)))
                 .thenReturn(scanResultPage);
@@ -260,16 +248,11 @@ public class AsylumCaseRepositoryTest {
         );
 
         rangeMap = Map.of(
-                "completion", new String[] {
-                        "fromA", null
-                }
+                "completion", new String[] {"fromA", null}
         );
 
         ScanResultPage<AsylumCase> scanResultPage = new ScanResultPage<>();
         scanResultPage.setResults(List.of(new AsylumCase()));
-
-        ArgumentCaptor<DynamoDBScanExpression> expressionCaptor =
-                ArgumentCaptor.forClass(DynamoDBScanExpression.class);
 
         when(dynamoDBMapper.scanPage(eq(AsylumCase.class), any(DynamoDBScanExpression.class)))
                 .thenReturn(scanResultPage);
@@ -309,16 +292,11 @@ public class AsylumCaseRepositoryTest {
         );
 
         rangeMap = Map.of(
-                "completion", new String[] {
-                        null, "toA"
-                }
+                "completion", new String[] {null, "toA"}
         );
 
         ScanResultPage<AsylumCase> scanResultPage = new ScanResultPage<>();
         scanResultPage.setResults(List.of(new AsylumCase()));
-
-        ArgumentCaptor<DynamoDBScanExpression> expressionCaptor =
-                ArgumentCaptor.forClass(DynamoDBScanExpression.class);
 
         when(dynamoDBMapper.scanPage(eq(AsylumCase.class), any(DynamoDBScanExpression.class)))
                 .thenReturn(scanResultPage);
@@ -361,16 +339,11 @@ public class AsylumCaseRepositoryTest {
         );
 
         rangeMap = Map.of(
-                "completion", new String[] {
-                        "fromA", "toA"
-                }
+                "completion", new String[] {"fromA", "toA"}
         );
 
         ScanResultPage<AsylumCase> scanResultPage = new ScanResultPage<>();
         scanResultPage.setResults(List.of(new AsylumCase()));
-
-        ArgumentCaptor<DynamoDBScanExpression> expressionCaptor =
-                ArgumentCaptor.forClass(DynamoDBScanExpression.class);
 
         when(dynamoDBMapper.scanPage(eq(AsylumCase.class), any(DynamoDBScanExpression.class)))
                 .thenReturn(scanResultPage);
@@ -409,14 +382,14 @@ public class AsylumCaseRepositoryTest {
         int expectedCountOfSubstring = 4;
 
         Map<String, AttributeValue> expectedValueMap = Map.of(
-                ":citizenship0", new AttributeValue("citizenshipA"),
-                ":citizenship1", new AttributeValue("citizenshipB"),
-                ":caseOutcome0", new AttributeValue("outcomeA"),
-                ":asylumOffice0", new AttributeValue("officeA"),
-                ":asylumOffice1", new AttributeValue("officeB"),
-                ":asylumOffice2", new AttributeValue("officeC"),
-                ":completion0", new AttributeValue("fromA"),
-                ":completion1", new AttributeValue("toA")
+                ":citizenship0",    new AttributeValue("citizenshipA"),
+                ":citizenship1",    new AttributeValue("citizenshipB"),
+                ":caseOutcome0",    new AttributeValue("outcomeA"),
+                ":asylumOffice0",   new AttributeValue("officeA"),
+                ":asylumOffice1",   new AttributeValue("officeB"),
+                ":asylumOffice2",   new AttributeValue("officeC"),
+                ":completion0",     new AttributeValue("fromA"),
+                ":completion1",     new AttributeValue("toA")
         );
 
         filterMap = Map.of(
@@ -426,16 +399,11 @@ public class AsylumCaseRepositoryTest {
         );
 
         rangeMap = Map.of(
-                "completion", new String[] {
-                        "fromA", "toA"
-                }
+                "completion", new String[] {"fromA", "toA"}
         );
 
         ScanResultPage<AsylumCase> scanResultPage = new ScanResultPage<>();
         scanResultPage.setResults(List.of(new AsylumCase()));
-
-        ArgumentCaptor<DynamoDBScanExpression> expressionCaptor =
-                ArgumentCaptor.forClass(DynamoDBScanExpression.class);
 
         when(dynamoDBMapper.scanPage(eq(AsylumCase.class), any(DynamoDBScanExpression.class)))
                 .thenReturn(scanResultPage);

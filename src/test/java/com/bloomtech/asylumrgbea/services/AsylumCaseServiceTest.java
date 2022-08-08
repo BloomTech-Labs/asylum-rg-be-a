@@ -13,14 +13,21 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.anyMap;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.MockitoAnnotations.openMocks;
 
 class AsylumCaseServiceTest {
@@ -28,17 +35,24 @@ class AsylumCaseServiceTest {
     private AsylumCaseMapper asylumCaseMapper;
     @Mock
     private AsylumCaseRepository asylumCaseRepository;
+    @Captor
+    private ArgumentCaptor<Map<String, List<String>>> filterCaptor;
+    @Captor ArgumentCaptor<Map<String, String[]>> rangeCaptor;
     private AsylumCaseService asylumCaseService;
 
     @BeforeEach
     void setup() {
         openMocks(this);
-        asylumCaseService = new AsylumCaseService(asylumCaseRepository, asylumCaseMapper);
+        asylumCaseService   = new AsylumCaseService(asylumCaseRepository, asylumCaseMapper);
+        filterCaptor        = ArgumentCaptor.forClass(Map.class);
+        rangeCaptor         = ArgumentCaptor.forClass(Map.class);
     }
 
     @AfterEach
     void teardown() {
-        asylumCaseService = null;
+        asylumCaseService   = null;
+        filterCaptor        = null;
+        rangeCaptor         = null;
     }
 
     @Test
@@ -49,9 +63,6 @@ class AsylumCaseServiceTest {
         ScanResultPage<AsylumCase> scanResultPage = new ScanResultPage<>();
         scanResultPage.setResults(List.of(new AsylumCase()));
 
-        ArgumentCaptor<Map<String, List<String>>> filterCaptor  = ArgumentCaptor.forClass(Map.class);
-        ArgumentCaptor<Map<String, String[]>> rangeCaptor       = ArgumentCaptor.forClass(Map.class);
-
         when(asylumCaseRepository.find(anyMap(), anyMap())).thenReturn(scanResultPage);
 
         // WHEN
@@ -59,6 +70,7 @@ class AsylumCaseServiceTest {
 
         // THEN
         verify(asylumCaseRepository).find(filterCaptor.capture(), rangeCaptor.capture());
+
         assertTrue(filterCaptor.getValue().get("citizenship").isEmpty());
         assertTrue(filterCaptor.getValue().get("caseOutcome").isEmpty());
         assertTrue(filterCaptor.getValue().get("asylumOffice").isEmpty());
@@ -76,9 +88,6 @@ class AsylumCaseServiceTest {
         ScanResultPage<AsylumCase> scanResultPage = new ScanResultPage<>();
         scanResultPage.setResults(List.of(new AsylumCase()));
 
-        ArgumentCaptor<Map<String, List<String>>> filterCaptor  = ArgumentCaptor.forClass(Map.class);
-        ArgumentCaptor<Map<String, String[]>> rangeCaptor       = ArgumentCaptor.forClass(Map.class);
-
         when(asylumCaseRepository.find(anyMap(), anyMap())).thenReturn(scanResultPage);
 
         // WHEN
@@ -86,6 +95,7 @@ class AsylumCaseServiceTest {
 
         // THEN
         verify(asylumCaseRepository).find(filterCaptor.capture(), rangeCaptor.capture());
+
         assertEquals("citizenship", filterCaptor.getValue().get("citizenship").get(0));
         assertTrue(filterCaptor.getValue().get("caseOutcome").isEmpty());
         assertTrue(filterCaptor.getValue().get("asylumOffice").isEmpty());
@@ -103,9 +113,6 @@ class AsylumCaseServiceTest {
         ScanResultPage<AsylumCase> scanResultPage = new ScanResultPage<>();
         scanResultPage.setResults(List.of(new AsylumCase()));
 
-        ArgumentCaptor<Map<String, List<String>>> filterCaptor  = ArgumentCaptor.forClass(Map.class);
-        ArgumentCaptor<Map<String, String[]>> rangeCaptor       = ArgumentCaptor.forClass(Map.class);
-
         when(asylumCaseRepository.find(anyMap(), anyMap())).thenReturn(scanResultPage);
 
         // WHEN
@@ -113,6 +120,7 @@ class AsylumCaseServiceTest {
 
         // THEN
         verify(asylumCaseRepository).find(filterCaptor.capture(), rangeCaptor.capture());
+
         assertEquals("citizenship1", filterCaptor.getValue().get("citizenship").get(0));
         assertEquals("citizenship2", filterCaptor.getValue().get("citizenship").get(1));
         assertTrue(filterCaptor.getValue().get("caseOutcome").isEmpty());
@@ -133,9 +141,6 @@ class AsylumCaseServiceTest {
         ScanResultPage<AsylumCase> scanResultPage = new ScanResultPage<>();
         scanResultPage.setResults(List.of(new AsylumCase()));
 
-        ArgumentCaptor<Map<String, List<String>>> filterCaptor  = ArgumentCaptor.forClass(Map.class);
-        ArgumentCaptor<Map<String, String[]>> rangeCaptor       = ArgumentCaptor.forClass(Map.class);
-
         when(asylumCaseRepository.find(anyMap(), anyMap())).thenReturn(scanResultPage);
 
         // WHEN
@@ -143,6 +148,7 @@ class AsylumCaseServiceTest {
 
         // THEN
         verify(asylumCaseRepository).find(filterCaptor.capture(), rangeCaptor.capture());
+
         assertEquals("citizenship",  filterCaptor.getValue().get("citizenship").get(0));
         assertEquals("outcome",   filterCaptor.getValue().get("caseOutcome").get(0));
         assertTrue(filterCaptor.getValue().get("asylumOffice").isEmpty());
@@ -164,9 +170,6 @@ class AsylumCaseServiceTest {
         ScanResultPage<AsylumCase> scanResultPage = new ScanResultPage<>();
         scanResultPage.setResults(List.of(new AsylumCase()));
 
-        ArgumentCaptor<Map<String, List<String>>> filterCaptor  = ArgumentCaptor.forClass(Map.class);
-        ArgumentCaptor<Map<String, String[]>> rangeCaptor       = ArgumentCaptor.forClass(Map.class);
-
         when(asylumCaseRepository.find(anyMap(), anyMap())).thenReturn(scanResultPage);
 
         // WHEN
@@ -174,6 +177,7 @@ class AsylumCaseServiceTest {
 
         // THEN
         verify(asylumCaseRepository).find(filterCaptor.capture(), rangeCaptor.capture());
+
         assertEquals("citizenship1",  filterCaptor.getValue().get("citizenship").get(0));
         assertEquals("citizenship2",  filterCaptor.getValue().get("citizenship").get(1));
         assertEquals("citizenship3",  filterCaptor.getValue().get("citizenship").get(2));

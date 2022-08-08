@@ -23,8 +23,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
@@ -34,13 +34,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @SpringBootTest
 @AutoConfigureMockMvc
 class AsylumCaseControllerTest {
-    private MockMvc mockMvc;
     @Captor
     private ArgumentCaptor<CasesQueryParameterDto> queryParamCaptor;
     @MockBean
     private AsylumCaseService service;
     @Autowired
     private WebApplicationContext webApplicationContext;
+    private MockMvc mockMvc;
 
     @BeforeEach
     void setup() {
@@ -60,7 +60,8 @@ class AsylumCaseControllerTest {
         int defaultPage     = 1;
         int defaultLimit    = 10;
 
-        when(service.getCasesBy(any(CasesQueryParameterDto.class))).thenReturn(null);
+        when(service.getCasesBy(any(CasesQueryParameterDto.class)))
+                .thenReturn(new PageResponseDto());
 
         // WHEN
         mockMvc.perform(get("/cases"))
@@ -85,13 +86,13 @@ class AsylumCaseControllerTest {
         int expectedPage = 99999;
         int defaultLimit = 10;
 
-        when(service.getCasesBy(any(CasesQueryParameterDto.class))).thenReturn(new PageResponseDto());
+        when(service.getCasesBy(any(CasesQueryParameterDto.class)))
+                .thenReturn(new PageResponseDto());
 
         // WHEN
         mockMvc.perform(get("/cases")
                         .param("page", Integer.toString(expectedPage)))
-                .andExpect(status().isOk())
-                .andReturn();
+                .andExpect(status().isOk());
 
         // THEN
         verify(service).getCasesBy(queryParamCaptor.capture());
@@ -112,7 +113,8 @@ class AsylumCaseControllerTest {
         int expectedPage    = 99999;
         int expectedLimit   = 99999;
 
-        when(service.getCasesBy(any(CasesQueryParameterDto.class))).thenReturn(new PageResponseDto());
+        when(service.getCasesBy(any(CasesQueryParameterDto.class)))
+                .thenReturn(new PageResponseDto());
 
         // WHEN
         mockMvc.perform(get("/cases")
@@ -136,15 +138,16 @@ class AsylumCaseControllerTest {
     @Test
     void getCasesEndpoint_withMultipleParameters_generatesQueryParameterDto() throws Exception {
         // GIVEN
-        int expectedPage    = 1;
-        int expectedLimit   = 10;
-        String expectedCitizenship = "citizenshipA0citizenshipB0citizenshipC";
-        String expectedOutcome = "outcomeA,outcomeB";
-        String expectedFrom = "fromD";
-        String expectedTo = "toD";
-        String expectedOffice = "officeA,officeB";
+        int expectedPage            = 1;
+        int expectedLimit           = 10;
+        String expectedCitizenship  = "citizenshipA0citizenshipB0citizenshipC";
+        String expectedOutcome      = "outcomeA,outcomeB";
+        String expectedFrom         = "fromD";
+        String expectedTo           = "toD";
+        String expectedOffice       = "officeA,officeB";
 
-        when(service.getCasesBy(any(CasesQueryParameterDto.class))).thenReturn(new PageResponseDto());
+        when(service.getCasesBy(any(CasesQueryParameterDto.class)))
+                .thenReturn(new PageResponseDto());
 
         // WHEN
         mockMvc.perform(get("/cases")
@@ -170,8 +173,8 @@ class AsylumCaseControllerTest {
     @Test
     void getCasesEndpoint_withQueryParametersThatResultEmpty_generatesErrorDto() throws Exception {
         // GIVEN
-        int expectedPage    = 99999;
-        int expectedLimit   = 99999;
+        int expectedPage            = 99999;
+        int expectedLimit           = 99999;
         String expectedCitizenship  = "citizenshipA";
         String expectedOutcome      = "outcomeZ";
         String expectedValue        = "Test Message: A";
@@ -208,8 +211,8 @@ class AsylumCaseControllerTest {
     @Test
     void getCasesEndpoint_withLimitAndPageParametersThatResultEmpty_generatesErrorDto() throws Exception {
         // GIVEN
-        int expectedPage    = 99999;
-        int expectedLimit   = 99999;
+        int expectedPage        = 99999;
+        int expectedLimit       = 99999;
         String expectedValue    = "Test Message: B";
         String expectedKey      = "message";
 
@@ -242,8 +245,8 @@ class AsylumCaseControllerTest {
     @Test
     void getCasesEndpoint_withInvalidLimitAndPageParameters_generatesErrorDto() throws Exception {
         // GIVEN
-        int expectedPage    = -1;
-        int expectedLimit   = 0;
+        int expectedPage        = -1;
+        int expectedLimit       = 0;
         String expectedValue    = "Test Message: C";
         String expectedKey      = "message";
 
@@ -275,10 +278,10 @@ class AsylumCaseControllerTest {
     @Test
     void getCasesEndpoint_AmazonDynamoDBExceptionThrown_generatesErrorDto() throws Exception {
         // GIVEN
-        int defaultPage     = 1;
-        int defaultLimit    = 10;
-        String expectedValue = "Error: Cannot retrieve cases from database...";
-        String expectedKey = "message";
+        int defaultPage         = 1;
+        int defaultLimit        = 10;
+        String expectedValue    = "Error: Cannot retrieve cases from database...";
+        String expectedKey      = "message";
 
         when(service.getCasesBy(any(CasesQueryParameterDto.class)))
                 .thenThrow(new AmazonDynamoDBException(expectedValue));
