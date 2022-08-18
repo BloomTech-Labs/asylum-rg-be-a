@@ -7,12 +7,9 @@ import com.bloomtech.asylumrgbea.models.AsylumYearSummaryModel;
 import com.bloomtech.asylumrgbea.models.SummaryQueryParameterDto;
 import com.bloomtech.asylumrgbea.repositories.AsylumCaseRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.scheduling.annotation.AbstractAsyncConfiguration;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +24,7 @@ public class AsylumSummaryService {
         int toYear = Integer.parseInt(queryParameters.getTo().substring(0, 4));
         int yearSpan = (toYear - fromYear);
 
-        if (queryParameters.getView() == "office") {
+        if (queryParameters.getView().equals("office")) {
             citizenshipOrOfficeFlag = true;
         }
 
@@ -46,11 +43,11 @@ public class AsylumSummaryService {
             Map<String, List<String>> filterMap = Map.of("asylumOffice", filter);
             casesIterable = asylumCaseRepository.find(filterMap, rangeMap).getResults();
         }
-        List<AsylumYearSummaryModel> summaries = getYearCitizenship(casesIterable, yearSpan, fromYear);
+        List<AsylumYearSummaryModel> summaries = getYears(casesIterable, yearSpan, fromYear);
         return new AsylumSummaryDto(summaries);
     }
 
-    private List<AsylumYearSummaryModel> getYearCitizenship(Iterable<AsylumCase> casesIterable, int yearSpan, int fromYear) {
+    private List<AsylumYearSummaryModel> getYears(Iterable<AsylumCase> casesIterable, int yearSpan, int fromYear) {
         Map<String, HashMap<String, double[]>> countByCitizenship = new HashMap<>();
         Map<String, double[]> countByYear = new HashMap<>();
 
