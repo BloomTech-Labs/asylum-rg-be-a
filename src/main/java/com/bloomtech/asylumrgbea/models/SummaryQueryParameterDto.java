@@ -1,0 +1,48 @@
+package com.bloomtech.asylumrgbea.models;
+
+import lombok.Data;
+import org.springframework.lang.Nullable;
+
+import java.util.Objects;
+
+/**
+ * Defines the DTO to store the query parameters provided by the client
+ * for the cases' endpoint. Each attribute represents a query parameter
+ * or category to filter cases by.
+ */
+@Data
+public class SummaryQueryParameterDto {
+    private String view;
+
+    private boolean percent;
+    @Nullable
+    private String from;
+    @Nullable
+    private String to;
+    @Nullable
+    private String office;
+
+    @Override
+    public String toString() {
+        return "SummaryQueryParameterDto{" +
+                "view='" + view + '\'' +
+                ", percent=" + percent +
+                ", from='" + from + '\'' +
+                ", to='" + to + '\'' +
+                ", office='" + office + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SummaryQueryParameterDto that = (SummaryQueryParameterDto) o;
+        return percent == that.percent && Objects.equals(view, that.view) && Objects.equals(from, that.from) && Objects.equals(to, that.to) && Objects.equals(office, that.office);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(view, percent, from, to, office);
+    }
+}
