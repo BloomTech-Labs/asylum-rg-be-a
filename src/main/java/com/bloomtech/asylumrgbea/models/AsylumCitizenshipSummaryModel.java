@@ -1,13 +1,10 @@
 package com.bloomtech.asylumrgbea.models;
 
 import lombok.Data;
-import org.springframework.lang.Nullable;
-
-import java.util.List;
 
 @Data
-public class AsylumYearSummaryModel {
-    private final String year;
+public class AsylumCitizenshipSummaryModel {
+    private final String citizenship;
 
     private final double granted;
 
@@ -16,6 +13,4 @@ public class AsylumYearSummaryModel {
     private final double denied;
 
     private final int totalCases;
-
-    private final List<AsylumSummaryModel> yearData;
 }

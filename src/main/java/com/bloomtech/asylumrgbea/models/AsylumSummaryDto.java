@@ -16,5 +16,15 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AsylumSummaryDto {
+    private double granted;
+
+    private double adminClosed;
+
+    private double denied;
+
+    private int totalCases;
+
     private List<AsylumYearSummaryModel> results;
+
+    private List<AsylumCitizenshipSummaryModel> citizenshipResults;
 }
