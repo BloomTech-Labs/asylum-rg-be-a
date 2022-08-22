@@ -135,6 +135,7 @@ public class AsylumSummaryService {
                         inner.getKey(), current[0], current[1], current[2], (int) current[3], temp));
             }
         }
+        yearSummary.sort(Comparator.comparing(AsylumYearSummaryModel::getYear));
         return yearSummary;
     }
 
