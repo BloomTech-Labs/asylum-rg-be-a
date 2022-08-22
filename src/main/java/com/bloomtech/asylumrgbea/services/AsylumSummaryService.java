@@ -1,5 +1,6 @@
 package com.bloomtech.asylumrgbea.services;
 
+import com.bloomtech.asylumrgbea.controllers.exceptions.BadRequestException;
 import com.bloomtech.asylumrgbea.entities.AsylumCase;
 import com.bloomtech.asylumrgbea.models.*;
 import com.bloomtech.asylumrgbea.repositories.AsylumCaseRepository;
@@ -21,6 +22,7 @@ public class AsylumSummaryService {
             new ArrayList<>(), new ArrayList<>());
     @Cacheable("summarydto")
     public AsylumSummaryDto getSummaryBy(SummaryQueryParameterDto queryParameters) {
+        validateInput(queryParameters);
         int fromYear = Integer.parseInt(queryParameters.getFrom().substring(0, 4));
         int toYear = Integer.parseInt(queryParameters.getTo().substring(0, 4));
         int yearSpan = (toYear - fromYear);
@@ -180,5 +182,12 @@ public class AsylumSummaryService {
         }
         return yearSummary;
     }
-
+    private void validateInput(SummaryQueryParameterDto queryParameters) {
+        if (queryParameters.getFrom() == null || queryParameters.getFrom().isEmpty()) {
+            throw new BadRequestException("ERROR: from date is required input...");
+        }
+        if (queryParameters.getTo() == null || queryParameters.getTo().isEmpty()) {
+            throw new BadRequestException("ERROR: to date is required input...");
+        }
+    }
 }
