@@ -4,6 +4,7 @@ import com.bloomtech.asylumrgbea.entities.AsylumCase;
 import com.bloomtech.asylumrgbea.models.*;
 import com.bloomtech.asylumrgbea.repositories.AsylumCaseRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -18,13 +19,12 @@ public class AsylumSummaryService {
 
     private AsylumSummaryDto dto = new AsylumSummaryDto(0,0,0,0,
             new ArrayList<>(), new ArrayList<>());
-
+    @Cacheable("summarydto")
     public AsylumSummaryDto getSummaryBy(SummaryQueryParameterDto queryParameters) {
         int fromYear = Integer.parseInt(queryParameters.getFrom().substring(0, 4));
         int toYear = Integer.parseInt(queryParameters.getTo().substring(0, 4));
         int yearSpan = (toYear - fromYear);
         percentFlag = queryParameters.isPercentFlag();
-
         Map<String, String[]> rangeMap = Map.of(
                 "completionDate", new String[] {
                         queryParameters.getFrom(),
@@ -47,7 +47,7 @@ public class AsylumSummaryService {
             casesList.add(aCase);
         }
 
-        dto.setResults(getYears(casesList, yearSpan, fromYear));
+        dto.setYearResults(getYears(casesList, yearSpan, fromYear));
         dto.setCitizenshipResults(getNumByCitizenship(casesList));
         if (percentFlag) {
             dto.setGranted(dto.getGranted() / (double) dto.getTotalCases() * 100);

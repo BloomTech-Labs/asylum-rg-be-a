@@ -24,7 +24,7 @@ public class AsylumSummaryDto {
 
     private int totalCases;
 
-    private List<AsylumYearSummaryModel> results;
+    private List<AsylumYearSummaryModel> yearResults;
 
     private List<AsylumCitizenshipSummaryModel> citizenshipResults;
 }
