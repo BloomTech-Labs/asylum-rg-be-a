@@ -12,8 +12,6 @@ import java.util.Objects;
  */
 @Data
 public class SummaryQueryParameterDto {
-    private boolean citizenshipFlag;
-
     private boolean percentFlag;
     @Nullable
     private String from;
@@ -25,7 +23,6 @@ public class SummaryQueryParameterDto {
     @Override
     public String toString() {
         return "SummaryQueryParameterDto{" +
-                "citizenshipFlag='" + citizenshipFlag + '\'' +
                 ", percentFlag=" + percentFlag +
                 ", from='" + from + '\'' +
                 ", to='" + to + '\'' +
@@ -38,11 +35,11 @@ public class SummaryQueryParameterDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SummaryQueryParameterDto that = (SummaryQueryParameterDto) o;
-        return percentFlag == that.percentFlag && Objects.equals(citizenshipFlag, that.citizenshipFlag) && Objects.equals(from, that.from) && Objects.equals(to, that.to) && Objects.equals(office, that.office);
+        return percentFlag == that.percentFlag && Objects.equals(from, that.from) && Objects.equals(to, that.to) && Objects.equals(office, that.office);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(citizenshipFlag, percentFlag, from, to, office);
+        return Objects.hash(percentFlag, from, to, office);
     }
 }

@@ -14,8 +14,7 @@ public class AsylumSummaryService {
 
     private final AsylumCaseRepository asylumCaseRepository;
 
-    private boolean citizenshipOrOfficeFlag;
-    private boolean percentFlag;
+    private boolean percentFlag = true;
 
     private AsylumSummaryDto dto = new AsylumSummaryDto(0,0,0,0,
             new ArrayList<>(), new ArrayList<>());
@@ -24,9 +23,7 @@ public class AsylumSummaryService {
         int fromYear = Integer.parseInt(queryParameters.getFrom().substring(0, 4));
         int toYear = Integer.parseInt(queryParameters.getTo().substring(0, 4));
         int yearSpan = (toYear - fromYear);
-        citizenshipOrOfficeFlag = queryParameters.isCitizenshipFlag();
         percentFlag = queryParameters.isPercentFlag();
-
 
         Map<String, String[]> rangeMap = Map.of(
                 "completionDate", new String[] {
@@ -34,6 +31,7 @@ public class AsylumSummaryService {
                         queryParameters.getTo()
                 }
         );
+
         Iterable<AsylumCase> casesIterable;
         if (queryParameters.getOffice() == null || queryParameters.getOffice().isEmpty()) {
             casesIterable = asylumCaseRepository.find(new HashMap<>(), rangeMap).getResults();
@@ -43,10 +41,12 @@ public class AsylumSummaryService {
             Map<String, List<String>> filterMap = Map.of("asylumOffice", filter);
             casesIterable = asylumCaseRepository.find(filterMap, rangeMap).getResults();
         }
+
         List<AsylumCase> casesList = new ArrayList<>();
         for(AsylumCase aCase : casesIterable) {
             casesList.add(aCase);
         }
+
         dto.setResults(getYears(casesList, yearSpan, fromYear));
         dto.setCitizenshipResults(getNumByCitizenship(casesList));
         if (percentFlag) {
@@ -64,7 +64,7 @@ public class AsylumSummaryService {
         // countByCitizenship.getKey(value)[0] = amountGranted
         // countByCitizenship.getKey(value)[1] = amountDenied
         // countByCitizenship.getKey(value)[2] = amountAdminClosed
-        // countByCitizenship.getKey(value)[2] = totalCases
+        // countByCitizenship.getKey(value)[3] = totalCases
         for (int i = 0; i <= yearSpan; i++) {
             countByCitizenship.put(fromYear + i + "", new HashMap<>());
             countByYear.put(fromYear + i + "", new double[]{0,0,0,0});
@@ -72,19 +72,15 @@ public class AsylumSummaryService {
         casesIterable.forEach(asylumCase -> {
             String currentYear = asylumCase.getCompletionDate().substring(0, 4);
             if(countByCitizenship.containsKey(currentYear)) {
-                String citizenshipOrOffice;
-                if (citizenshipOrOfficeFlag){
-                    citizenshipOrOffice = asylumCase.getCitizenship();
-                } else {
-                    citizenshipOrOffice = asylumCase.getAsylumOffice();
-                }
+                String office = asylumCase.getAsylumOffice();
+
                 HashMap<String, double[]> inner = countByCitizenship.get(currentYear);
-                if (!inner.containsKey(citizenshipOrOffice)) {
+                if (!inner.containsKey(office)) {
                     double[] results = {0, 0, 0, 0};
-                    inner.putIfAbsent(citizenshipOrOffice, results);
+                    inner.putIfAbsent(office, results);
                 }
 
-                double[] citizenshipResults = inner.get(citizenshipOrOffice);
+                double[] citizenshipResults = inner.get(office);
                 double[] yearResults = countByYear.get(currentYear);
                 if (asylumCase.getCaseOutcome().equals("Grant")) {
                     citizenshipResults[0] += 1;
@@ -102,7 +98,7 @@ public class AsylumSummaryService {
                 citizenshipResults[3] += 1;
                 yearResults[3] += 1;
                 dto.setTotalCases(dto.getTotalCases() + 1);
-                inner.put(citizenshipOrOffice, citizenshipResults);
+                inner.put(office, citizenshipResults);
                 countByYear.put(currentYear, yearResults);
                 countByCitizenship.put(currentYear, inner);
             }
@@ -121,13 +117,10 @@ public class AsylumSummaryService {
                         current[1] = current[1] / total * 100;
                         current[2] = current[2] / total * 100;
                     }
-                    if (citizenshipOrOfficeFlag) {
-                        temp.add(new AsylumSummaryModel(
-                                entry.getKey(), null, current[0], current[1], current[2], (int) current[3]));
-                    } else {
-                        temp.add(new AsylumSummaryModel(
-                                null, entry.getKey(), current[0], current[1], current[2], (int) current[3]));
-                    }
+
+                    temp.add(new AsylumSummaryModel(
+                            entry.getKey(), current[0], current[1], current[2], (int) current[3]));
+
                 }
             }
             double[] current = countByYear.get(inner.getKey());

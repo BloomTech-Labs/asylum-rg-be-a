@@ -5,9 +5,6 @@ import org.springframework.lang.Nullable;
 
 @Data
 public class AsylumSummaryModel {
-    @Nullable
-    private final String citizenship;
-    @Nullable
     private final String office;
 
     private final double granted;
