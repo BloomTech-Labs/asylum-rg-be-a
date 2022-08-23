@@ -9,13 +9,13 @@ import java.util.List;
 public class AsylumYearSummaryModel {
     private final String year;
 
-    private final double granted;
+    private double granted;
 
-    private final double adminClosed;
+    private double adminClosed;
 
-    private final double denied;
+    private double denied;
 
-    private final int totalCases;
+    private int totalCases;
 
-    private final List<AsylumSummaryModel> yearData;
+    private List<AsylumSummaryModel> yearData;
 }

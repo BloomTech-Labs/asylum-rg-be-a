@@ -1,17 +1,18 @@
 package com.bloomtech.asylumrgbea.models;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.lang.Nullable;
 
 @Data
+@AllArgsConstructor
 public class AsylumSummaryModel {
     private final String office;
 
-    private final double granted;
+    private double granted;
 
-    private final double adminClosed;
+    private double adminClosed;
 
-    private final double denied;
+    private double denied;
 
-    private final int totalCases;
+    private int totalCases;
 }

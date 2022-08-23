@@ -1,16 +1,18 @@
 package com.bloomtech.asylumrgbea.models;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class AsylumCitizenshipSummaryModel {
-    private final String citizenship;
+    private String citizenship;
 
-    private final double granted;
+    private double granted;
 
-    private final double adminClosed;
+    private double adminClosed;
 
-    private final double denied;
+    private double denied;
 
-    private final int totalCases;
+    private int totalCases;
 }
