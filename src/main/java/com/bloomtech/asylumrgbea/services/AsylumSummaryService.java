@@ -18,11 +18,12 @@ public class AsylumSummaryService {
 
     private boolean percentFlag = true;
 
-    private AsylumSummaryDto dto = new AsylumSummaryDto(0,0,0,0,
-            new ArrayList<>(), new ArrayList<>());
+    private AsylumSummaryDto dto;
     @Cacheable("summarydto")
     public AsylumSummaryDto getSummaryBy(SummaryQueryParameterDto queryParameters) {
         validateInput(queryParameters);
+        dto = new AsylumSummaryDto(0,0,0,0,
+                new ArrayList<>(), new ArrayList<>());
         int fromYear = Integer.parseInt(queryParameters.getFrom().substring(0, 4));
         int toYear = Integer.parseInt(queryParameters.getTo().substring(0, 4));
         int yearSpan = (toYear - fromYear);
