@@ -16,13 +16,12 @@ public class AsylumSummaryService {
 
     private final AsylumCaseRepository asylumCaseRepository;
 
-    private boolean percentFlag = true;
 
-    private AsylumSummaryDto dto;
     @Cacheable("summarydto")
     public AsylumSummaryDto getSummaryBy(SummaryQueryParameterDto queryParameters) {
         validateInput(queryParameters);
-        dto = new AsylumSummaryDto(0,0,0,0,
+        boolean percentFlag;
+        AsylumSummaryDto dto = new AsylumSummaryDto(0,0,0,0,
                 new ArrayList<>(), new ArrayList<>());
         int fromYear = Integer.parseInt(queryParameters.getFrom().substring(0, 4));
         int toYear = Integer.parseInt(queryParameters.getTo().substring(0, 4));
@@ -50,8 +49,8 @@ public class AsylumSummaryService {
             casesList.add(aCase);
         }
 
-        dto.setYearResults(getYears(casesList, yearSpan, fromYear));
-        dto.setCitizenshipResults(getNumByCitizenship(casesList));
+        dto.setYearResults(getYears(casesList, dto, yearSpan, fromYear, percentFlag));
+        dto.setCitizenshipResults(getNumByCitizenship(casesList, percentFlag));
         if (percentFlag) {
             dto.setGranted(dto.getGranted() / (double) dto.getTotalCases() * 100);
             dto.setDenied(dto.getDenied() / (double) dto.getTotalCases() * 100);
@@ -60,7 +59,8 @@ public class AsylumSummaryService {
         return dto;
     }
 
-    private List<AsylumYearSummaryModel> getYears(Iterable<AsylumCase> casesIterable, int yearSpan, int fromYear) {
+    private List<AsylumYearSummaryModel> getYears(Iterable<AsylumCase> casesIterable,
+                                                  AsylumSummaryDto dto, int yearSpan, int fromYear, boolean percentFlag) {
         Map<String, HashMap<String, AsylumSummaryModel>> countByOffice = new HashMap<>();
         Map<String, AsylumYearSummaryModel> countByYear = new HashMap<>();
         for (int i = 0; i <= yearSpan; i++) {
@@ -103,6 +103,9 @@ public class AsylumSummaryService {
         });
 
         List<AsylumYearSummaryModel> yearSummary = new ArrayList<>();
+        // not a O(n^2) loop
+        // outer loop iterates over years
+        // inner loop iterates over year data aggregated from first loop
         for (Map.Entry<String, HashMap<String,AsylumSummaryModel>> inner : countByOffice.entrySet()) {
             List<AsylumSummaryModel> temp = new ArrayList<>();
             for (Map.Entry<String, AsylumSummaryModel> entry : inner.getValue().entrySet()) {
@@ -131,10 +134,12 @@ public class AsylumSummaryService {
             }
         }
         yearSummary.sort(Comparator.comparing(AsylumYearSummaryModel::getYear));
+        dto.setYearResults(yearSummary);
         return yearSummary;
     }
 
-    private List<AsylumCitizenshipSummaryModel> getNumByCitizenship(Iterable<AsylumCase> casesIterable) {
+    private List<AsylumCitizenshipSummaryModel> getNumByCitizenship(Iterable<AsylumCase> casesIterable,
+                                                                    boolean percentFlag) {
         Map<String, AsylumCitizenshipSummaryModel> countByCitizenship = new HashMap<>();
 
         casesIterable.forEach(asylumCase -> {
@@ -162,7 +167,7 @@ public class AsylumSummaryService {
                 }
             }
         });
-        List<AsylumCitizenshipSummaryModel > yearSummary = new ArrayList<>();
+        List<AsylumCitizenshipSummaryModel> citizenshipSummary = new ArrayList<>();
         for (Map.Entry<String, AsylumCitizenshipSummaryModel> entry : countByCitizenship.entrySet()) {
             AsylumCitizenshipSummaryModel current = entry.getValue();
             if(current.getTotalCases() != 0) {
@@ -172,10 +177,10 @@ public class AsylumSummaryService {
                     current.setDenied(current.getDenied() / total * 100);
                     current.setAdminClosed(current.getAdminClosed() / total * 100);
                 }
-                yearSummary.add(current);
+                citizenshipSummary.add(current);
             }
         }
-        return yearSummary;
+        return citizenshipSummary;
     }
     private void validateInput(SummaryQueryParameterDto queryParameters) {
         if (queryParameters.getFrom() == null || queryParameters.getFrom().isEmpty()) {
