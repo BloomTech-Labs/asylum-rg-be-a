@@ -189,5 +189,8 @@ public class AsylumSummaryService {
         if (queryParameters.getTo() == null || queryParameters.getTo().isEmpty()) {
             throw new BadRequestException("ERROR: to date is required input...");
         }
+        if (queryParameters.getFrom().compareTo(queryParameters.getTo()) > 0) {
+            throw new BadRequestException("ERROR: to date must be greater than or equal to from date...");
+        }
     }
 }
