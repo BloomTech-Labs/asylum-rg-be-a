@@ -23,8 +23,8 @@ public class AsylumSummaryService {
         boolean percentFlag;
         AsylumSummaryDto dto = new AsylumSummaryDto(0,0,0,0,
                 new ArrayList<>(), new ArrayList<>());
-        int fromYear = Integer.parseInt(queryParameters.getFrom().substring(0, 4));
-        int toYear = Integer.parseInt(queryParameters.getTo().substring(0, 4));
+        int fromYear = Integer.parseInt(Objects.requireNonNull(queryParameters.getFrom()).substring(0, 4));
+        int toYear = Integer.parseInt(Objects.requireNonNull(queryParameters.getTo()).substring(0, 4));
         int yearSpan = (toYear - fromYear);
         percentFlag = queryParameters.isPercentFlag();
         Map<String, String[]> rangeMap = Map.of(
