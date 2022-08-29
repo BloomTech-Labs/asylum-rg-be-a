@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
 import java.util.*;
 
 @Service
@@ -15,6 +16,8 @@ import java.util.*;
 public class AsylumSummaryService {
 
     private final AsylumCaseRepository asylumCaseRepository;
+
+    private static final DecimalFormat decimalFormat = new DecimalFormat("0.00");
 
 
     @Cacheable("summarydto")
@@ -49,9 +52,9 @@ public class AsylumSummaryService {
 
         setYears(casesList, dto, yearSpan, fromYear);
         setNumByCitizenship(casesList, dto);
-        dto.setGranted(dto.getGranted() / (double) dto.getTotalCases() * 100);
-        dto.setDenied(dto.getDenied() / (double) dto.getTotalCases() * 100);
-        dto.setAdminClosed(dto.getAdminClosed() / (double) dto.getTotalCases() * 100);
+        dto.setGranted(toPercent(dto.getGranted(), dto.getTotalCases()));
+        dto.setDenied(toPercent(dto.getDenied(), dto.getTotalCases()));
+        dto.setAdminClosed(toPercent(dto.getAdminClosed(), dto.getTotalCases()));
         return dto;
     }
 
@@ -110,19 +113,19 @@ public class AsylumSummaryService {
             List<AsylumSummaryModel> temp = new ArrayList<>();
             value.forEach((key1, current) -> {
                 if (current.getTotalCases() != 0) {
-                    double total = current.getTotalCases();
-                    current.setGranted(current.getGranted() / total * 100);
-                    current.setDenied(current.getDenied() / total * 100);
-                    current.setAdminClosed(current.getAdminClosed() / total * 100);
+                    int total = current.getTotalCases();
+                    current.setGranted(toPercent(current.getGranted(), total));
+                    current.setDenied(toPercent(current.getDenied(), total));
+                    current.setAdminClosed(toPercent(current.getAdminClosed(), total));
                     temp.add(current);
                 }
             });
             AsylumYearSummaryModel current = countByYear.get(key);
             if (current.getTotalCases() != 0) {
-                double total = current.getTotalCases();
-                current.setGranted(current.getGranted() / total * 100);
-                current.setDenied(current.getDenied() / total * 100);
-                current.setAdminClosed(current.getAdminClosed() / total * 100);
+                int total = current.getTotalCases();
+                current.setGranted(toPercent(current.getGranted(), total));
+                current.setDenied(toPercent(current.getDenied(), total));
+                current.setAdminClosed(toPercent(current.getAdminClosed(), total));
                 current.setYearData(temp);
                 yearSummary.add(current);
             }
@@ -158,15 +161,16 @@ public class AsylumSummaryService {
         List<AsylumCitizenshipSummaryModel> citizenshipSummary = new ArrayList<>();
         countByCitizenship.forEach((key, value) -> {
             if (value.getTotalCases() != 0) {
-                double total = value.getTotalCases();
-                value.setGranted(value.getGranted() / total * 100);
-                value.setDenied(value.getDenied() / total * 100);
-                value.setAdminClosed(value.getAdminClosed() / total * 100);
+                int total = value.getTotalCases();
+                value.setGranted(toPercent(value.getGranted(), total));
+                value.setDenied(toPercent(value.getDenied(), total));
+                value.setAdminClosed(toPercent(value.getAdminClosed(), total));
                 citizenshipSummary.add(value);
             }
         });
         dto.setCitizenshipResults(citizenshipSummary);
     }
+
     private void validateInput(SummaryQueryParameterDto queryParameters) {
         if (queryParameters.getFrom() == null || queryParameters.getFrom().isEmpty()) {
             throw new BadRequestException("ERROR: from date is required input...");
@@ -177,5 +181,9 @@ public class AsylumSummaryService {
         if (queryParameters.getFrom().compareTo(queryParameters.getTo()) > 0) {
             throw new BadRequestException("ERROR: to date must be greater than or equal to from date...");
         }
+    }
+
+    private double toPercent(double amount, int totalCases) {
+        return Math.round((amount / (double) totalCases * 100) * 100) / 100.0;
     }
 }
