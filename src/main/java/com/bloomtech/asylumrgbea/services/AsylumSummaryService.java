@@ -20,13 +20,11 @@ public class AsylumSummaryService {
     @Cacheable("summarydto")
     public AsylumSummaryDto getSummaryBy(SummaryQueryParameterDto queryParameters) {
         validateInput(queryParameters);
-        boolean percentFlag;
         AsylumSummaryDto dto = new AsylumSummaryDto(0,0,0,0,
                 new ArrayList<>(), new ArrayList<>());
         int fromYear = Integer.parseInt(Objects.requireNonNull(queryParameters.getFrom()).substring(0, 4));
         int toYear = Integer.parseInt(Objects.requireNonNull(queryParameters.getTo()).substring(0, 4));
         int yearSpan = (toYear - fromYear);
-        percentFlag = queryParameters.isPercentFlag();
         Map<String, String[]> rangeMap = Map.of(
                 "completionDate", new String[] {
                         queryParameters.getFrom(),
@@ -49,18 +47,16 @@ public class AsylumSummaryService {
             casesList.add(aCase);
         }
 
-        setYears(casesList, dto, yearSpan, fromYear, percentFlag);
-        setNumByCitizenship(casesList, dto, percentFlag);
-        if (percentFlag) {
-            dto.setGranted(dto.getGranted() / (double) dto.getTotalCases() * 100);
-            dto.setDenied(dto.getDenied() / (double) dto.getTotalCases() * 100);
-            dto.setAdminClosed(dto.getAdminClosed() / (double) dto.getTotalCases() * 100);
-        }
+        setYears(casesList, dto, yearSpan, fromYear);
+        setNumByCitizenship(casesList, dto);
+        dto.setGranted(dto.getGranted() / (double) dto.getTotalCases() * 100);
+        dto.setDenied(dto.getDenied() / (double) dto.getTotalCases() * 100);
+        dto.setAdminClosed(dto.getAdminClosed() / (double) dto.getTotalCases() * 100);
         return dto;
     }
 
     private void setYears(Iterable<AsylumCase> casesIterable, AsylumSummaryDto dto,
-                          int yearSpan, int fromYear, boolean percentFlag) {
+                          int yearSpan, int fromYear) {
         Map<String, HashMap<String, AsylumSummaryModel>> countByOffice = new HashMap<>();
         Map<String, AsylumYearSummaryModel> countByYear = new HashMap<>();
         for (int i = 0; i <= yearSpan; i++) {
@@ -115,23 +111,18 @@ public class AsylumSummaryService {
             value.forEach((key1, current) -> {
                 if (current.getTotalCases() != 0) {
                     double total = current.getTotalCases();
-                    if (percentFlag) {
-                        current.setGranted(current.getGranted() / total * 100);
-                        current.setDenied(current.getDenied() / total * 100);
-                        current.setAdminClosed(current.getAdminClosed() / total * 100);
-                    }
-
+                    current.setGranted(current.getGranted() / total * 100);
+                    current.setDenied(current.getDenied() / total * 100);
+                    current.setAdminClosed(current.getAdminClosed() / total * 100);
                     temp.add(current);
                 }
             });
             AsylumYearSummaryModel current = countByYear.get(key);
             if (current.getTotalCases() != 0) {
                 double total = current.getTotalCases();
-                if (percentFlag) {
-                    current.setGranted(current.getGranted() / total * 100);
-                    current.setDenied(current.getDenied() / total * 100);
-                    current.setAdminClosed(current.getAdminClosed() / total * 100);
-                }
+                current.setGranted(current.getGranted() / total * 100);
+                current.setDenied(current.getDenied() / total * 100);
+                current.setAdminClosed(current.getAdminClosed() / total * 100);
                 current.setYearData(temp);
                 yearSummary.add(current);
             }
@@ -140,7 +131,7 @@ public class AsylumSummaryService {
         dto.setYearResults(yearSummary);
     }
 
-    private void setNumByCitizenship(Iterable<AsylumCase> casesIterable, AsylumSummaryDto dto, boolean percentFlag) {
+    private void setNumByCitizenship(Iterable<AsylumCase> casesIterable, AsylumSummaryDto dto) {
         Map<String, AsylumCitizenshipSummaryModel> countByCitizenship = new HashMap<>();
 
         casesIterable.forEach(asylumCase -> {
@@ -168,11 +159,9 @@ public class AsylumSummaryService {
         countByCitizenship.forEach((key, value) -> {
             if (value.getTotalCases() != 0) {
                 double total = value.getTotalCases();
-                if (percentFlag) {
-                    value.setGranted(value.getGranted() / total * 100);
-                    value.setDenied(value.getDenied() / total * 100);
-                    value.setAdminClosed(value.getAdminClosed() / total * 100);
-                }
+                value.setGranted(value.getGranted() / total * 100);
+                value.setDenied(value.getDenied() / total * 100);
+                value.setAdminClosed(value.getAdminClosed() / total * 100);
                 citizenshipSummary.add(value);
             }
         });
