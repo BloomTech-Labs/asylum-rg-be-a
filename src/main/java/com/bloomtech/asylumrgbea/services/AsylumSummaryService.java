@@ -147,23 +147,19 @@ public class AsylumSummaryService {
             String citizenship = asylumCase.getCitizenship();
             if (countByCitizenship.containsKey(citizenship)) {
                 AsylumCitizenshipSummaryModel citizenshipResults = countByCitizenship.get(citizenship);
-                if (asylumCase.getCaseOutcome().equals("Grant")) {
-                    citizenshipResults.setGranted(citizenshipResults.getGranted() + 1);
-                } else if (asylumCase.getCaseOutcome().equals("Deny/Referral")) {
-                    citizenshipResults.setDenied(citizenshipResults.getDenied() + 1);
-                } else {
-                    citizenshipResults.setAdminClosed(citizenshipResults.getAdminClosed() + 1);
+                switch (asylumCase.getCaseOutcome()) {
+                    case "Grant" -> citizenshipResults.setGranted(citizenshipResults.getGranted() + 1);
+                    case "Deny/Referral" -> citizenshipResults.setDenied(citizenshipResults.getDenied() + 1);
+                    default -> citizenshipResults.setAdminClosed(citizenshipResults.getAdminClosed() + 1);
                 }
                 citizenshipResults.setTotalCases(citizenshipResults.getTotalCases() + 1);
             } else {
-                if (asylumCase.getCaseOutcome().equals("Grant")) {
-                    countByCitizenship.put(citizenship, new AsylumCitizenshipSummaryModel(citizenship,
+                switch (asylumCase.getCaseOutcome()) {
+                    case "Grant" -> countByCitizenship.put(citizenship, new AsylumCitizenshipSummaryModel(citizenship,
                             1.0, 0.0, 0.0, 1));
-                } else if (asylumCase.getCaseOutcome().equals("Deny/Referral")) {
-                    countByCitizenship.put(citizenship, new AsylumCitizenshipSummaryModel(citizenship,
+                    case "Deny/Referral" -> countByCitizenship.put(citizenship, new AsylumCitizenshipSummaryModel(citizenship,
                             0.0, 0.0, 1.0, 1));
-                } else {
-                    countByCitizenship.put(citizenship, new AsylumCitizenshipSummaryModel(citizenship,
+                    default -> countByCitizenship.put(citizenship, new AsylumCitizenshipSummaryModel(citizenship,
                             0.0, 1.0, 0.0, 1));
                 }
             }
