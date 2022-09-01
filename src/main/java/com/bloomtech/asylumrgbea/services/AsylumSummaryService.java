@@ -17,8 +17,6 @@ public class AsylumSummaryService {
 
     private final AsylumCaseRepository asylumCaseRepository;
 
-    private static final DecimalFormat decimalFormat = new DecimalFormat("0.00");
-
 
     @Cacheable("summarydto")
     public AsylumSummaryDto getSummaryBy(SummaryQueryParameterDto queryParameters) {

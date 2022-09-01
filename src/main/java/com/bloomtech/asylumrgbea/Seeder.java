@@ -1,5 +1,6 @@
 package com.bloomtech.asylumrgbea;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.bloomtech.asylumrgbea.entities.AsylumCase;
 import com.bloomtech.asylumrgbea.repositories.AsylumCaseRepository;
 import lombok.RequiredArgsConstructor;
@@ -35,14 +36,19 @@ public class Seeder implements CommandLineRunner {
 //        try
 //        {
 //            // csv is created using configurations/asylumCaseXlsxToCleanCsv.py
-//            BufferedReader br = new BufferedReader(new FileReader("C:path/to/csv"));
-//            int i = 0;
+//            BufferedReader br = new BufferedReader(new FileReader("C:/Users/andre/Downloads/asylumcaseconversion/asylum-cases-data.csv"));
 //            br.readLine();
 //            while ((line = br.readLine()) != null)
 //            {
 //                String[] caseLine = line.split(splitBy);
+//                if (caseLine[2].charAt(0) == '"') {
+//                    caseLine[2] += "," + caseLine[3];
+//                    caseLine[2] = caseLine[2].substring(1, caseLine[2].length() - 1);
+//                    caseLine[3] = caseLine[4];
+//                    caseLine[4] = caseLine[5];
+//                    caseLine[5] = caseLine[6];
+//                }
 //                cases.add(new AsylumCase(caseLine[0],caseLine[2], caseLine[3],caseLine[4], caseLine[5], caseLine[1]));
-//                i++;
 //            }
 //            br.close();
 //        }
