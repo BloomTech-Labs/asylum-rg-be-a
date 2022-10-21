@@ -1,11 +1,16 @@
 package com.bloomtech.asylumrgbea;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.bloomtech.asylumrgbea.entities.AsylumCase;
 import com.bloomtech.asylumrgbea.repositories.AsylumCaseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -22,7 +27,40 @@ public class Seeder implements CommandLineRunner {
      */
     @Override
     public void run(String... args) throws Exception {
+//  --------------------------------------------------------------------------------------------------------------------
+//  |                                           Uncomment / Comment to write from csv to DB                             |
+//  --------------------------------------------------------------------------------------------------------------------
+//        String line = "";
+//        String splitBy = ",";
+//        List<AsylumCase> cases = new ArrayList<>();
+//        try
+//        {
+//            // csv is created using configurations/asylumCaseXlsxToCleanCsv.py
+//            BufferedReader br = new BufferedReader(new FileReader("C:/Users/andre/Downloads/asylumcaseconversion/asylum-cases-data.csv"));
+//            br.readLine();
+//            while ((line = br.readLine()) != null)
+//            {
+//                String[] caseLine = line.split(splitBy);
+//                if (caseLine[2].charAt(0) == '"') {
+//                    caseLine[2] += "," + caseLine[3];
+//                    caseLine[2] = caseLine[2].substring(1, caseLine[2].length() - 1);
+//                    caseLine[3] = caseLine[4];
+//                    caseLine[4] = caseLine[5];
+//                    caseLine[5] = caseLine[6];
+//                }
+//                cases.add(new AsylumCase(caseLine[0],caseLine[2], caseLine[3],caseLine[4], caseLine[5], caseLine[1]));
+//            }
+//            br.close();
+//        }
+//        catch (IOException e)
+//        {
+//            e.printStackTrace();
+//        }
+//        asylumCaseRepository.saveAll(cases);
 
+//  --------------------------------------------------------------------------------------------------------------------
+//  |                           Uncomment / Comment to write to DB with shown seed data                                 |
+//  --------------------------------------------------------------------------------------------------------------------
         List<AsylumCase> cases = List.of(
                 new AsylumCase("S00000001", "MEXICO", "Admin Close/Dismissal",
                         "2016-3-11", "2021-05-28T05:04:16.000Z", "ZLA"),
