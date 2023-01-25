@@ -1,0 +1,8 @@
+{
+  "name": "asylum-rg-be-a",
+  "buildpacks": [
+    {
+      "url": "heroku/gradle"
+    }
+  ]
+}
